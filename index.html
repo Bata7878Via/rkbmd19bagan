@@ -18,14 +18,33 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
-        .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
         .donut-segment {
             transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease, stroke-width 0.2s ease, opacity 0.2s ease;
         }
         .donut-segment:hover { stroke-width: 24; opacity: 0.9; }
-        @media screen and (max-width: 768px) {
-            input, select, textarea { font-size: 16px !important; }
+
+        /* PERBAIKAN TOTAL UKURAN HURUF & KOTAK INPUT ANDROID */
+        input, select, textarea {
+            font-size: 13px !important; /* Ukuran seragam & pas di layar HP */
+            line-height: 1.4 !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        select {
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+        }
+        select option {
+            font-size: 12px;
+            white-space: normal;
+        }
+        @media (min-width: 640px) {
+            input, select, textarea {
+                font-size: 12px !important;
+            }
         }
         @media print {
             body * { visibility: hidden; }
@@ -35,7 +54,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen relative pb-12">
+<body class="bg-slate-100 text-slate-800 min-h-screen relative pb-12 overflow-x-hidden">
 
     <!-- OVERLAY LOADING SINKRONISASI -->
     <div id="globalLoader" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex flex-col items-center justify-center text-white hidden">
@@ -59,9 +78,9 @@
     <!-- ================= LAYAR LOGIN ================= -->
     <div id="login-section" class="flex min-h-screen items-center justify-center p-3 sm:p-6 bg-slate-900/10">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-center">
-            <!-- LOGO KABUPATEN KONAWE -->
+            <!-- LOGO KABUPATEN KONAWE (TRANSPARAN TANPA BORDER) -->
             <div class="flex justify-center mb-4">
-                <img src="logo.png" alt="Logo Kab. Konawe" class="h-20 sm:h-24 w-auto object-contain drop-shadow-md">
+                <img src="logo.png" alt="Logo Kab. Konawe" class="h-20 sm:h-24 w-auto object-contain">
             </div>
             
             <span class="px-3 py-1 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">Permendagri No. 19/2016</span>
@@ -73,17 +92,17 @@
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Username SKPD / Admin</label>
                     <div class="relative">
                         <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-                        <input type="text" id="login-user" required placeholder="Ketik username..." class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="login-user" required placeholder="Ketik username..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-                        <input type="password" id="login-pass" required placeholder="Ketik password..." class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="password" id="login-pass" required placeholder="Ketik password..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
-                <button type="submit" id="btn-login" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl transition duration-200 shadow-md text-xs sm:text-sm uppercase tracking-wide cursor-pointer active:scale-95">
+                <button type="submit" id="btn-login" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow-md text-xs sm:text-sm uppercase tracking-wide cursor-pointer active:scale-95">
                     Masuk Ke Sistem
                 </button>
             </form>
@@ -97,27 +116,27 @@
     </div>
 
     <!-- ================= DASHBOARD & APLIKASI UTAMA ================= -->
-    <div id="app-section" class="hidden p-2 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto">
+    <div id="app-section" class="hidden p-2 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto min-w-0">
         
         <!-- HEADER UTAMA -->
         <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-4 sm:p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Logo Kab. Konawe" class="h-12 sm:h-14 w-auto object-contain">
-                <div>
+            <div class="flex items-center gap-3 min-w-0">
+                <img src="logo.png" alt="Logo Kab. Konawe" class="h-12 sm:h-14 w-auto object-contain shrink-0">
+                <div class="min-w-0">
                     <div class="flex items-center gap-2 mb-1 flex-wrap">
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">Permendagri No. 19/2016</span>
                         <span class="text-xs text-blue-200 font-semibold">TA. 2027</span>
                     </div>
-                    <h1 class="text-lg sm:text-2xl font-black tracking-tight leading-snug">Sistem Terpadu RKBMD & RKPBMD</h1>
-                    <p class="text-blue-100 text-xs mt-0.5" id="user-display-label">SKPD: -</p>
+                    <h1 class="text-base sm:text-xl md:text-2xl font-black tracking-tight leading-snug truncate">Sistem Terpadu RKBMD & RKPBMD</h1>
+                    <p class="text-blue-100 text-xs mt-0.5 truncate" id="user-display-label">SKPD: -</p>
                 </div>
             </div>
             
-            <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                <button type="button" onclick="fetchDataFromDatabase()" class="flex-1 md:flex-none justify-center bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold px-3.5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer active:scale-95">
+            <div class="flex flex-wrap items-center gap-2 w-full md:w-auto shrink-0">
+                <button type="button" onclick="fetchDataFromDatabase()" class="flex-1 md:flex-none justify-center bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-2 cursor-pointer active:scale-95">
                     <i id="refreshIcon" class="fa-solid fa-rotate text-blue-200"></i> Segarkan
                 </button>
-                <button type="button" onclick="handleLogout()" class="flex-1 md:flex-none justify-center bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer shadow active:scale-95">
+                <button type="button" onclick="handleLogout()" class="flex-1 md:flex-none justify-center bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-2 cursor-pointer shadow active:scale-95">
                     <i class="fa-solid fa-power-off"></i> Logout
                 </button>
             </div>
@@ -125,24 +144,24 @@
 
         <!-- KARTU STATISTIK -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
                 <span class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Total Usulan Masuk</span>
-                <div class="text-xl sm:text-2xl font-black text-slate-800 mt-1" id="statTotalItems">0</div>
+                <div class="text-lg sm:text-2xl font-black text-slate-800 mt-1" id="statTotalItems">0</div>
                 <div class="text-[10px] text-slate-400 font-medium mt-0.5">Baris Data</div>
             </div>
-            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
                 <span class="text-[10px] sm:text-xs font-bold text-indigo-600 uppercase">RKBMD Pengadaan</span>
-                <div class="text-xl sm:text-2xl font-black text-indigo-700 mt-1" id="statRkbmdCount">0</div>
+                <div class="text-lg sm:text-2xl font-black text-indigo-700 mt-1" id="statRkbmdCount">0</div>
                 <div class="text-[10px] text-indigo-400 font-medium mt-0.5">Format 12 Kolom</div>
             </div>
             <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
                 <span class="text-[10px] sm:text-xs font-bold text-amber-600 uppercase">RKPBMD Pemeliharaan</span>
-                <div class="text-xl sm:text-2xl font-black text-amber-700 mt-1" id="statRkpbmCount">0</div>
+                <div class="text-lg sm:text-2xl font-black text-amber-700 mt-1" id="statRkpbmCount">0</div>
                 <div class="text-[10px] text-amber-500 font-medium mt-0.5">Format 13 Kolom</div>
             </div>
-            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
                 <span class="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase">Master Data Terhubung</span>
-                <div class="text-base sm:text-lg font-black text-emerald-700 mt-1" id="statMasterInfo">0 SKPD / 0 Barang</div>
+                <div class="text-sm sm:text-lg font-black text-emerald-700 mt-1 truncate" id="statMasterInfo">0 SKPD / 0 Barang</div>
                 <div class="text-[10px] text-emerald-600 font-medium mt-0.5" id="statMasterStatus">Terverifikasi Database</div>
             </div>
         </div>
@@ -168,48 +187,48 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
                 <div onclick="openSkpdDetailsModal('DINAS_BADAN')" class="p-3 bg-blue-50/70 border border-blue-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-blue-700 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold uppercase">Badan & Dinas</span>
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Badan & Dinas</span>
                         <i class="fa-solid fa-building text-xs"></i>
                     </div>
                     <div class="flex items-baseline gap-1">
-                        <span id="metricDinasSudah" class="text-lg sm:text-2xl font-black text-blue-800">0</span>
-                        <span id="metricDinasTotal" class="text-[11px] text-blue-600 font-semibold">/ 0 Unit</span>
+                        <span id="metricDinasSudah" class="text-base sm:text-2xl font-black text-blue-800">0</span>
+                        <span id="metricDinasTotal" class="text-[10px] sm:text-[11px] text-blue-600 font-semibold truncate">/ 0 Unit</span>
                     </div>
                     <div class="mt-1 text-[10px] font-semibold text-blue-600" id="metricDinasPercent">0% Selesai</div>
                 </div>
 
                 <div onclick="openSkpdDetailsModal('KECAMATAN')" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-emerald-700 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold uppercase">Kecamatan</span>
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Kecamatan</span>
                         <i class="fa-solid fa-map-location-dot text-xs"></i>
                     </div>
                     <div class="flex items-baseline gap-1">
-                        <span id="metricKecamatanSudah" class="text-lg sm:text-2xl font-black text-emerald-800">0</span>
-                        <span id="metricKecamatanTotal" class="text-[11px] text-emerald-600 font-semibold">/ 0 Unit</span>
+                        <span id="metricKecamatanSudah" class="text-base sm:text-2xl font-black text-emerald-800">0</span>
+                        <span id="metricKecamatanTotal" class="text-[10px] sm:text-[11px] text-emerald-600 font-semibold truncate">/ 0 Unit</span>
                     </div>
                     <div class="mt-1 text-[10px] font-semibold text-emerald-600" id="metricKecamatanPercent">0% Selesai</div>
                 </div>
 
                 <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-purple-700 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold uppercase">Bagian (Setda)</span>
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Bagian (Setda)</span>
                         <i class="fa-solid fa-landmark text-xs"></i>
                     </div>
                     <div class="flex items-baseline gap-1">
-                        <span id="metricBagianSudah" class="text-lg sm:text-2xl font-black text-purple-800">0</span>
-                        <span id="metricBagianTotal" class="text-[11px] text-purple-600 font-semibold">/ 0 Unit</span>
+                        <span id="metricBagianSudah" class="text-base sm:text-2xl font-black text-purple-800">0</span>
+                        <span id="metricBagianTotal" class="text-[10px] sm:text-[11px] text-purple-600 font-semibold truncate">/ 0 Unit</span>
                     </div>
                     <div class="mt-1 text-[10px] font-semibold text-purple-600" id="metricBagianPercent">0% Selesai</div>
                 </div>
 
                 <div onclick="openSkpdDetailsModal('BELUM')" class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-rose-700 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold uppercase">Belum Input</span>
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Belum Input</span>
                         <i class="fa-solid fa-triangle-exclamation text-xs text-rose-500"></i>
                     </div>
                     <div class="flex items-baseline gap-1">
-                        <span id="metricBelumInput" class="text-lg sm:text-2xl font-black text-rose-700">0</span>
-                        <span id="metricTotalSkpdSemua" class="text-[11px] text-rose-600 font-semibold">/ 0 SKPD</span>
+                        <span id="metricBelumInput" class="text-base sm:text-2xl font-black text-rose-700">0</span>
+                        <span id="metricTotalSkpdSemua" class="text-[10px] sm:text-[11px] text-rose-600 font-semibold truncate">/ 0 SKPD</span>
                     </div>
                     <div class="mt-1 text-[10px] font-bold text-rose-600">Klik lihat daftar</div>
                 </div>
@@ -220,23 +239,23 @@
                 <!-- Bagan 1: Status Input -->
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
                     <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Status Penginputan Seluruh SKPD</h3>
-                    <div class="relative w-40 h-40 sm:w-44 sm:h-44 flex items-center justify-center">
+                    <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
                         <svg viewBox="0 0 160 160" class="w-full h-full transform -rotate-90">
                             <circle id="donutBgStatus" cx="80" cy="80" r="55" fill="transparent" stroke="#f43f5e" stroke-width="20" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('BELUM')"></circle>
                             <circle id="donutFgStatus" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('SUDAH')"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span id="svgStatusPercent" class="text-2xl font-black text-slate-800">0%</span>
+                            <span id="svgStatusPercent" class="text-xl sm:text-2xl font-black text-slate-800">0%</span>
                             <span class="text-[9px] font-bold text-slate-500 uppercase">SUDAH INPUT</span>
                         </div>
                     </div>
                     <!-- INDIKATOR WARNA LEGENDA BAGAN 1 -->
                     <div class="flex items-center gap-4 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full justify-center">
                         <span class="inline-flex items-center gap-1.5 text-emerald-700 cursor-pointer" onclick="openSkpdDetailsModal('SUDAH')">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-xs"></span> Sudah: <strong id="legendSudahVal">0</strong>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Sudah: <strong id="legendSudahVal">0</strong>
                         </span>
                         <span class="inline-flex items-center gap-1.5 text-rose-700 cursor-pointer" onclick="openSkpdDetailsModal('BELUM')">
-                            <span class="w-3 h-3 rounded-full bg-rose-500 shadow-xs"></span> Belum: <strong id="legendBelumVal">0</strong>
+                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Belum: <strong id="legendBelumVal">0</strong>
                         </span>
                     </div>
                 </div>
@@ -244,27 +263,27 @@
                 <!-- Bagan 2: Komposisi Kategori -->
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
                     <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Komposisi Unit yang Sudah Input</h3>
-                    <div class="relative w-40 h-40 sm:w-44 sm:h-44 flex items-center justify-center">
+                    <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
                         <svg viewBox="0 0 160 160" class="w-full h-full transform -rotate-90">
                             <circle id="donutCatDinas" cx="80" cy="80" r="55" fill="transparent" stroke="#3b82f6" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment"></circle>
                             <circle id="donutCatKec" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment"></circle>
                             <circle id="donutCatBagian" cx="80" cy="80" r="55" fill="transparent" stroke="#a855f7" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span id="svgCategoryTotal" class="text-2xl font-black text-slate-800">0</span>
+                            <span id="svgCategoryTotal" class="text-xl sm:text-2xl font-black text-slate-800">0</span>
                             <span class="text-[9px] font-bold text-slate-500 uppercase">UNIT SELESAI</span>
                         </div>
                     </div>
                     <!-- INDIKATOR WARNA LEGENDA BAGAN 2 -->
-                    <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full">
-                        <span class="inline-flex items-center gap-1.5 text-blue-700">
-                            <span class="w-3 h-3 rounded-full bg-blue-500 shadow-xs"></span> Dinas/Badan: <strong id="legendDinasVal">0</strong>
+                    <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full">
+                        <span class="inline-flex items-center gap-1 text-blue-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Dinas/Badan: <strong id="legendDinasVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1.5 text-emerald-700">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-xs"></span> Kecamatan: <strong id="legendKecVal">0</strong>
+                        <span class="inline-flex items-center gap-1 text-emerald-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Kecamatan: <strong id="legendKecVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1.5 text-purple-700">
-                            <span class="w-3 h-3 rounded-full bg-purple-500 shadow-xs"></span> Bagian: <strong id="legendBagianVal">0</strong>
+                        <span class="inline-flex items-center gap-1 text-purple-700">
+                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Bagian: <strong id="legendBagianVal">0</strong>
                         </span>
                     </div>
                 </div>
@@ -272,124 +291,124 @@
         </div>
 
         <!-- ================= 1. FORMULIR PENGINPUTAN ================= -->
-        <div id="formCardContainer" class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 transition-colors">
+        <div id="formCardContainer" class="bg-white p-3.5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 transition-colors min-w-0">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-100 pb-3 mb-4 gap-2">
-                <div class="flex items-center gap-2">
-                    <div id="formIconContainer" class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
+                <div class="flex items-center gap-2 min-w-0">
+                    <div id="formIconContainer" class="p-2 sm:p-2.5 bg-indigo-50 text-indigo-600 rounded-xl shrink-0">
                         <i id="formIcon" class="fa-solid fa-pen-nib text-base"></i>
                     </div>
-                    <div>
-                        <h2 class="font-bold text-slate-800 text-sm sm:text-base" id="formTitle">Formulir Usulan BMD</h2>
-                        <p class="text-[11px] text-slate-400" id="formSubtitle">Mode RKBMD Pengadaan (12 Kolom)</p>
+                    <div class="min-w-0">
+                        <h2 class="font-bold text-slate-800 text-sm sm:text-base truncate" id="formTitle">Formulir Usulan BMD</h2>
+                        <p class="text-[11px] text-slate-400 truncate" id="formSubtitle">Mode RKBMD Pengadaan (12 Kolom)</p>
                     </div>
                 </div>
 
                 <!-- Tombol Tab Mode Form -->
                 <div class="p-1 bg-slate-100 rounded-xl border border-slate-200 flex gap-1 w-full sm:w-auto">
-                    <button type="button" onclick="switchMode('RKBMD')" id="formTabRkbmd" class="flex-1 sm:flex-none px-4 py-2 text-center rounded-lg bg-indigo-600 text-white font-bold text-xs shadow transition cursor-pointer">
+                    <button type="button" onclick="switchMode('RKBMD')" id="formTabRkbmd" class="flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-indigo-600 text-white font-bold text-xs shadow transition cursor-pointer">
                         <i class="fa-solid fa-cart-plus mr-1"></i> RKBMD Pengadaan
                     </button>
-                    <button type="button" onclick="switchMode('RKPBMD')" id="formTabRkpbm" class="flex-1 sm:flex-none px-4 py-2 text-center rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs transition cursor-pointer">
+                    <button type="button" onclick="switchMode('RKPBMD')" id="formTabRkpbm" class="flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs transition cursor-pointer">
                         <i class="fa-solid fa-screwdriver-wrench mr-1"></i> RKPBMD Pemeliharaan
                     </button>
                 </div>
             </div>
 
-            <form id="permenForm" class="space-y-4" onsubmit="handleFormSubmit(event)">
+            <form id="permenForm" class="space-y-3.5" onsubmit="handleFormSubmit(event)">
                 <input type="hidden" id="editId" value="">
                 <input type="hidden" id="formJenisDokumen" value="RKBMD">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- IDENTITAS SKPD (HANYA MENAMPILKAN NAMA SKPD, JENIS TIDAK TERLIHAT) -->
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
-                        <select id="skpd" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none" required></select>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                    <!-- IDENTITAS SKPD (TERLINDUNGI DARI OVERFLOW) -->
+                    <div class="min-w-0">
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
+                        <select id="skpd" class="w-full max-w-full min-w-0 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none truncate" required></select>
                     </div>
 
                     <!-- PROGRAM / KEGIATAN / OUTPUT -->
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">PROGRAM / KEGIATAN / OUTPUT <span class="text-rose-500">*</span></label>
-                        <textarea id="programKegiatanOutput" rows="1" placeholder="Contoh: Program Penunjang Urusan Pemerintahan / Output: Tersedianya sarana aparatur" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:bg-white focus:outline-none" required></textarea>
+                    <div class="min-w-0">
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">PROGRAM / KEGIATAN / OUTPUT <span class="text-rose-500">*</span></label>
+                        <textarea id="programKegiatanOutput" rows="1" placeholder="Program / Kegiatan / Output..." class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:bg-white focus:outline-none" required></textarea>
                     </div>
                 </div>
 
-                <!-- PILIH BARANG (MODAL CEPAT DENGAN SEARCH INSTAN UNTUK RIBUAN BARIS) -->
-                <div class="p-3 bg-blue-50/50 rounded-xl border border-blue-100 grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div class="md:col-span-2">
-                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Nama Barang (Master SSH / KIB) <span class="text-rose-500">*</span></label>
-                        <div class="flex gap-1.5">
-                            <input type="text" id="namaBarang" placeholder="Klik tombol cari untuk memilih barang..." readonly required onclick="openBarangModal()" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer">
-                            <button type="button" onclick="openBarangModal()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow">
+                <!-- PILIH BARANG (DENGAN SEARCH MODAL INSTAN) -->
+                <div class="p-3 bg-blue-50/50 rounded-xl border border-blue-100 grid grid-cols-1 md:grid-cols-3 gap-3 min-w-0">
+                    <div class="md:col-span-2 min-w-0">
+                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate">Nama Barang (Master SSH / KIB) <span class="text-rose-500">*</span></label>
+                        <div class="flex gap-1.5 min-w-0">
+                            <input type="text" id="namaBarang" placeholder="Klik untuk cari barang..." readonly required onclick="openBarangModal()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate">
+                            <button type="button" onclick="openBarangModal()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow shrink-0">
                                 <i class="fa-solid fa-search"></i>
                             </button>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Kode Barang</label>
-                        <input type="text" id="kodeBarang" placeholder="Terisi otomatis..." readonly class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono">
+                    <div class="min-w-0">
+                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate">Kode Barang</label>
+                        <input type="text" id="kodeBarang" placeholder="Terisi otomatis..." readonly class="w-full max-w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono">
                     </div>
                 </div>
 
                 <!-- KHUSUS FORM RKBMD (12 KOLOM) -->
-                <div id="sectionRkbmdBox" class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200 space-y-3">
+                <div id="sectionRkbmdBox" class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200 space-y-3 min-w-0">
                     <div class="text-[11px] font-bold text-indigo-950 flex items-center gap-1.5">
-                        <i class="fa-solid fa-calculator text-indigo-600"></i> Kebutuhan Riil: [Kebutuhan Maksimum] - [Jumlah Yang Dapat Dioptimalisasikan]
+                        <i class="fa-solid fa-calculator text-indigo-600"></i> Kebutuhan Riil: [Maksimum] - [Optimalisasi]
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1">Kebutuhan Maksimum</label>
+                        <div class="min-w-0">
+                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1 truncate">Kebutuhan Maksimum</label>
                             <input type="number" id="kebutuhanMaksimum" min="0" value="0" oninput="calcKebutuhanRiil()" class="w-full bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-indigo-900">
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1">Jumlah Yang Dapat Dioptimalisasikan</label>
+                        <div class="min-w-0">
+                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1 truncate">Optimalisasi</label>
                             <input type="number" id="optimalisasi" min="0" value="0" oninput="calcKebutuhanRiil()" class="w-full bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-xs font-bold">
                         </div>
                         <div class="p-2.5 bg-indigo-900 text-white rounded-lg flex flex-col justify-center">
-                            <span class="text-[9px] font-bold uppercase text-indigo-200">Kebutuhan Riil (Otomatis):</span>
+                            <span class="text-[9px] font-bold uppercase text-indigo-200">Kebutuhan Riil:</span>
                             <span id="labelKebutuhanRiil" class="text-base font-black text-amber-300">0</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- KHUSUS FORM RKPBMD (13 KOLOM) -->
-                <div id="sectionRkpbmBox" class="hidden p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-3">
+                <div id="sectionRkpbmBox" class="hidden p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-3 min-w-0">
                     <div class="text-[11px] font-bold text-amber-950 flex items-center gap-1.5">
                         <i class="fa-solid fa-wrench text-amber-600"></i> Detail Pemeliharaan KIB
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1">Status Barang</label>
-                            <select id="rkpbmStatus" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold">
+                        <div class="min-w-0">
+                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate">Status Barang</label>
+                            <select id="rkpbmStatus" class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold truncate">
                                 <option value="Dipergunakan Sendiri">Dipergunakan Sendiri</option>
                                 <option value="Pinjam Pakai">Pinjam Pakai</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1">Kondisi Barang</label>
-                            <select id="rkpbmKondisi" onchange="validateRkpbmKondisi()" class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800">
+                        <div class="min-w-0">
+                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate">Kondisi Barang</label>
+                            <select id="rkpbmKondisi" onchange="validateRkpbmKondisi()" class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800 truncate">
                                 <option value="Baik">Baik (B)</option>
                                 <option value="Rusak Ringan">Rusak Ringan (RR)</option>
-                                <option value="Rusak Berat" class="text-rose-600 font-bold">Rusak Berat (Ditolak Sistem)</option>
+                                <option value="Rusak Berat" class="text-rose-600 font-bold">Rusak Berat (Ditolak)</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1">Nama Pemeliharaan</label>
-                            <input type="text" id="namaPemeliharaan" placeholder="Servis berkala, suku cadang..." class="w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs">
+                        <div class="min-w-0">
+                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate">Nama Pemeliharaan</label>
+                            <input type="text" id="namaPemeliharaan" placeholder="Servis berkala, suku cadang..." class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs">
                         </div>
                     </div>
                 </div>
 
                 <!-- JUMLAH, SATUAN, KETERANGAN -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 min-w-0">
+                    <div class="min-w-0">
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">
                             <span id="labelUsulanQty">Jumlah Usulan</span> <span class="text-rose-500">*</span>
                         </label>
-                        <input type="number" id="jumlahUsulan" min="1" value="1" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-blue-700 focus:bg-white focus:outline-none" required>
+                        <input type="number" id="jumlahUsulan" min="1" value="1" class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-blue-700 focus:bg-white focus:outline-none" required>
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Satuan <span class="text-rose-500">*</span></label>
-                        <select id="satuan" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none" required>
+                    <div class="min-w-0">
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">Satuan <span class="text-rose-500">*</span></label>
+                        <select id="satuan" class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none truncate" required>
                             <option value="Unit">Unit</option>
                             <option value="Pcs">Pcs</option>
                             <option value="Buah">Buah</option>
@@ -403,9 +422,9 @@
                             <option value="Karton / Dus">Karton / Dus</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Keterangan</label>
-                        <input type="text" id="keterangan" placeholder="Keterangan spesifikasi / peruntukan..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:bg-white focus:outline-none">
+                    <div class="min-w-0">
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">Keterangan</label>
+                        <input type="text" id="keterangan" placeholder="Keterangan spesifikasi..." class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:bg-white focus:outline-none">
                     </div>
                 </div>
 
@@ -413,7 +432,7 @@
 
                 <!-- TOMBOL SIMPAN -->
                 <div class="flex space-x-2 pt-2">
-                    <button type="button" id="btnCancel" onclick="resetForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs py-2.5 rounded-xl transition cursor-pointer active:scale-95">
+                    <button type="button" id="btnCancel" onclick="resetForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs py-2 rounded-xl transition cursor-pointer active:scale-95">
                         Batal
                     </button>
                     <button type="submit" id="btnSubmit" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs py-2.5 rounded-xl shadow transition flex justify-center items-center gap-1.5 cursor-pointer active:scale-95">
@@ -425,41 +444,41 @@
         </div>
 
         <!-- ================= 2. TABEL DAFTAR USULAN (DI BAWAH FORM) ================= -->
-        <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+        <div class="bg-white p-3.5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 min-w-0">
             <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 border-b border-slate-100 pb-3">
                 <div class="flex items-center gap-2">
-                    <button type="button" onclick="switchMode('RKBMD')" id="tabRkbmdBtn" class="px-4 py-2 rounded-lg bg-indigo-600 text-white font-bold text-xs cursor-pointer shadow">
+                    <button type="button" onclick="switchMode('RKBMD')" id="tabRkbmdBtn" class="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-xs cursor-pointer shadow">
                         <i class="fa-solid fa-cart-plus mr-1"></i> Usulan RKBMD
                     </button>
-                    <button type="button" onclick="switchMode('RKPBMD')" id="tabRkpbmBtn" class="px-4 py-2 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer">
+                    <button type="button" onclick="switchMode('RKPBMD')" id="tabRkpbmBtn" class="px-3.5 py-1.5 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer">
                         <i class="fa-solid fa-wrench mr-1"></i> Usulan RKPBMD
                     </button>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-2">
-                    <!-- FILTER CARI SKPD KHUSUS USER ADMIN -->
-                    <div id="adminSkpdFilterWrapper" class="hidden">
-                        <select id="adminSkpdFilter" onchange="renderTables()" class="bg-amber-50 border border-amber-300 rounded-xl px-3 py-1.5 text-xs font-bold text-amber-900 focus:outline-none">
+                <div class="flex flex-wrap items-center gap-2 min-w-0">
+                    <!-- FILTER CARI SKPD KHUSUS USER ADMIN (TERPOTONG RAPI & TIDAK OVERFLOW) -->
+                    <div id="adminSkpdFilterWrapper" class="hidden w-full sm:w-auto min-w-0">
+                        <select id="adminSkpdFilter" onchange="renderTables()" class="w-full sm:w-56 max-w-full bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-amber-900 focus:outline-none truncate">
                             <option value="SEMUA">-- Semua SKPD (Admin) --</option>
                         </select>
                     </div>
 
-                    <div class="relative flex-1 sm:flex-none">
+                    <div class="relative flex-1 sm:flex-none min-w-0">
                         <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                        <input type="text" id="tableSearchInput" oninput="renderTables()" placeholder="Cari program, barang..." class="w-full sm:w-48 pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
+                        <input type="text" id="tableSearchInput" oninput="renderTables()" placeholder="Cari program, barang..." class="w-full sm:w-44 pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
                     </div>
 
-                    <button type="button" onclick="exportExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1.5 cursor-pointer active:scale-95">
+                    <button type="button" onclick="exportExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
                         <i class="fa-solid fa-file-excel"></i> Excel
                     </button>
-                    <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1.5 cursor-pointer active:scale-95">
+                    <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
                         <i class="fa-solid fa-print"></i> PDF
                     </button>
                 </div>
             </div>
 
             <!-- TABEL RKBMD (12 KOLOM) -->
-            <div id="containerTableRkbmd" class="overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll">
+            <div id="containerTableRkbmd" class="overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
                     <thead class="bg-indigo-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10">
                         <tr>
@@ -484,7 +503,7 @@
             </div>
 
             <!-- TABEL RKPBMD (13 KOLOM) -->
-            <div id="containerTableRkpbm" class="hidden overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll">
+            <div id="containerTableRkpbm" class="hidden overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkpbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
                     <thead class="bg-amber-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10">
                         <tr>
@@ -510,25 +529,25 @@
             </div>
 
             <!-- FOOTER HAK CIPTA DI BAWAH DAFTAR USULAN -->
-            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400">
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-1 text-center sm:text-left">
                 <span id="labelTotalRecords">0 data usulan</span>
-                <span class="font-semibold text-slate-500 mt-1 sm:mt-0">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
+                <span class="font-semibold text-slate-500">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
             </div>
         </div>
 
     </div>
 
-    <!-- MODAL PENCARIAN MASTER BARANG (RINGAN UNTUK RIBUAN BARIS) -->
-    <div id="barangModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 z-50 hidden">
+    <!-- MODAL PENCARIAN MASTER BARANG (RINGAN & RESPONSIF DI HP) -->
+    <div id="barangModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
         <div class="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-5 shadow-2xl flex flex-col max-h-[85vh] border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
                     <i class="fa-solid fa-boxes-stacked text-blue-600"></i> Pilih Master Barang
                 </h3>
                 <button type="button" onclick="closeBarangModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer leading-none">&times;</button>
             </div>
             <div class="py-3 border-b border-slate-100">
-                <input type="text" id="searchBarangModalInput" oninput="filterBarangModal()" placeholder="Ketik kode atau nama barang..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="searchBarangModalInput" oninput="filterBarangModal()" placeholder="Ketik kode atau nama barang..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
             <div class="overflow-y-auto flex-1 custom-scroll p-1">
                 <ul id="barangModalList" class="divide-y divide-slate-100 text-xs"></ul>
@@ -537,11 +556,11 @@
     </div>
 
     <!-- MODAL RINCIAN STATUS SKPD (LENGKAP DENGAN TOMBOL EKSPOR & CETAK) -->
-    <div id="skpdDetailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 z-50 hidden">
+    <div id="skpdDetailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] border border-slate-100" id="printable-modal">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                 <div>
-                    <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
                         <i class="fa-solid fa-clipboard-check text-indigo-600"></i> Rincian Status Penginputan SKPD
                     </h3>
                     <p class="text-xs text-slate-500 mt-0.5">Pemerintah Kabupaten Konawe &bull; TA. 2027</p>
@@ -551,13 +570,13 @@
 
             <!-- Tombol Aksi Cetak & Ekspor Rekap Kepatuhan -->
             <div class="py-3 flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 no-print">
-                <span class="text-xs font-semibold text-slate-600" id="skpdModalSummaryText">Menampilkan daftar SKPD</span>
-                <div class="space-x-1.5">
-                    <button type="button" onclick="exportSkpdComplianceExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex-inline items-center gap-1 cursor-pointer">
-                        <i class="fa-solid fa-file-excel mr-1"></i> Ekspor Rekap Excel
+                <span class="text-xs font-semibold text-slate-600 truncate" id="skpdModalSummaryText">Menampilkan daftar SKPD</span>
+                <div class="space-x-1.5 flex shrink-0">
+                    <button type="button" onclick="exportSkpdComplianceExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-file-excel"></i> Rekap Excel
                     </button>
-                    <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex-inline items-center gap-1 cursor-pointer">
-                        <i class="fa-solid fa-print mr-1"></i> Cetak Rekap
+                    <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-print"></i> Cetak
                     </button>
                 </div>
             </div>
@@ -669,11 +688,6 @@
 
                     populateSkpdSelect();
                     renderAllViews();
-
-                    // Peringatan jika master barang/SKPD kosong
-                    if (masterBarangList.length === 0 || masterSkpdList.length === 0) {
-                        console.warn("Debug info spreadsheet:", res.debugInfo);
-                    }
                 }
             } catch(e) {
                 console.error("Gagal membaca database:", e);
@@ -682,14 +696,13 @@
             }
         }
 
-        // 3. POPULATE SKPD (HANYA MENAMPILKAN NAMA SKPD, JENIS TIDAK TERLIHAT)
+        // 3. POPULATE SKPD (HANYA NAMA SKPD, JENIS TIDAK TERLIHAT)
         function populateSkpdSelect() {
             const skpdSelect = document.getElementById('skpd');
             const adminFilter = document.getElementById('adminSkpdFilter');
             const isAdmin = (currentUser.kategori === "Admin");
 
             if (isAdmin) {
-                // Admin dapat memilih semua SKPD
                 let html = `<option value="">-- Pilih Nama SKPD --</option>`;
                 masterSkpdList.forEach(s => {
                     html += `<option value="${s.nama}">${s.nama}</option>`;
@@ -697,14 +710,12 @@
                 skpdSelect.innerHTML = html;
                 skpdSelect.disabled = false;
 
-                // Isi dropdown pencarian SKPD di tabel usulan khusus Admin
                 let filterHtml = `<option value="SEMUA">-- Semua SKPD (Admin) --</option>`;
                 masterSkpdList.forEach(s => {
                     filterHtml += `<option value="${s.nama}">${s.nama}</option>`;
                 });
                 adminFilter.innerHTML = filterHtml;
             } else {
-                // User biasa terkunci sesuai SKPD login miliknya
                 skpdSelect.innerHTML = `<option value="${currentUser.nama_skpd}">${currentUser.nama_skpd}</option>`;
                 skpdSelect.disabled = true;
             }
@@ -717,19 +728,17 @@
             const isRk = (tabName === "RKBMD");
             document.getElementById('formJenisDokumen').value = tabName;
 
-            // Form Tab Button UI
-            document.getElementById('formTabRkbmd').className = isRk ? "flex-1 sm:flex-none px-4 py-2 text-center rounded-lg bg-indigo-600 text-white font-bold text-xs shadow transition cursor-pointer" : "flex-1 sm:flex-none px-4 py-2 text-center rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs transition cursor-pointer";
-            document.getElementById('formTabRkpbm').className = !isRk ? "flex-1 sm:flex-none px-4 py-2 text-center rounded-lg bg-amber-600 text-white font-bold text-xs shadow transition cursor-pointer" : "flex-1 sm:flex-none px-4 py-2 text-center rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs transition cursor-pointer";
+            document.getElementById('formTabRkbmd').className = isRk ? "flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-indigo-600 text-white font-bold text-xs shadow transition cursor-pointer" : "flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs transition cursor-pointer";
+            document.getElementById('formTabRkpbm').className = !isRk ? "flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-amber-600 text-white font-bold text-xs shadow transition cursor-pointer" : "flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs transition cursor-pointer";
 
             document.getElementById('sectionRkbmdBox').classList.toggle('hidden', !isRk);
             document.getElementById('sectionRkpbmBox').classList.toggle('hidden', isRk);
 
-            // Table Box UI
             document.getElementById('containerTableRkbmd').classList.toggle('hidden', !isRk);
             document.getElementById('containerTableRkpbm').classList.toggle('hidden', isRk);
 
-            document.getElementById('tabRkbmdBtn').className = isRk ? "px-4 py-2 rounded-lg bg-indigo-600 text-white font-bold text-xs cursor-pointer shadow" : "px-4 py-2 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer";
-            document.getElementById('tabRkpbmBtn').className = !isRk ? "px-4 py-2 rounded-lg bg-amber-600 text-white font-bold text-xs cursor-pointer shadow" : "px-4 py-2 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer";
+            document.getElementById('tabRkbmdBtn').className = isRk ? "px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-xs cursor-pointer shadow" : "px-3.5 py-1.5 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer";
+            document.getElementById('tabRkpbmBtn').className = !isRk ? "px-3.5 py-1.5 rounded-lg bg-amber-600 text-white font-bold text-xs cursor-pointer shadow" : "px-3.5 py-1.5 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer";
 
             document.getElementById('formSubtitle').innerText = isRk ? "Mode RKBMD Pengadaan (12 Kolom)" : "Mode RKPBMD Pemeliharaan (13 Kolom)";
 
@@ -1069,7 +1078,6 @@
             document.getElementById('metricBelumInput').innerText = c.totalBelum;
             document.getElementById('metricTotalSkpdSemua').innerText = `/ ${c.totalSemua} SKPD`;
 
-            // Update Nilai Legenda Bagan
             document.getElementById('legendSudahVal').innerText = c.totalSudah;
             document.getElementById('legendBelumVal').innerText = c.totalBelum;
             document.getElementById('legendDinasVal').innerText = c.dinasSudah;
@@ -1089,7 +1097,6 @@
             const totalSelesai = c.dinasSudah + c.kecSudah + c.bagianSudah;
             document.getElementById('svgCategoryTotal').innerText = totalSelesai;
 
-            // Segmen Donut 2 (Komposisi)
             const arcDinas = document.getElementById('donutCatDinas');
             const arcKec = document.getElementById('donutCatKec');
             const arcBagian = document.getElementById('donutCatBagian');
@@ -1101,112 +1108,4 @@
                     arcBagian.setAttribute('stroke-dasharray', `0 ${circumference}`);
                 } else {
                     const lenDinas = (c.dinasSudah / totalSelesai) * circumference;
-                    const lenKec = (c.kecSudah / totalSelesai) * circumference;
-                    const lenBagian = (c.bagianSudah / totalSelesai) * circumference;
-
-                    arcDinas.setAttribute('stroke-dasharray', `${lenDinas} ${circumference}`);
-                    arcDinas.setAttribute('stroke-dashoffset', '0');
-
-                    arcKec.setAttribute('stroke-dasharray', `${lenKec} ${circumference}`);
-                    arcKec.setAttribute('stroke-dashoffset', `-${lenDinas}`);
-
-                    arcBagian.setAttribute('stroke-dasharray', `${lenBagian} ${circumference}`);
-                    arcBagian.setAttribute('stroke-dashoffset', `-${lenDinas + lenKec}`);
-                }
-            }
-        }
-
-        // 11. MODAL RINCIAN STATUS SKPD & EKSPOR REKAP
-        function openSkpdDetailsModal(filter = "SEMUA") {
-            modalActiveFilter = filter;
-            const c = getCompliance();
-            const tbody = document.getElementById('skpdModalTableBody');
-            const summary = document.getElementById('skpdModalSummaryText');
-
-            let filteredList = c.all;
-            if (filter === "SUDAH") filteredList = c.all.filter(s => s.submitted);
-            else if (filter === "BELUM") filteredList = c.all.filter(s => !s.submitted);
-            else if (filter === "DINAS_BADAN") filteredList = c.all.filter(s => s.kategori.includes("Dinas") || s.kategori.includes("Badan"));
-            else if (filter === "KECAMATAN") filteredList = c.all.filter(s => s.kategori === "Kecamatan");
-            else if (filter === "BAGIAN") filteredList = c.all.filter(s => s.kategori === "Bagian");
-
-            summary.innerText = `Menampilkan ${filteredList.length} dari ${c.totalSemua} SKPD`;
-
-            tbody.innerHTML = filteredList.map((s, idx) => `
-                <tr class="hover:bg-slate-50 border-b text-xs">
-                    <td class="p-2.5 text-center text-slate-400 font-mono">${idx + 1}</td>
-                    <td class="p-2.5 font-bold text-slate-800">${s.nama}</td>
-                    <td class="p-2.5 text-center text-slate-600">${s.kategori}</td>
-                    <td class="p-2.5 text-center">
-                        ${s.submitted 
-                            ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">SUDAH</span>' 
-                            : '<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold text-[10px]">BELUM</span>'}
-                    </td>
-                    <td class="p-2.5 text-center font-bold text-indigo-700">${s.count} Usulan</td>
-                </tr>
-            `).join('');
-
-            document.getElementById('skpdDetailModal').classList.remove('hidden');
-        }
-
-        function closeSkpdDetailsModal() {
-            document.getElementById('skpdDetailModal').classList.add('hidden');
-        }
-
-        // EKSPOR REKAP KEPATUHAN KE EXCEL
-        function exportSkpdComplianceExcel() {
-            const c = getCompliance();
-            const rows = [
-                ["REKAPITULASI STATUS PENGINPUTAN RKBMD & RKPBMD TA. 2027"],
-                ["PEMERINTAH KABUPATEN KONAWE"],
-                [`Dicetak Tanggal: ${new Date().toLocaleDateString('id-ID')}`],
-                [],
-                ["No", "Nama SKPD / Unit Kerja", "Kategori", "Status Penginputan", "Jumlah Usulan Masuk"]
-            ];
-
-            c.all.forEach((s, idx) => {
-                rows.push([
-                    idx + 1,
-                    s.nama,
-                    s.kategori,
-                    s.submitted ? "SUDAH INPUT" : "BELUM INPUT",
-                    s.count
-                ]);
-            });
-
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.aoa_to_sheet(rows);
-            XLSX.utils.book_append_sheet(wb, ws, "Rekap_Kepatuhan_SKPD");
-            XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_${Date.now()}.xlsx`);
-        }
-
-        // 12. TOAST, LOADER & EXCEL TABEL USULAN
-        function showToast(msg, isAlert = false) {
-            const toast = document.getElementById('toastNotification');
-            document.getElementById('toastMessage').innerText = msg;
-            toast.className = `fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 ${isAlert ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100`;
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('-translate-y-28', 'opacity-0', 'pointer-events-none');
-            }, 3000);
-        }
-
-        function showLoader(txt) {
-            document.getElementById('globalLoaderMsg').innerText = txt;
-            document.getElementById('globalLoader').classList.remove('hidden');
-        }
-
-        function hideLoader() {
-            document.getElementById('globalLoader').classList.add('hidden');
-        }
-
-        function exportExcel() {
-            const tableId = currentTab === "RKBMD" ? "table-rkbmd" : "table-rkpbmd";
-            const table = document.getElementById(tableId);
-            const wb = XLSX.utils.table_to_book(table, { sheet: currentTab });
-            XLSX.writeFile(wb, `${currentTab}_Konawe_2027_${Date.now()}.xlsx`);
-        }
-    </script>
-</body>
-</html>
+                    const lenKec = (c.kec
