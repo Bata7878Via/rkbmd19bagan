@@ -21,13 +21,9 @@
         .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
         
-        /* Pencegahan Kursor I & Seleksi Teks Liar */
         .select-none, label, th, h1, h2, h3, h4, .donut-segment, .card-box {
             user-select: none !important;
             -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
-            -webkit-touch-callout: none !important;
             cursor: default;
         }
         .cursor-pointer, button, [onclick] {
@@ -36,12 +32,7 @@
         input[readonly], textarea[readonly] {
             caret-color: transparent !important;
             user-select: none !important;
-            -webkit-user-select: none !important;
             cursor: pointer !important;
-        }
-        input[readonly]:focus, textarea[readonly]:focus {
-            outline: none !important;
-            caret-color: transparent !important;
         }
 
         .donut-segment {
@@ -55,22 +46,8 @@
             max-width: 100% !important;
             box-sizing: border-box !important;
         }
-        select {
-            text-overflow: ellipsis !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-        }
-        select option {
-            font-size: 12px;
-            white-space: normal;
-        }
-        @media (min-width: 640px) {
-            input, select, textarea {
-                font-size: 12px !important;
-            }
-        }
 
-        /* ================= ATURAN CETAK RESMI PRESISI TINGGI ================= */
+        /* ================= ATURAN CETAK RESMI PERMENDAGRI ================= */
         @media print {
             @page {
                 size: legal landscape;
@@ -85,7 +62,6 @@
                 padding: 0 !important;
                 overflow: visible !important;
             }
-            /* Hilangkan SEMUA elemen layar agar TIDAK ada ghost-pages/halaman kosong */
             #login-section,
             #app-section,
             #globalLoader,
@@ -99,7 +75,6 @@
             .no-print {
                 display: none !important;
             }
-            /* Hanya tampilkan kontainer dokumen cetak secara natural */
             #printable-doc {
                 display: block !important;
                 position: static !important;
@@ -122,9 +97,6 @@
             thead {
                 display: table-header-group;
             }
-            tfoot {
-                display: table-footer-group;
-            }
             .ttd-container {
                 page-break-inside: avoid !important;
             }
@@ -133,7 +105,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen relative pb-12 overflow-x-hidden">
 
-    <!-- OVERLAY LOADING SINKRONISASI -->
+    <!-- OVERLAY LOADING -->
     <div id="globalLoader" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex flex-col items-center justify-center text-white hidden select-none">
         <div class="bg-slate-800 p-5 sm:p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-3 border border-slate-700 max-w-xs text-center">
             <i class="fa-solid fa-circle-notch fa-spin text-3xl sm:text-4xl text-blue-400"></i>
@@ -152,7 +124,7 @@
         </div>
     </div>
 
-    <!-- BANNER PERINGATAN KONEKSI JIKA ERROR -->
+    <!-- BANNER PERINGATAN KONEKSI -->
     <div id="connectionErrorBanner" class="hidden bg-rose-600 text-white p-3 text-xs font-semibold flex justify-between items-center px-4 sticky top-0 z-40 shadow-md select-none">
         <div class="flex items-center gap-2">
             <i class="fa-solid fa-triangle-exclamation text-base animate-pulse"></i>
@@ -208,7 +180,7 @@
         </div>
     </div>
 
-    <!-- ================= DASHBOARD & APLIKASI UTAMA ================= -->
+    <!-- ================= DASHBOARD UTAMA ================= -->
     <div id="app-section" class="hidden p-2 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto min-w-0">
         
         <!-- HEADER UTAMA -->
@@ -259,7 +231,7 @@
             </div>
         </div>
 
-        <!-- PANEL MONITORING KEPATUHAN & DIAGRAM BULAT SVG -->
+        <!-- PANEL MONITORING KEPATUHAN & DIAGRAM -->
         <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
                 <div>
@@ -272,10 +244,6 @@
                     <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 select-none">
                         Dihitung otomatis dari usulan masuk terhadap daftar SKPD terdaftar.
                     </p>
-                    <p class="text-[11px] sm:text-xs text-indigo-600 font-semibold flex items-center gap-1.5 mt-1 select-none">
-                        <i class="fa-solid fa-hand-pointer text-indigo-500 animate-pulse"></i>
-                        Sentuh kartu di bawah ini untuk melihat rincian unit yang sudah atau belum menginput usulan.
-                    </p>
                 </div>
                 <button type="button" onclick="openSkpdDetailsModal()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer active:scale-95 w-full sm:w-auto justify-center select-none">
                     <i class="fa-solid fa-list-check"></i> Rincian Status SKPD
@@ -284,7 +252,7 @@
 
             <!-- 4 Kartu Kategori SKPD -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 select-none">
-                <div onclick="openSkpdDetailsModal('DINAS_BADAN')" class="p-3 bg-blue-50/70 border border-blue-200 rounded-xl cursor-pointer hover:shadow-md hover:border-blue-300 transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('DINAS_BADAN')" class="p-3 bg-blue-50/70 border border-blue-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-blue-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Badan & Dinas</span>
                         <i class="fa-solid fa-building text-xs"></i>
@@ -296,7 +264,7 @@
                     <div class="mt-1 text-[10px] font-semibold text-blue-600" id="metricDinasPercent">0% Selesai</div>
                 </div>
 
-                <div onclick="openSkpdDetailsModal('KECAMATAN')" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl cursor-pointer hover:shadow-md hover:border-emerald-300 transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('KECAMATAN')" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-emerald-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Kecamatan</span>
                         <i class="fa-solid fa-map-location-dot text-xs"></i>
@@ -308,7 +276,7 @@
                     <div class="mt-1 text-[10px] font-semibold text-emerald-600" id="metricKecamatanPercent">0% Selesai</div>
                 </div>
 
-                <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md hover:border-purple-300 transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-purple-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Bagian (Setda)</span>
                         <i class="fa-solid fa-landmark text-xs"></i>
@@ -320,7 +288,7 @@
                     <div class="mt-1 text-[10px] font-semibold text-purple-600" id="metricBagianPercent">0% Selesai</div>
                 </div>
 
-                <div onclick="openSkpdDetailsModal('BELUM')" class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl cursor-pointer hover:shadow-md hover:border-rose-300 transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('BELUM')" class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-rose-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Belum Input</span>
                         <i class="fa-solid fa-triangle-exclamation text-xs text-rose-500"></i>
@@ -333,9 +301,8 @@
                 </div>
             </div>
 
-            <!-- Dua Diagram Bulat SVG Murni dengan Indikator Interaktif -->
+            <!-- Dua Diagram Bulat SVG -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1 select-none">
-                <!-- DIAGRAM 1: STATUS SELURUH SKPD -->
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
                     <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Status Penginputan Seluruh SKPD</h3>
                     <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
@@ -358,14 +325,13 @@
                     </div>
                 </div>
 
-                <!-- DIAGRAM 2: KOMPOSISI UNIT YANG SUDAH INPUT -->
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
                     <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Komposisi Unit yang Sudah Input</h3>
                     <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
                         <svg viewBox="0 0 160 160" class="w-full h-full transform -rotate-90">
-                            <circle id="donutCatDinas" cx="80" cy="80" r="55" fill="transparent" stroke="#3b82f6" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('DINAS_BADAN')" title="Klik lihat Badan & Dinas"></circle>
-                            <circle id="donutCatKec" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('KECAMATAN')" title="Klik lihat Kecamatan"></circle>
-                            <circle id="donutCatBagian" cx="80" cy="80" r="55" fill="transparent" stroke="#a855f7" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('BAGIAN')" title="Klik lihat Bagian"></circle>
+                            <circle id="donutCatDinas" cx="80" cy="80" r="55" fill="transparent" stroke="#3b82f6" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('DINAS_BADAN')"></circle>
+                            <circle id="donutCatKec" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('KECAMATAN')"></circle>
+                            <circle id="donutCatBagian" cx="80" cy="80" r="55" fill="transparent" stroke="#a855f7" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('BAGIAN')"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                             <span id="svgCategoryTotal" class="text-xl sm:text-2xl font-black text-slate-800">0</span>
@@ -373,13 +339,13 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full">
-                        <span class="inline-flex items-center gap-1 text-blue-700 cursor-pointer hover:underline p-1 rounded transition" onclick="openSkpdDetailsModal('DINAS_BADAN')">
+                        <span class="inline-flex items-center gap-1 text-blue-700 cursor-pointer hover:underline p-1" onclick="openSkpdDetailsModal('DINAS_BADAN')">
                             <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Dinas/Badan: <strong id="legendDinasVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1 text-emerald-700 cursor-pointer hover:underline p-1 rounded transition" onclick="openSkpdDetailsModal('KECAMATAN')">
+                        <span class="inline-flex items-center gap-1 text-emerald-700 cursor-pointer hover:underline p-1" onclick="openSkpdDetailsModal('KECAMATAN')">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Kecamatan: <strong id="legendKecVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1 text-purple-700 cursor-pointer hover:underline p-1 rounded transition" onclick="openSkpdDetailsModal('BAGIAN')">
+                        <span class="inline-flex items-center gap-1 text-purple-700 cursor-pointer hover:underline p-1" onclick="openSkpdDetailsModal('BAGIAN')">
                             <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Bagian: <strong id="legendBagianVal">0</strong>
                         </span>
                     </div>
@@ -529,7 +495,6 @@
                     </div>
                 </div>
 
-                <!-- PESAN PERINGATAN LOGIKA VALIDASI -->
                 <div id="errorValidationMsg" class="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-700 hidden flex items-center gap-2 select-none">
                     <i class="fa-solid fa-circle-exclamation shrink-0 text-base"></i>
                     <span id="errorValidationText">Kebutuhan riil tidak valid!</span>
@@ -561,14 +526,14 @@
 
                 <div class="flex flex-wrap items-center gap-2 min-w-0 select-none">
                     <div id="adminSkpdFilterWrapper" class="hidden w-full sm:w-auto min-w-0">
-                        <select id="adminSkpdFilter" onchange="renderTables()" class="w-full sm:w-56 max-w-full bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-amber-900 focus:outline-none truncate">
+                        <select id="adminSkpdFilter" onchange="resetPageAndRender()" class="w-full sm:w-56 max-w-full bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-amber-900 focus:outline-none truncate">
                             <option value="SEMUA">-- Semua SKPD (Admin) --</option>
                         </select>
                     </div>
 
                     <div class="relative flex-1 sm:flex-none min-w-0">
                         <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                        <input type="text" id="tableSearchInput" oninput="renderTables()" placeholder="Cari program, barang..." class="w-full sm:w-44 pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
+                        <input type="text" id="tableSearchInput" oninput="resetPageAndRender()" placeholder="Cari program, barang..." class="w-full sm:w-44 pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
                     </div>
 
                     <button type="button" onclick="exportExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
@@ -581,7 +546,7 @@
                 </div>
             </div>
 
-            <!-- TABEL RKBMD LAYAR DASHBOARD -->
+            <!-- TABEL RKBMD -->
             <div id="containerTableRkbmd" class="overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
                     <thead class="bg-indigo-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
@@ -606,7 +571,7 @@
                 </table>
             </div>
 
-            <!-- TABEL RKPBMD LAYAR DASHBOARD -->
+            <!-- TABEL RKPBMD -->
             <div id="containerTableRkpbm" class="hidden overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkpbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
                     <thead class="bg-amber-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
@@ -632,15 +597,24 @@
                 </table>
             </div>
 
-            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-1 text-center sm:text-left select-none">
-                <span id="labelTotalRecords">0 data usulan</span>
-                <span class="font-semibold text-slate-500">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
+            <!-- KONTROL PAGINASI ANTI LAG -->
+            <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2 select-none">
+                <span id="labelTotalRecords">0 data ditampilkan</span>
+                <div class="flex items-center gap-1.5" id="paginationControls">
+                    <button type="button" onclick="prevPage()" id="btnPrevPage" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left mr-1"></i> Sebelumnya
+                    </button>
+                    <span id="labelCurrentPage" class="font-bold px-2 text-slate-800">Hal 1 dari 1</span>
+                    <button type="button" onclick="nextPage()" id="btnNextPage" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed">
+                        Berikutnya <i class="fa-solid fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- MODAL PENCARIAN MASTER SKPD (POP-UP) -->
+    <!-- MODAL PENCARIAN SKPD -->
     <div id="skpdModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
         <div class="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-5 shadow-2xl flex flex-col max-h-[85vh] border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -658,7 +632,7 @@
         </div>
     </div>
 
-    <!-- MODAL PENCARIAN MASTER BARANG -->
+    <!-- MODAL PENCARIAN BARANG -->
     <div id="barangModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
         <div class="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-5 shadow-2xl flex flex-col max-h-[85vh] border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -695,7 +669,6 @@
                     <button type="button" onclick="exportSkpdComplianceExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
                         <i class="fa-solid fa-file-excel"></i> Rekap Excel
                     </button>
-                    <!-- CETAK REKAP TERINTEGRASI -->
                     <button type="button" onclick="printSkpdComplianceReport()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
                         <i class="fa-solid fa-print"></i> Cetak Rekap Resmi
                     </button>
@@ -742,7 +715,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL PARAMETER TANDA TANGAN & CETAK RESMI ================= -->
+    <!-- MODAL PARAMETER TANDA TANGAN & CETAK -->
     <div id="printConfigModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
         <div class="bg-white rounded-3xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -821,25 +794,32 @@
         </div>
     </div>
 
-    <!-- ================= ELEMEN CETAK DOKUMEN RESMI (HANYA DITAMPILKAN DI KERTAS PRINT) ================= -->
+    <!-- ELEMEN CETAK DOKUMEN RESMI (HANYA MUNCUL DI PRINT) -->
     <div id="printable-doc" class="hidden"></div>
 
-    <!-- JAVASCRIPT LOGIKA LENGKAP -->
+    <!-- ================= JAVASCRIPT LOGIKA KLIEN AMAN & CEPAT ================= -->
     <script>
         const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbwvEHaig9sUcGjI5AGV67sCblaxtMfzFTQI2np1Sx6tGUbpheEHOm2jn6-YtrbgVSV8/exec";
         let API_URL = localStorage.getItem('custom_rkbmd_url') || DEFAULT_API_URL;
 
         let currentUser = null;
+        let authToken = null;
         let dataset = [];
         let masterSkpdList = [];
         let masterBarangList = [];
         let currentTab = "RKBMD";
         let modalActiveFilter = "SEMUA";
 
+        // Variabel Paginasi Anti-Lag
+        let currentPage = 1;
+        const rowsPerPage = 15;
+
         window.addEventListener('DOMContentLoaded', () => {
             const saved = sessionStorage.getItem('user_rkbmd_session');
-            if (saved) {
+            const token = sessionStorage.getItem('user_rkbmd_token');
+            if (saved && token) {
                 currentUser = JSON.parse(saved);
+                authToken = token;
                 initDashboard();
             }
         });
@@ -854,25 +834,13 @@
 
                 if (res.status === "success") {
                     hideConnectionError();
-                    openServerStatusModal(
-                        true,
-                        "Koneksi Server Normal",
-                        "Koneksi ke Server Database E-RKBMD & RKPBMD Pemerintah Kabupaten Konawe terverifikasi stabil dan siap melayani penginputan data."
-                    );
+                    openServerStatusModal(true, "Koneksi Server Normal", res.message);
                 } else {
-                    openServerStatusModal(
-                        false,
-                        "Respon Server Mengalami Kendala",
-                        res.message || "Gagal sinkronisasi data dengan server."
-                    );
+                    openServerStatusModal(false, "Respon Server Mengalami Kendala", res.message || "Gagal sinkronisasi data.");
                 }
             } catch (err) {
                 hideLoader();
-                openServerStatusModal(
-                    false,
-                    "Gagal Terhubung Ke Server",
-                    "Tidak dapat menjangkau server Apps Script. Pastikan akses deployment Web App telah disetel ke 'Anyone'."
-                );
+                openServerStatusModal(false, "Gagal Terhubung Ke Server", "Tidak dapat menjangkau server Apps Script. Pastikan akses deployment Web App telah disetel ke 'Anyone'.");
             }
         }
 
@@ -880,11 +848,8 @@
             const modal = document.getElementById('serverStatusModal');
             const iconBox = document.getElementById('statusModalIconBox');
             const icon = document.getElementById('statusModalIcon');
-            const titleEl = document.getElementById('statusModalTitle');
-            const descEl = document.getElementById('statusModalDesc');
-
-            titleEl.innerText = title;
-            descEl.innerText = desc;
+            document.getElementById('statusModalTitle').innerText = title;
+            document.getElementById('statusModalDesc').innerText = desc;
 
             if (isSuccess) {
                 iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
@@ -893,7 +858,6 @@
                 iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
                 icon.className = "fa-solid fa-triangle-exclamation text-rose-500";
             }
-
             modal.classList.remove('hidden');
         }
 
@@ -904,10 +868,7 @@
         function showConnectionError(msg) {
             const b = document.getElementById('connectionErrorBanner');
             const t = document.getElementById('connectionErrorText');
-            if (b && t) {
-                t.innerText = msg;
-                b.classList.remove('hidden');
-            }
+            if (b && t) { t.innerText = msg; b.classList.remove('hidden'); }
         }
 
         function hideConnectionError() {
@@ -915,7 +876,7 @@
             if (b) b.classList.add('hidden');
         }
 
-        // SISTEM LOGIN
+        // SISTEM LOGIN AMAN (METODE POST)
         async function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('login-user').value.trim();
@@ -929,21 +890,28 @@
             hideConnectionError();
 
             try {
-                const resp = await fetch(`${API_URL}?action=login&username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`);
+                // Password dikirim dalam Body POST, bukan di URL
+                const resp = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: "login", username: u, password: p })
+                });
                 const res = await resp.json();
 
                 if (res.status === "success") {
                     currentUser = res.user;
+                    authToken = res.token;
                     sessionStorage.setItem('user_rkbmd_session', JSON.stringify(currentUser));
+                    sessionStorage.setItem('user_rkbmd_token', authToken);
                     initDashboard();
                 } else {
                     alertBox.innerText = res.message || "Username / Password salah!";
                     alertBox.classList.remove('hidden');
                 }
             } catch (err) {
-                alertBox.innerText = "Gagal terhubung ke database. Periksa izin 'Anyone' pada deployment Apps Script.";
+                alertBox.innerText = "Gagal terhubung ke database. Periksa izin akses server.";
                 alertBox.classList.remove('hidden');
-                showConnectionError("Koneksi gagal. Klik tombol di bawah untuk mendiagnosa.");
+                showConnectionError("Koneksi gagal.");
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Masuk Ke Sistem";
@@ -952,6 +920,7 @@
 
         function handleLogout() {
             sessionStorage.removeItem('user_rkbmd_session');
+            sessionStorage.removeItem('user_rkbmd_token');
             location.reload();
         }
 
@@ -970,11 +939,15 @@
             switchMode('RKBMD');
         }
 
-        // AMBIL DATA DARI DATABASE
+        // AMBIL DATA DENGAN TOKEN KEAMANAN
         async function fetchDataFromDatabase() {
             showLoader("Menghubungkan ke Database...");
             try {
-                const resp = await fetch(`${API_URL}?action=read&nama_skpd=${encodeURIComponent(currentUser.nama_skpd)}&kategori=${encodeURIComponent(currentUser.kategori)}`);
+                const resp = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: "read", token: authToken })
+                });
                 const res = await resp.json();
 
                 if (res.status === "success") {
@@ -985,6 +958,9 @@
                     populateSkpdSelect();
                     renderAllViews();
                     hideConnectionError();
+                } else if (res.status === "unauthorized") {
+                    alert("Sesi login Anda telah habis. Silakan login kembali.");
+                    handleLogout();
                 } else {
                     showConnectionError("Gagal membaca data: " + res.message);
                 }
@@ -995,7 +971,6 @@
             }
         }
 
-        // POPULATE SKPD (INPUT PICKER & FILTER ADMIN)
         function populateSkpdSelect() {
             const adminFilter = document.getElementById('adminSkpdFilter');
             const skpdHidden = document.getElementById('skpd');
@@ -1027,7 +1002,7 @@
             }
         }
 
-        // MODAL PENCARIAN SKPD
+        // MODAL SKPD
         function openSkpdModal() {
             if (currentUser.kategori !== "Admin") return;
             document.getElementById('skpdModal').classList.remove('hidden');
@@ -1088,16 +1063,16 @@
 
             document.getElementById('formSubtitle').innerText = isRk ? "Mode RKBMD Pengadaan (Permendagri No. 19/2016)" : "Mode RKPBMD Pemeliharaan (Permendagri No. 19/2016)";
 
+            currentPage = 1;
             validateInputLock();
             renderTables();
         }
 
-        // RUMUS & PENGUNCI LOGIKA INPUT
+        // RUMUS & PENGUNCI LOGIKA
         function calcKebutuhanRiil() {
             const maks = parseInt(document.getElementById('kebutuhanMaksimum').value) || 0;
             const opt = parseInt(document.getElementById('optimalisasi').value) || 0;
             const riil = maks - opt;
-            
             document.getElementById('labelKebutuhanRiil').innerText = riil > 0 ? riil : (riil === 0 ? "0" : `0 (${riil})`);
             validateInputLock();
             return riil;
@@ -1127,7 +1102,7 @@
                 if (riil <= 0) {
                     statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-rose-200 text-rose-800";
                     statusBadge.innerText = "Terkunci: Riil = 0";
-                    errTxt.innerText = "Pengunci Sistem: Kebutuhan Riil bernilai 0 atau negatif. Usulan pengadaan tidak dapat disimpan jika kebutuhan telah terpenuhi oleh optimalisasi!";
+                    errTxt.innerText = "Pengunci Sistem: Kebutuhan Riil bernilai 0 atau negatif. Usulan pengadaan tidak dapat disimpan!";
                     errBox.classList.remove('hidden');
                     btn.disabled = true;
                     btn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -1137,7 +1112,7 @@
                 if (usulan > riil) {
                     statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-200 text-amber-800";
                     statusBadge.innerText = "Usulan Melebihi Riil";
-                    errTxt.innerText = `Jumlah usulan (${usulan}) melebihi standar batas maksimum Kebutuhan Riil (${riil})!`;
+                    errTxt.innerText = `Jumlah usulan (${usulan}) melebihi standar batas Kebutuhan Riil (${riil})!`;
                     errBox.classList.remove('hidden');
                     btn.disabled = true;
                     btn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -1145,7 +1120,7 @@
                 }
 
                 statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-200 text-emerald-800";
-                statusBadge.innerText = (riil > opt) ? "Valid (Riil > Optimalisasi)" : "Kebutuhan Riil Valid";
+                statusBadge.innerText = "Kebutuhan Riil Valid";
                 errBox.classList.add('hidden');
                 btn.disabled = false;
                 btn.classList.remove('opacity-50', 'cursor-not-allowed');
@@ -1162,7 +1137,7 @@
             const btn = document.getElementById('btnSubmit');
 
             if (kondisi === "Rusak Berat") {
-                errTxt.innerText = "Peringatan Permendagri: Kondisi Rusak Berat otomatis ditolak untuk usulan pemeliharaan!";
+                errTxt.innerText = "Peringatan Permendagri: Kondisi Rusak Berat otomatis ditolak untuk pemeliharaan!";
                 errBox.classList.remove('hidden');
                 btn.disabled = true;
                 btn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -1190,6 +1165,7 @@
 
             const payload = {
                 action: isEdit ? "update" : "create",
+                token: authToken,
                 id: isEdit ? editId : `${currentTab}-${Date.now()}`,
                 jenis: currentTab,
                 skpd: skpdVal,
@@ -1214,16 +1190,22 @@
 
             showLoader("Menyimpan ke Database...");
             try {
-                await fetch(API_URL, {
+                const resp = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
-                showToast("Data Berhasil Di simpan Di Database");
-                resetForm();
-                await fetchDataFromDatabase();
+                const res = await resp.json();
+
+                if (res.status === "success") {
+                    showToast("Data Berhasil Di simpan Di Database");
+                    resetForm();
+                    await fetchDataFromDatabase();
+                } else {
+                    alert(res.message || "Gagal menyimpan usulan.");
+                }
             } catch(err) {
-                alert("Gagal menyimpan ke database.");
+                alert("Gagal terhubung ke database.");
             } finally {
                 hideLoader();
             }
@@ -1270,13 +1252,19 @@
 
             showLoader("Menghapus usulan...");
             try {
-                await fetch(API_URL, {
+                const resp = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "delete", jenis: it.jenis, id: it.id })
+                    body: JSON.stringify({ action: "delete", token: authToken, jenis: it.jenis, id: it.id })
                 });
-                showToast("Data Berhasil Dihapus Dari Database", true);
-                await fetchDataFromDatabase();
+                const res = await resp.json();
+
+                if (res.status === "success") {
+                    showToast("Data Berhasil Dihapus Dari Database", true);
+                    await fetchDataFromDatabase();
+                } else {
+                    alert(res.message || "Gagal menghapus.");
+                }
             } catch(e) {
                 alert("Gagal menghapus.");
             } finally {
@@ -1303,12 +1291,17 @@
             validateInputLock();
         }
 
-        // RENDER TABEL & PENCARIAN
-        function renderTables() {
+        // ================= RENDER TABEL & PAGINASI ANTI-LAG =================
+        function resetPageAndRender() {
+            currentPage = 1;
+            renderTables();
+        }
+
+        function getFilteredData() {
             const keyword = (document.getElementById('tableSearchInput').value || '').toLowerCase().trim();
             const adminFilter = document.getElementById('adminSkpdFilter')?.value || "SEMUA";
 
-            const filtered = dataset.filter(item => {
+            return dataset.filter(item => {
                 const matchAdmin = (adminFilter === "SEMUA" || item.skpd === adminFilter);
                 const matchSearch = (
                     (item.skpd || '').toLowerCase().includes(keyword) ||
@@ -1318,64 +1311,93 @@
                 );
                 return matchAdmin && matchSearch;
             });
+        }
 
-            // Render RKBMD
-            const tbodyRk = document.getElementById('tableBodyRkbmd');
-            const dataRk = filtered.filter(i => i.jenis === "RKBMD");
-            if (dataRk.length === 0) {
-                tbodyRk.innerHTML = `<tr><td colspan="12" class="p-6 text-center text-slate-400 italic">Belum ada usulan RKBMD.</td></tr>`;
+        function renderTables() {
+            const filtered = getFilteredData();
+            const activeData = filtered.filter(i => i.jenis === currentTab);
+            const totalRows = activeData.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage) || 1;
+
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const paginatedData = activeData.slice(startIndex, startIndex + rowsPerPage);
+
+            if (currentTab === "RKBMD") {
+                const tbodyRk = document.getElementById('tableBodyRkbmd');
+                if (paginatedData.length === 0) {
+                    tbodyRk.innerHTML = `<tr><td colspan="12" class="p-6 text-center text-slate-400 italic">Belum ada usulan RKBMD.</td></tr>`;
+                } else {
+                    tbodyRk.innerHTML = paginatedData.map((it, idx) => `
+                        <tr class="hover:bg-indigo-50/50 transition border-b border-slate-100 text-[11px]">
+                            <td class="p-2.5 text-center text-slate-400 font-mono">${startIndex + idx + 1}</td>
+                            <td class="p-2.5 font-bold text-slate-800">${it.skpd}</td>
+                            <td class="p-2.5 font-medium text-slate-700">${it.programKegiatanOutput}</td>
+                            <td class="p-2.5 font-mono text-[10px] text-slate-500">${it.kodeBarang || '-'}</td>
+                            <td class="p-2.5 font-bold text-indigo-950">${it.namaBarang}</td>
+                            <td class="p-2.5 text-center font-black text-indigo-700">${it.jumlahUsulan}</td>
+                            <td class="p-2.5 text-center">${it.satuan}</td>
+                            <td class="p-2.5 text-center font-semibold">${it.kebutuhanMaksimum || 0}</td>
+                            <td class="p-2.5 text-center font-semibold">${it.optimalisasi || 0}</td>
+                            <td class="p-2.5 text-center font-black bg-amber-50 text-amber-900">${it.kebutuhanRiil || 0}</td>
+                            <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
+                            <td class="p-2.5 text-center space-x-1 no-print">
+                                <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
+                                <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
             } else {
-                tbodyRk.innerHTML = dataRk.map((it, idx) => `
-                    <tr class="hover:bg-indigo-50/50 transition border-b border-slate-100 text-[11px]">
-                        <td class="p-2.5 text-center text-slate-400 font-mono">${idx + 1}</td>
-                        <td class="p-2.5 font-bold text-slate-800">${it.skpd}</td>
-                        <td class="p-2.5 font-medium text-slate-700">${it.programKegiatanOutput}</td>
-                        <td class="p-2.5 font-mono text-[10px] text-slate-500">${it.kodeBarang || '-'}</td>
-                        <td class="p-2.5 font-bold text-indigo-950">${it.namaBarang}</td>
-                        <td class="p-2.5 text-center font-black text-indigo-700">${it.jumlahUsulan}</td>
-                        <td class="p-2.5 text-center">${it.satuan}</td>
-                        <td class="p-2.5 text-center font-semibold">${it.kebutuhanMaksimum || 0}</td>
-                        <td class="p-2.5 text-center font-semibold">${it.optimalisasi || 0}</td>
-                        <td class="p-2.5 text-center font-black bg-amber-50 text-amber-900">${it.kebutuhanRiil || 0}</td>
-                        <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
-                        <td class="p-2.5 text-center space-x-1 no-print">
-                            <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
-                            <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
+                const tbodyRkp = document.getElementById('tableBodyRkpbm');
+                if (paginatedData.length === 0) {
+                    tbodyRkp.innerHTML = `<tr><td colspan="13" class="p-6 text-center text-slate-400 italic">Belum ada usulan RKPBMD.</td></tr>`;
+                } else {
+                    tbodyRkp.innerHTML = paginatedData.map((it, idx) => `
+                        <tr class="hover:bg-amber-50/50 transition border-b border-slate-100 text-[11px]">
+                            <td class="p-2.5 text-center text-slate-400 font-mono">${startIndex + idx + 1}</td>
+                            <td class="p-2.5 font-bold text-slate-800">${it.skpd}</td>
+                            <td class="p-2.5 font-medium text-slate-700">${it.programKegiatanOutput}</td>
+                            <td class="p-2.5 font-mono text-[10px] text-slate-500">${it.kodeBarang || '-'}</td>
+                            <td class="p-2.5 font-bold text-amber-950">${it.namaBarang}</td>
+                            <td class="p-2.5 text-center font-semibold">${it.jumlahKib || it.jumlahUsulan}</td>
+                            <td class="p-2.5 text-center">${it.satuan}</td>
+                            <td class="p-2.5 text-slate-600">${it.statusBarang}</td>
+                            <td class="p-2.5 text-center font-bold ${it.kondisiBarang === 'Baik' ? 'text-emerald-600' : 'text-amber-600'}">${it.kondisiBarang}</td>
+                            <td class="p-2.5 font-bold text-amber-800">${it.namaPemeliharaan || '-'}</td>
+                            <td class="p-2.5 text-center font-black bg-emerald-50 text-emerald-800">${it.jumlahUsulan}</td>
+                            <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
+                            <td class="p-2.5 text-center space-x-1 no-print">
+                                <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
+                                <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
             }
 
-            // Render RKPBMD
-            const tbodyRkp = document.getElementById('tableBodyRkpbm');
-            const dataRkp = filtered.filter(i => i.jenis === "RKPBMD");
-            if (dataRkp.length === 0) {
-                tbodyRkp.innerHTML = `<tr><td colspan="13" class="p-6 text-center text-slate-400 italic">Belum ada usulan RKPBMD.</td></tr>`;
-            } else {
-                tbodyRkp.innerHTML = dataRkp.map((it, idx) => `
-                    <tr class="hover:bg-amber-50/50 transition border-b border-slate-100 text-[11px]">
-                        <td class="p-2.5 text-center text-slate-400 font-mono">${idx + 1}</td>
-                        <td class="p-2.5 font-bold text-slate-800">${it.skpd}</td>
-                        <td class="p-2.5 font-medium text-slate-700">${it.programKegiatanOutput}</td>
-                        <td class="p-2.5 font-mono text-[10px] text-slate-500">${it.kodeBarang || '-'}</td>
-                        <td class="p-2.5 font-bold text-amber-950">${it.namaBarang}</td>
-                        <td class="p-2.5 text-center font-semibold">${it.jumlahKib || it.jumlahUsulan}</td>
-                        <td class="p-2.5 text-center">${it.satuan}</td>
-                        <td class="p-2.5 text-slate-600">${it.statusBarang}</td>
-                        <td class="p-2.5 text-center font-bold ${it.kondisiBarang === 'Baik' ? 'text-emerald-600' : 'text-amber-600'}">${it.kondisiBarang}</td>
-                        <td class="p-2.5 font-bold text-amber-800">${it.namaPemeliharaan || '-'}</td>
-                        <td class="p-2.5 text-center font-black bg-emerald-50 text-emerald-800">${it.jumlahUsulan}</td>
-                        <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
-                        <td class="p-2.5 text-center space-x-1 no-print">
-                            <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
-                            <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
+            document.getElementById('labelTotalRecords').innerText = `Menampilkan ${paginatedData.length} dari ${totalRows} usulan ${currentTab} (Total Keseluruhan: ${dataset.length} baris)`;
+            document.getElementById('labelCurrentPage').innerText = `Hal ${currentPage} dari ${totalPages}`;
+            document.getElementById('btnPrevPage').disabled = (currentPage <= 1);
+            document.getElementById('btnNextPage').disabled = (currentPage >= totalPages);
+        }
 
-            const activeRows = currentTab === "RKBMD" ? dataRk.length : dataRkp.length;
-            document.getElementById('labelTotalRecords').innerText = `${activeRows} data ditampilkan (Total: ${dataset.length} data usulan)`;
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTables();
+            }
+        }
+
+        function nextPage() {
+            const filtered = getFilteredData().filter(i => i.jenis === currentTab);
+            const totalPages = Math.ceil(filtered.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTables();
+            }
         }
 
         // MASTER BARANG MODAL
@@ -1398,7 +1420,7 @@
         function renderBarangModalList(list) {
             const ul = document.getElementById('barangModalList');
             if (list.length === 0) {
-                ul.innerHTML = `<li class="p-4 text-center text-slate-400">Barang tidak ditemukan dalam master data</li>`;
+                ul.innerHTML = `<li class="p-4 text-center text-slate-400">Barang tidak ditemukan</li>`;
                 return;
             }
             ul.innerHTML = list.map(b => `
@@ -1443,19 +1465,13 @@
             dataset.forEach(i => {
                 if (i.skpd) {
                     usageTotal[i.skpd] = (usageTotal[i.skpd] || 0) + 1;
-                    if (i.jenis === "RKBMD") {
-                        usagePengadaan[i.skpd] = (usagePengadaan[i.skpd] || 0) + 1;
-                    } else if (i.jenis === "RKPBMD") {
-                        usagePemeliharaan[i.skpd] = (usagePemeliharaan[i.skpd] || 0) + 1;
-                    }
+                    if (i.jenis === "RKBMD") usagePengadaan[i.skpd] = (usagePengadaan[i.skpd] || 0) + 1;
+                    else if (i.jenis === "RKPBMD") usagePemeliharaan[i.skpd] = (usagePemeliharaan[i.skpd] || 0) + 1;
                 }
             });
 
             const list = masterSkpdList.map(s => {
                 const countTotal = usageTotal[s.nama] || 0;
-                const countPengadaan = usagePengadaan[s.nama] || 0;
-                const countPemeliharaan = usagePemeliharaan[s.nama] || 0;
-
                 let kat = s.kategori || "Dinas & Badan";
                 const upper = s.nama.toUpperCase();
                 if (upper.includes("KECAMATAN") || upper.startsWith("KEC.")) kat = "Kecamatan";
@@ -1466,8 +1482,8 @@
                     kategori: kat,
                     submitted: countTotal > 0,
                     count: countTotal,
-                    countPengadaan: countPengadaan,
-                    countPemeliharaan: countPemeliharaan
+                    countPengadaan: usagePengadaan[s.nama] || 0,
+                    countPemeliharaan: usagePemeliharaan[s.nama] || 0
                 };
             });
 
@@ -1542,10 +1558,8 @@
 
                     arcDinas.setAttribute('stroke-dasharray', `${lenDinas} ${circumference}`);
                     arcDinas.setAttribute('stroke-dashoffset', '0');
-
                     arcKec.setAttribute('stroke-dasharray', `${lenKec} ${circumference}`);
                     arcKec.setAttribute('stroke-dashoffset', `-${lenDinas}`);
-
                     arcBagian.setAttribute('stroke-dasharray', `${lenBagian} ${circumference}`);
                     arcBagian.setAttribute('stroke-dashoffset', `-${lenDinas + lenKec}`);
                 }
@@ -1604,7 +1618,6 @@
             document.getElementById('skpdDetailModal').classList.add('hidden');
         }
 
-        // UNDUH EXCEL REKAP
         function exportSkpdComplianceExcel() {
             const c = getCompliance();
             const rows = [
@@ -1617,34 +1630,20 @@
 
             c.all.forEach((s, idx) => {
                 rows.push([
-                    idx + 1,
-                    s.nama,
-                    s.kategori,
+                    idx + 1, s.nama, s.kategori,
                     s.submitted ? "SUDAH INPUT" : "BELUM INPUT",
-                    s.countPengadaan,
-                    s.countPemeliharaan,
-                    s.count
+                    s.countPengadaan, s.countPemeliharaan, s.count
                 ]);
             });
 
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.aoa_to_sheet(rows);
-
-            ws['!cols'] = [
-                { wch: 6 },
-                { wch: 45 },
-                { wch: 20 },
-                { wch: 22 },
-                { wch: 18 },
-                { wch: 20 },
-                { wch: 22 }
-            ];
-
+            ws['!cols'] = [{ wch: 6 }, { wch: 45 }, { wch: 20 }, { wch: 22 }, { wch: 18 }, { wch: 20 }, { wch: 22 }];
             XLSX.utils.book_append_sheet(wb, ws, "Rekap_Kepatuhan_SKPD");
             XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_TA2027_${Date.now()}.xlsx`);
         }
 
-        // ================= CETAK RESMI REKAP STATUS KEPATUHAN SKPD (PERBAIKAN 1) =================
+        // ================= CETAK RESMI REKAP SKPD =================
         function printSkpdComplianceReport() {
             const c = getCompliance();
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -1653,7 +1652,6 @@
             const docContainer = document.getElementById('printable-doc');
             docContainer.innerHTML = `
                 <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.25;">
-                    <!-- KOP SURAT RESMI PEMERINTAH DAERAH KABUPATEN KONAWE -->
                     <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 5px;">
                         <tr>
                             <td style="width: 85px; vertical-align: middle; text-align: left; border: none;">
@@ -1670,7 +1668,6 @@
                     </table>
                     <div style="border-top: 2px solid #000; border-bottom: 1px solid #000; height: 3px; margin-bottom: 10px;"></div>
 
-                    <!-- RINGKASAN METRIK -->
                     <div style="margin-bottom: 10px; font-size: 9pt; display: flex; justify-content: space-between;">
                         <div>
                             <span>Total Unit SKPD Terdaftar : <strong>${c.totalSemua} SKPD</strong></span> | 
@@ -1682,7 +1679,6 @@
                         </div>
                     </div>
 
-                    <!-- TABEL DATA REKAPITULASI -->
                     <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;" border="1">
                         <thead>
                             <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
@@ -1712,7 +1708,6 @@
                         </tbody>
                     </table>
 
-                    <!-- TANDA TANGAN REKAP -->
                     <div class="ttd-container" style="margin-top: 25px; display: flex; justify-content: flex-end; font-size: 10pt;">
                         <div style="text-align: center; width: 35%;">
                             <div>Unaaha, ${todayStr}</div>
@@ -1725,13 +1720,10 @@
                 </div>
             `;
 
-            // Cetak langsung tanpa blank-page
-            setTimeout(() => {
-                window.print();
-            }, 250);
+            setTimeout(() => { window.print(); }, 250);
         }
 
-        // ================= CETAK RESMI FORMAT 100% PERMENDAGRI NO. 19/2016 (PERBAIKAN 2 & 3) =================
+        // ================= CETAK RESMI FORMAT 100% PERMENDAGRI =================
         function openPrintConfigModal() {
             const modal = document.getElementById('printConfigModal');
             const targetSelect = document.getElementById('printTargetSkpd');
@@ -1750,9 +1742,7 @@
             const isAdmin = (currentUser.kategori === "Admin");
             let skpdOptions = "";
             if (isAdmin) {
-                masterSkpdList.forEach(s => {
-                    skpdOptions += `<option value="${s.nama}">${s.nama}</option>`;
-                });
+                masterSkpdList.forEach(s => { skpdOptions += `<option value="${s.nama}">${s.nama}</option>`; });
             } else {
                 skpdOptions = `<option value="${currentUser.nama_skpd}">${currentUser.nama_skpd}</option>`;
             }
@@ -1795,10 +1785,11 @@
                 pengurusJabatan, pengurusNama, pengurusNip
             }));
 
+            // Ambil seluruh usulan untuk dicetak resmi (bukan hanya halaman aktif)
             const rows = dataset.filter(i => i.jenis === currentTab && i.skpd === targetSkpd);
 
             if (rows.length === 0) {
-                alert(`Tidak ada usulan ${currentTab} untuk SKPD ${targetSkpd}. Silakan input usulan terlebih dahulu.`);
+                alert(`Tidak ada usulan ${currentTab} untuk SKPD ${targetSkpd}.`);
                 return;
             }
 
@@ -1812,8 +1803,6 @@
             let tableHtml = "";
 
             if (isRk) {
-                // ================= TABEL 100% SESUAI PERMENDAGRI NO. 19/2016 (RKBMD PENGADAAN) =================
-                // Baris Header Bertingkat (Two-Tier Thead) + Baris Penomoran Kolom (1) s.d (10)
                 tableHtml = `
                     <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;" border="1">
                         <thead>
@@ -1865,8 +1854,6 @@
                     </table>
                 `;
             } else {
-                // ================= TABEL 100% SESUAI PERMENDAGRI NO. 19/2016 (RKPBMD PEMELIHARAAN) =================
-                // Baris Header Bertingkat (Two-Tier Thead) + Baris Penomoran Kolom (1) s.d (11)
                 tableHtml = `
                     <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;" border="1">
                         <thead>
@@ -1922,16 +1909,13 @@
                 `;
             }
 
-            // SUSUN HALAMAN DOKUMEN CETAK RESMI PRESISI TINGGI
             const docContainer = document.getElementById('printable-doc');
             docContainer.innerHTML = `
                 <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.25;">
-                    <!-- LABEL LAMPIRAN RESMI POJOK KANAN ATAS -->
                     <div style="text-align: right; font-size: 8pt; font-weight: bold; margin-bottom: 6px;">
                         ${lampiranNo}
                     </div>
 
-                    <!-- KOP DOKUMEN DINAS LENGKAP LOGO RESMI KABUPATEN KONAWE -->
                     <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 6px;">
                         <tr>
                             <td style="width: 80px; vertical-align: middle; text-align: left; border: none;">
@@ -1949,7 +1933,6 @@
                     
                     <div style="border-top: 2px solid #000; border-bottom: 1px solid #000; height: 3px; margin-bottom: 8px;"></div>
 
-                    <!-- META INFO RESMI -->
                     <table style="width: 100%; border-collapse: collapse; border: none; font-size: 9.5pt; font-weight: bold; margin-bottom: 8px;">
                         <tr>
                             <td style="width: 160px; border: none; padding: 2px 0;">SKPD / UNIT KERJA</td>
@@ -1968,12 +1951,9 @@
                         </tr>
                     </table>
 
-                    <!-- TABEL ISI RESMI PERMENDAGRI -->
                     ${tableHtml}
 
-                    <!-- FORMAT BLOK TANDA TANGAN KIRI & KANAN SESUAI TATA NASKAH DINAS -->
                     <div class="ttd-container" style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 10pt; page-break-inside: avoid;">
-                        <!-- Kiri: Pengurus Barang Pengguna -->
                         <div style="text-align: center; width: 40%;">
                             <div>Mengetahui / Dibuat Oleh:</div>
                             <div style="font-weight: bold;">${pengurusJabatan}</div>
@@ -1982,7 +1962,6 @@
                             <div>NIP. ${pengurusNip}</div>
                         </div>
 
-                        <!-- Kanan: Kepala SKPD / Camat / Pengguna Barang -->
                         <div style="text-align: center; width: 40%;">
                             <div>${tglDokumen}</div>
                             <div style="font-weight: bold;">${kadisJabatan}</div>
@@ -1995,14 +1974,10 @@
             `;
 
             closePrintConfigModal();
-
-            // Panggil dialog cetak browser
-            setTimeout(() => {
-                window.print();
-            }, 300);
+            setTimeout(() => { window.print(); }, 300);
         }
 
-        // TOAST, LOADER & EXCEL TABEL USULAN
+        // TOAST, LOADER & EXCEL
         function showToast(msg = "Data Berhasil Di simpan Di Database", isAlert = false) {
             const toast = document.getElementById('toastNotification');
             document.getElementById('toastMessage').innerText = msg;
