@@ -244,6 +244,11 @@
                     <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 select-none">
                         Dihitung otomatis dari usulan masuk terhadap daftar SKPD terdaftar.
                     </p>
+                    <!-- PARAGRAF SENTUH KARTU TELAH DIKEMBALIKAN -->
+                    <p class="text-[11px] sm:text-xs text-indigo-600 font-semibold flex items-center gap-1.5 mt-1 select-none">
+                        <i class="fa-solid fa-hand-pointer text-indigo-500 animate-pulse"></i>
+                        Sentuh kartu di bawah ini untuk melihat rincian unit yang sudah atau belum menginput usulan.
+                    </p>
                 </div>
                 <button type="button" onclick="openSkpdDetailsModal()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer active:scale-95 w-full sm:w-auto justify-center select-none">
                     <i class="fa-solid fa-list-check"></i> Rincian Status SKPD
@@ -597,9 +602,11 @@
                 </table>
             </div>
 
-            <!-- KONTROL PAGINASI ANTI LAG -->
-            <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2 select-none">
+            <!-- KONTROL PAGINASI DENGAN COPYRIGHT DI TENGAH -->
+            <div class="pt-3 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-2 select-none">
                 <span id="labelTotalRecords">0 data ditampilkan</span>
+                <!-- HAK CIPTA DI TENGAH SESUAI PERMINTAAN -->
+                <span class="font-semibold text-slate-500 text-center order-last md:order-none">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
                 <div class="flex items-center gap-1.5" id="paginationControls">
                     <button type="button" onclick="prevPage()" id="btnPrevPage" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed">
                         <i class="fa-solid fa-chevron-left mr-1"></i> Sebelumnya
@@ -697,7 +704,7 @@
         </div>
     </div>
 
-    <!-- MODAL STATUS KONEKSI -->
+    <!-- MODAL STATUS KONEKSI (DIKEMBALIKAN SESUAI TAMPILAN RESMI SEMULA) -->
     <div id="serverStatusModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center">
             <div id="statusModalIconBox" class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
@@ -824,7 +831,7 @@
             }
         });
 
-        // DIAGNOSTIK KONEKSI
+        // ================= DIAGNOSTIK KONEKSI (DIKEMBALIKAN SESUAI VERSI SEMULA) =================
         async function testServerConnection() {
             showLoader("Memeriksa status respon database...");
             try {
@@ -834,13 +841,25 @@
 
                 if (res.status === "success") {
                     hideConnectionError();
-                    openServerStatusModal(true, "Koneksi Server Normal", res.message);
+                    openServerStatusModal(
+                        true,
+                        "Koneksi Server Normal",
+                        "Koneksi ke Server Database E-RKBMD & RKPBMD Pemerintah Kabupaten Konawe terverifikasi stabil dan siap melayani penginputan data."
+                    );
                 } else {
-                    openServerStatusModal(false, "Respon Server Mengalami Kendala", res.message || "Gagal sinkronisasi data.");
+                    openServerStatusModal(
+                        false,
+                        "Respon Server Mengalami Kendala",
+                        res.message || "Gagal sinkronisasi data dengan server."
+                    );
                 }
             } catch (err) {
                 hideLoader();
-                openServerStatusModal(false, "Gagal Terhubung Ke Server", "Tidak dapat menjangkau server Apps Script. Pastikan akses deployment Web App telah disetel ke 'Anyone'.");
+                openServerStatusModal(
+                    false,
+                    "Gagal Terhubung Ke Server",
+                    "Tidak dapat menjangkau server Apps Script. Pastikan akses deployment Web App telah disetel ke 'Anyone'."
+                );
             }
         }
 
@@ -848,8 +867,11 @@
             const modal = document.getElementById('serverStatusModal');
             const iconBox = document.getElementById('statusModalIconBox');
             const icon = document.getElementById('statusModalIcon');
-            document.getElementById('statusModalTitle').innerText = title;
-            document.getElementById('statusModalDesc').innerText = desc;
+            const titleEl = document.getElementById('statusModalTitle');
+            const descEl = document.getElementById('statusModalDesc');
+
+            titleEl.innerText = title;
+            descEl.innerText = desc;
 
             if (isSuccess) {
                 iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
@@ -858,6 +880,7 @@
                 iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
                 icon.className = "fa-solid fa-triangle-exclamation text-rose-500";
             }
+
             modal.classList.remove('hidden');
         }
 
@@ -890,7 +913,6 @@
             hideConnectionError();
 
             try {
-                // Password dikirim dalam Body POST, bukan di URL
                 const resp = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1291,7 +1313,7 @@
             validateInputLock();
         }
 
-        // ================= RENDER TABEL & PAGINASI ANTI-LAG =================
+        // ================= RENDER TABEL & PAGINASI =================
         function resetPageAndRender() {
             currentPage = 1;
             renderTables();
@@ -1300,16 +1322,21 @@
         function getFilteredData() {
             const keyword = (document.getElementById('tableSearchInput').value || '').toLowerCase().trim();
             const adminFilter = document.getElementById('adminSkpdFilter')?.value || "SEMUA";
+            const isAdmin = (currentUser && currentUser.kategori === "Admin");
 
             return dataset.filter(item => {
-                const matchAdmin = (adminFilter === "SEMUA" || item.skpd === adminFilter);
+                // Admin dapat melihat semua / filter SKPD. SKPD biasa hanya mengelola usulan miliknya di tabel
+                const matchSkpd = isAdmin 
+                    ? (adminFilter === "SEMUA" || item.skpd === adminFilter)
+                    : (item.skpd.toLowerCase() === currentUser.nama_skpd.toLowerCase());
+
                 const matchSearch = (
                     (item.skpd || '').toLowerCase().includes(keyword) ||
                     (item.namaBarang || '').toLowerCase().includes(keyword) ||
                     (item.kodeBarang || '').toLowerCase().includes(keyword) ||
                     (item.programKegiatanOutput || '').toLowerCase().includes(keyword)
                 );
-                return matchAdmin && matchSearch;
+                return matchSkpd && matchSearch;
             });
         }
 
@@ -1378,7 +1405,7 @@
                 }
             }
 
-            document.getElementById('labelTotalRecords').innerText = `Menampilkan ${paginatedData.length} dari ${totalRows} usulan ${currentTab} (Total Keseluruhan: ${dataset.length} baris)`;
+            document.getElementById('labelTotalRecords').innerText = `Menampilkan ${paginatedData.length} dari ${totalRows} data usulan`;
             document.getElementById('labelCurrentPage').innerText = `Hal ${currentPage} dari ${totalPages}`;
             document.getElementById('btnPrevPage').disabled = (currentPage <= 1);
             document.getElementById('btnNextPage').disabled = (currentPage >= totalPages);
@@ -1440,7 +1467,7 @@
             closeBarangModal();
         }
 
-        // MONITORING KEPATUHAN & DIAGRAM
+        // ================= MONITORING KEPATUHAN (DAPAT DIAKSES SEMUA SKPD) =================
         function renderAllViews() {
             renderTables();
             updateStats();
@@ -1448,15 +1475,19 @@
         }
 
         function updateStats() {
-            const rk = dataset.filter(i => i.jenis === "RKBMD");
-            const rkp = dataset.filter(i => i.jenis === "RKPBMD");
+            const isAdmin = (currentUser && currentUser.kategori === "Admin");
+            // Admin melihat total Konawe, SKPD biasa melihat total usulan miliknya di kartu atas
+            const userDataset = isAdmin ? dataset : dataset.filter(i => (i.skpd || '').toLowerCase() === (currentUser.nama_skpd || '').toLowerCase());
+            const rk = userDataset.filter(i => i.jenis === "RKBMD");
+            const rkp = userDataset.filter(i => i.jenis === "RKPBMD");
 
-            document.getElementById('statTotalItems').innerText = dataset.length;
+            document.getElementById('statTotalItems').innerText = userDataset.length;
             document.getElementById('statRkbmdCount').innerText = rk.length;
             document.getElementById('statRkpbmCount').innerText = rkp.length;
             document.getElementById('statMasterInfo').innerText = `${masterSkpdList.length} SKPD / ${masterBarangList.length} Barang`;
         }
 
+        // Menghitung status kepatuhan dari SEMUA USULAN agar dapat dipantau seluruh SKPD
         function getCompliance() {
             const usageTotal = {};
             const usagePengadaan = {};
@@ -1566,7 +1597,7 @@
             }
         }
 
-        // MODAL RINCIAN STATUS SKPD
+        // MODAL RINCIAN STATUS SKPD (TERBUKA LENGKAP UNTUK SEMUA SKPD)
         function openSkpdDetailsModal(filter = "SEMUA") {
             modalActiveFilter = filter;
             const c = getCompliance();
@@ -1785,7 +1816,6 @@
                 pengurusJabatan, pengurusNama, pengurusNip
             }));
 
-            // Ambil seluruh usulan untuk dicetak resmi (bukan hanya halaman aktif)
             const rows = dataset.filter(i => i.jenis === currentTab && i.skpd === targetSkpd);
 
             if (rows.length === 0) {
