@@ -21,7 +21,7 @@
         .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
         
-        /* 1. Pencegahan Total Kursor I dan Seleksi Teks Liar */
+        /* Pencegahan Kursor I & Seleksi Teks Liar */
         .select-none, label, th, h1, h2, h3, h4, .donut-segment, .card-box {
             user-select: none !important;
             -webkit-user-select: none !important;
@@ -69,10 +69,25 @@
                 font-size: 12px !important;
             }
         }
+
+        /* ================= ATURAN CETAK RESMI (PRINT FORMAT) ================= */
         @media print {
-            body * { visibility: hidden; }
-            #printable-area, #printable-area *, #printable-modal, #printable-modal * { visibility: visible; }
-            #printable-area, #printable-modal { position: absolute; left: 0; top: 0; width: 100%; }
+            body * { visibility: hidden !important; }
+            #printable-doc, #printable-doc * { visibility: visible !important; }
+            #printable-doc {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                display: block !important;
+                background: white !important;
+                color: black !important;
+                font-family: 'Times New Roman', Times, serif !important;
+            }
+            @page {
+                size: legal landscape;
+                margin: 8mm 10mm 10mm 10mm;
+            }
             .no-print { display: none !important; }
         }
     </style>
@@ -112,7 +127,6 @@
     <!-- ================= LAYAR LOGIN ================= -->
     <div id="login-section" class="flex min-h-screen items-center justify-center p-3 sm:p-6 bg-slate-900/10">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-center">
-            <!-- LOGO KABUPATEN KONAWE -->
             <div class="flex justify-center mb-4 select-none">
                 <img src="logo.png" alt="Logo Kab. Konawe" class="h-20 sm:h-24 w-auto object-contain">
             </div>
@@ -362,12 +376,11 @@
                 <input type="hidden" id="formJenisDokumen" value="RKBMD">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                    <!-- 4. PENCARIAN SKPD MENGGUNAKAN MODEL PERSIS SEPERTI MASTER BARANG -->
+                    <!-- MODEL PENCARIAN SKPD MENGGUNAKAN POP-UP SEPERTI NAMA BARANG -->
                     <div class="min-w-0">
                         <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
                         <div class="flex gap-1.5 min-w-0">
                             <input type="hidden" id="skpd" value="">
-                            <!-- Bebas Caret dengan onfocus="this.blur()" -->
                             <input type="text" id="skpdNamaInput" placeholder="Klik untuk cari nama SKPD..." readonly required onclick="openSkpdModal()" onfocus="this.blur()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate focus:outline-none select-none">
                             <button type="button" id="btnCariSkpd" onclick="openSkpdModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow shrink-0 cursor-pointer">
                                 <i class="fa-solid fa-search"></i>
@@ -385,7 +398,6 @@
                     <div class="md:col-span-2 min-w-0">
                         <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama Barang (Master SSH / KIB) <span class="text-rose-500">*</span></label>
                         <div class="flex gap-1.5 min-w-0">
-                            <!-- Bebas Caret dengan onfocus="this.blur()" -->
                             <input type="text" id="namaBarang" placeholder="Klik untuk cari barang..." readonly required onclick="openBarangModal()" onfocus="this.blur()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate focus:outline-none select-none">
                             <button type="button" onclick="openBarangModal()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow shrink-0 cursor-pointer">
                                 <i class="fa-solid fa-search"></i>
@@ -394,7 +406,6 @@
                     </div>
                     <div class="min-w-0">
                         <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Kode Barang</label>
-                        <!-- Bebas Caret dengan onfocus="this.blur()" dan tabindex="-1" -->
                         <input type="text" id="kodeBarang" placeholder="Terisi otomatis..." readonly tabindex="-1" onfocus="this.blur()" class="w-full max-w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none select-none cursor-default">
                     </div>
                 </div>
@@ -526,8 +537,10 @@
                     <button type="button" onclick="exportExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
                         <i class="fa-solid fa-file-excel"></i> Excel
                     </button>
-                    <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
-                        <i class="fa-solid fa-print"></i> PDF
+                    
+                    <!-- TOMBOL CETAK LANGSUNG KE FORMAT RESMI PERMENDAGRI -->
+                    <button type="button" onclick="openPrintConfigModal()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
+                        <i class="fa-solid fa-print"></i> Cetak / PDF
                     </button>
                 </div>
             </div>
@@ -591,7 +604,7 @@
 
     </div>
 
-    <!-- 4. MODAL PENCARIAN MASTER SKPD (MIRIP DENGAN MODAL MASTER BARANG) -->
+    <!-- MODAL PENCARIAN MASTER SKPD (POP-UP) -->
     <div id="skpdModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
         <div class="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-5 shadow-2xl flex flex-col max-h-[85vh] border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -647,12 +660,11 @@
                         <i class="fa-solid fa-file-excel"></i> Rekap Excel
                     </button>
                     <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
-                        <i class="fa-solid fa-print"></i> Cetak
+                        <i class="fa-solid fa-print"></i> Cetak Rekap
                     </button>
                 </div>
             </div>
 
-            <!-- 2. Tabel Rincian SKPD Sesuai Urutan Kolom Baru -->
             <div class="overflow-y-auto flex-1 custom-scroll mt-3 border border-slate-200 rounded-xl">
                 <table class="w-full text-left text-xs border-collapse">
                     <thead class="bg-slate-50 text-slate-600 sticky top-0 uppercase font-semibold border-b">
@@ -675,7 +687,7 @@
         </div>
     </div>
 
-    <!-- 3. MODAL STATUS KONEKSI PROFESIONAL (BERSIH TANPA TOMBOL ATUR URL) -->
+    <!-- MODAL STATUS KONEKSI (BERSIH & PROFESIONAL) -->
     <div id="serverStatusModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center">
             <div id="statusModalIconBox" class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
@@ -693,9 +705,90 @@
         </div>
     </div>
 
+    <!-- ================= MODAL PARAMETER TANDA TANGAN & CETAK RESMI ================= -->
+    <div id="printConfigModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
+                        <i class="fa-solid fa-file-invoice text-indigo-600"></i> Pengaturan Cetak Dokumen Resmi
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Lengkapi data pejabat penandatangan sebelum mencetak.</p>
+                </div>
+                <button type="button" onclick="closePrintConfigModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer leading-none">&times;</button>
+            </div>
+
+            <form id="formPrintConfig" onsubmit="executeOfficialPrint(event)" class="space-y-3.5 mt-3 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 uppercase mb-1">SKPD yang Dicetak</label>
+                        <select id="printTargetSkpd" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-bold text-slate-800 focus:outline-none" required></select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 uppercase mb-1">Tempat & Tanggal Dokumen</label>
+                        <input type="text" id="printTanggalDokumen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-semibold text-slate-800 focus:outline-none" required>
+                    </div>
+                </div>
+
+                <!-- Bagian Pengguna Barang (Kepala Dinas / Camat / Kabag) -->
+                <div class="p-3 bg-indigo-50/60 border border-indigo-200 rounded-2xl space-y-2">
+                    <span class="font-bold text-indigo-900 flex items-center gap-1.5 uppercase text-[10px]">
+                        <i class="fa-solid fa-user-tie text-indigo-600"></i> Pejabat Pengguna Barang (Kepala SKPD / Camat / Kabag)
+                    </span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="sm:col-span-1">
+                            <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Sebutan Jabatan</label>
+                            <input type="text" id="printKadisJabatan" placeholder="Kepala Dinas..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-medium" required>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Nama Lengkap & Gelar</label>
+                            <input type="text" id="printKadisNama" placeholder="Nama Lengkap..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-bold" required>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">NIP Pejabat</label>
+                            <input type="text" id="printKadisNip" placeholder="19XXXXXXXX XXXXXX X XXX" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-mono" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bagian Pengurus Barang Pengguna -->
+                <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-2xl space-y-2">
+                    <span class="font-bold text-amber-900 flex items-center gap-1.5 uppercase text-[10px]">
+                        <i class="fa-solid fa-user-gear text-amber-600"></i> Pengurus Barang Pengguna (Penyusun Usulan)
+                    </span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="sm:col-span-1">
+                            <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Sebutan Jabatan</label>
+                            <input type="text" id="printPengurusJabatan" value="Pengurus Barang Pengguna" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-medium" required>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Nama Lengkap & Gelar</label>
+                            <input type="text" id="printPengurusNama" placeholder="Nama Pengurus Barang..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-bold" required>
+                        </div>
+                        <div class="sm:col-span-1">
+                            <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">NIP Pengurus Barang</label>
+                            <input type="text" id="printPengurusNip" placeholder="19XXXXXXXX XXXXXX X XXX" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-mono" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closePrintConfigModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-bold cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="submit" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white py-2.5 rounded-xl font-bold shadow transition flex justify-center items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-print"></i> Pratinjau & Cetak Dokumen Resmi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= ELEMEN CETAK DOKUMEN RESMI (HANYA MUNCUL SAAT DI-PRINT) ================= -->
+    <div id="printable-doc" class="hidden"></div>
+
     <!-- JAVASCRIPT LOGIKA LENGKAP -->
     <script>
-        // URL WEB APP APPS SCRIPT ANDA
         const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbwvEHaig9sUcGjI5AGV67sCblaxtMfzFTQI2np1Sx6tGUbpheEHOm2jn6-YtrbgVSV8/exec";
         let API_URL = localStorage.getItem('custom_rkbmd_url') || DEFAULT_API_URL;
 
@@ -714,7 +807,7 @@
             }
         });
 
-        // 3. DIAGNOSTIK KONEKSI TANPA ALERT BROWSER
+        // DIAGNOSTIK KONEKSI
         async function testServerConnection() {
             showLoader("Memeriksa status respon database...");
             try {
@@ -865,7 +958,7 @@
             }
         }
 
-        // 4. POPULATE SKPD (INPUT PICKER & FILTER ADMIN)
+        // POPULATE SKPD (INPUT PICKER & FILTER ADMIN)
         function populateSkpdSelect() {
             const adminFilter = document.getElementById('adminSkpdFilter');
             const skpdHidden = document.getElementById('skpd');
@@ -897,7 +990,7 @@
             }
         }
 
-        // 4. MODAL PENCARIAN SKPD (PERSIS SEPERTI MODAL BARANG)
+        // MODAL PENCARIAN SKPD
         function openSkpdModal() {
             if (currentUser.kategori !== "Admin") return;
             document.getElementById('skpdModal').classList.remove('hidden');
@@ -1305,7 +1398,6 @@
             document.getElementById('statMasterInfo').innerText = `${masterSkpdList.length} SKPD / ${masterBarangList.length} Barang`;
         }
 
-        // 2. LOGIKA PERHITUNGAN USULAN PENGADAAN & PEMELIHARAAN PER SKPD
         function getCompliance() {
             const usageTotal = {};
             const usagePengadaan = {};
@@ -1423,7 +1515,7 @@
             }
         }
 
-        // 2. MODAL RINCIAN STATUS SKPD DENGAN KOLOM LENGKAP
+        // MODAL RINCIAN STATUS SKPD
         function openSkpdDetailsModal(filter = "SEMUA") {
             modalActiveFilter = filter;
             const c = getCompliance();
@@ -1475,7 +1567,7 @@
             document.getElementById('skpdDetailModal').classList.add('hidden');
         }
 
-        // 2. UNDUH REKAP EXCEL KEPATUHAN DENGAN URUTAN KOLOM RESMI PERSIS PERMINTAAN
+        // UNDUH REKAP EXCEL KEPATUHAN DENGAN URUTAN KOLOM RESMI
         function exportSkpdComplianceExcel() {
             const c = getCompliance();
             const rows = [
@@ -1502,17 +1594,252 @@
             const ws = XLSX.utils.aoa_to_sheet(rows);
 
             ws['!cols'] = [
-                { wch: 6 },   // No
-                { wch: 45 },  // Nama SKPD / Unit Kerja
-                { wch: 20 },  // Kategori
-                { wch: 22 },  // Status Penginputan
-                { wch: 18 },  // Usulan Pengadaan
-                { wch: 20 },  // Usulan Pemeliharaan
-                { wch: 22 }   // Jumlah Usulan Masuk
+                { wch: 6 },
+                { wch: 45 },
+                { wch: 20 },
+                { wch: 22 },
+                { wch: 18 },
+                { wch: 20 },
+                { wch: 22 }
             ];
 
             XLSX.utils.book_append_sheet(wb, ws, "Rekap_Kepatuhan_SKPD");
             XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_TA2027_${Date.now()}.xlsx`);
+        }
+
+        // ================= FITUR CETAK RESMI PERMENDAGRI =================
+        function openPrintConfigModal() {
+            const modal = document.getElementById('printConfigModal');
+            const targetSelect = document.getElementById('printTargetSkpd');
+            const tglInput = document.getElementById('printTanggalDokumen');
+            const kadisJabatan = document.getElementById('printKadisJabatan');
+            const kadisNama = document.getElementById('printKadisNama');
+            const kadisNip = document.getElementById('printKadisNip');
+            const pengurusJabatan = document.getElementById('printPengurusJabatan');
+            const pengurusNama = document.getElementById('printPengurusNama');
+            const pengurusNip = document.getElementById('printPengurusNip');
+
+            // Set Tanggal default hari ini
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const todayStr = new Date().toLocaleDateString('id-ID', options);
+            tglInput.value = `Unaaha, ${todayStr}`;
+
+            // Pilihan SKPD
+            const isAdmin = (currentUser.kategori === "Admin");
+            let skpdOptions = "";
+            if (isAdmin) {
+                masterSkpdList.forEach(s => {
+                    skpdOptions += `<option value="${s.nama}">${s.nama}</option>`;
+                });
+            } else {
+                skpdOptions = `<option value="${currentUser.nama_skpd}">${currentUser.nama_skpd}</option>`;
+            }
+            targetSelect.innerHTML = skpdOptions;
+
+            // Load data tanda tangan tersimpan
+            function loadSavedSignatures(selectedSkpd) {
+                const savedData = JSON.parse(localStorage.getItem(`rkbmd_ttd_${selectedSkpd}`) || "{}");
+                kadisJabatan.value = savedData.kadisJabatan || (selectedSkpd.toUpperCase().includes('KECAMATAN') ? 'Camat' : (selectedSkpd.toUpperCase().includes('BAGIAN') ? 'Kepala Bagian' : 'Kepala Dinas / Badan'));
+                kadisNama.value = savedData.kadisNama || '';
+                kadisNip.value = savedData.kadisNip || '';
+                pengurusJabatan.value = savedData.pengurusJabatan || 'Pengurus Barang Pengguna';
+                pengurusNama.value = savedData.pengurusNama || '';
+                pengurusNip.value = savedData.pengurusNip || '';
+            }
+
+            targetSelect.onchange = () => loadSavedSignatures(targetSelect.value);
+            loadSavedSignatures(targetSelect.value);
+
+            modal.classList.remove('hidden');
+        }
+
+        function closePrintConfigModal() {
+            document.getElementById('printConfigModal').classList.add('hidden');
+        }
+
+        function executeOfficialPrint(e) {
+            e.preventDefault();
+
+            const targetSkpd = document.getElementById('printTargetSkpd').value;
+            const tglDokumen = document.getElementById('printTanggalDokumen').value;
+            const kadisJabatan = document.getElementById('printKadisJabatan').value;
+            const kadisNama = document.getElementById('printKadisNama').value;
+            const kadisNip = document.getElementById('printKadisNip').value;
+            const pengurusJabatan = document.getElementById('printPengurusJabatan').value;
+            const pengurusNama = document.getElementById('printPengurusNama').value;
+            const pengurusNip = document.getElementById('printPengurusNip').value;
+
+            // Simpan ke localStorage agar tidak perlu ketik ulang
+            localStorage.setItem(`rkbmd_ttd_${targetSkpd}`, JSON.stringify({
+                kadisJabatan, kadisNama, kadisNip,
+                pengurusJabatan, pengurusNama, pengurusNip
+            }));
+
+            // Ambil usulan yang sesuai jenis dokumen dan SKPD
+            const rows = dataset.filter(i => i.jenis === currentTab && i.skpd === targetSkpd);
+
+            if (rows.length === 0) {
+                alert(`Tidak ada usulan ${currentTab} untuk SKPD ${targetSkpd}.`);
+                return;
+            }
+
+            const isRk = (currentTab === "RKBMD");
+            const docTitle = isRk ? "USULAN RENCANA KEBUTUHAN BARANG MILIK DAERAH (PENGADAAN)" : "USULAN RENCANA KEBUTUHAN PEMELIHARAAN BARANG MILIK DAERAH (RKPBMD)";
+            const lampiranNo = isRk ? "LAMPIRAN I PERMENDAGRI NOMOR 19 TAHUN 2016" : "LAMPIRAN II PERMENDAGRI NOMOR 19 TAHUN 2016";
+
+            let tableHtml = "";
+
+            if (isRk) {
+                // TABEL RESMI RKBMD (12 KOLOM)
+                tableHtml = `
+                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt; text-align: left;" border="1">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 4px;">NO</th>
+                                <th style="border: 1px solid black; padding: 4px;">PROGRAM / KEGIATAN / OUTPUT</th>
+                                <th style="border: 1px solid black; padding: 4px;">KODE BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">NAMA BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">JUMLAH</th>
+                                <th style="border: 1px solid black; padding: 4px;">SATUAN</th>
+                                <th style="border: 1px solid black; padding: 4px;">KEBUTUHAN MAKSIMUM</th>
+                                <th style="border: 1px solid black; padding: 4px;">OPTIMALISASI</th>
+                                <th style="border: 1px solid black; padding: 4px;">KEBUTUHAN RIIL</th>
+                                <th style="border: 1px solid black; padding: 4px;">KETERANGAN</th>
+                            </tr>
+                            <tr style="background-color: #f8fafc; text-align: center; font-size: 7.5pt;">
+                                <td style="border: 1px solid black; padding: 2px;">1</td>
+                                <td style="border: 1px solid black; padding: 2px;">2</td>
+                                <td style="border: 1px solid black; padding: 2px;">3</td>
+                                <td style="border: 1px solid black; padding: 2px;">4</td>
+                                <td style="border: 1px solid black; padding: 2px;">5</td>
+                                <td style="border: 1px solid black; padding: 2px;">6</td>
+                                <td style="border: 1px solid black; padding: 2px;">7</td>
+                                <td style="border: 1px solid black; padding: 2px;">8</td>
+                                <td style="border: 1px solid black; padding: 2px;">9</td>
+                                <td style="border: 1px solid black; padding: 2px;">10</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows.map((r, idx) => `
+                                <tr>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${idx + 1}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${r.programKegiatanOutput || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-family: monospace;">${r.kodeBarang || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-weight: bold;">${r.namaBarang}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.satuan}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.kebutuhanMaksimum || 0}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.optimalisasi || 0}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${r.kebutuhanRiil || 0}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${r.keterangan || '-'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                // TABEL RESMI RKPBMD (13 KOLOM)
+                tableHtml = `
+                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt; text-align: left;" border="1">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 4px;">NO</th>
+                                <th style="border: 1px solid black; padding: 4px;">PROGRAM / KEGIATAN / OUTPUT</th>
+                                <th style="border: 1px solid black; padding: 4px;">KODE BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">NAMA BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">JUMLAH KIB</th>
+                                <th style="border: 1px solid black; padding: 4px;">SATUAN</th>
+                                <th style="border: 1px solid black; padding: 4px;">STATUS BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">KONDISI</th>
+                                <th style="border: 1px solid black; padding: 4px;">NAMA PEMELIHARAAN</th>
+                                <th style="border: 1px solid black; padding: 4px;">JUMLAH DIUSULKAN</th>
+                                <th style="border: 1px solid black; padding: 4px;">KETERANGAN</th>
+                            </tr>
+                            <tr style="background-color: #f8fafc; text-align: center; font-size: 7.5pt;">
+                                <td style="border: 1px solid black; padding: 2px;">1</td>
+                                <td style="border: 1px solid black; padding: 2px;">2</td>
+                                <td style="border: 1px solid black; padding: 2px;">3</td>
+                                <td style="border: 1px solid black; padding: 2px;">4</td>
+                                <td style="border: 1px solid black; padding: 2px;">5</td>
+                                <td style="border: 1px solid black; padding: 2px;">6</td>
+                                <td style="border: 1px solid black; padding: 2px;">7</td>
+                                <td style="border: 1px solid black; padding: 2px;">8</td>
+                                <td style="border: 1px solid black; padding: 2px;">9</td>
+                                <td style="border: 1px solid black; padding: 2px;">10</td>
+                                <td style="border: 1px solid black; padding: 2px;">11</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows.map((r, idx) => `
+                                <tr>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${idx + 1}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${r.programKegiatanOutput || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-family: monospace;">${r.kodeBarang || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-weight: bold;">${r.namaBarang}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.jumlahKib || r.jumlahUsulan}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.satuan}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${r.statusBarang || 'Dipergunakan Sendiri'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.kondisiBarang || 'Baik'}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${r.namaPemeliharaan || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${r.keterangan || '-'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            // SUSUN HALAMAN DOKUMEN CETAK RESMI
+            const docContainer = document.getElementById('printable-doc');
+            docContainer.innerHTML = `
+                <div style="padding: 10px; font-family: 'Times New Roman', Times, serif; line-height: 1.3;">
+                    <!-- HEADER DOKUMEN -->
+                    <div style="text-align: right; font-size: 8pt; font-weight: bold; margin-bottom: 5px;">
+                        ${lampiranNo}
+                    </div>
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <h2 style="font-size: 13pt; font-weight: bold; margin: 0; text-transform: uppercase;">PEMERINTAH KABUPATEN KONAWE</h2>
+                        <h3 style="font-size: 11pt; font-weight: bold; margin: 2px 0; text-transform: uppercase;">${docTitle}</h3>
+                        <h4 style="font-size: 10pt; font-weight: bold; margin: 2px 0;">TAHUN ANGGARAN 2027</h4>
+                    </div>
+
+                    <div style="font-size: 9.5pt; font-weight: bold; margin-bottom: 8px;">
+                        SKPD / UNIT KERJA : ${targetSkpd.toUpperCase()}
+                    </div>
+
+                    <!-- TABEL ISI -->
+                    ${tableHtml}
+
+                    <!-- KOLOM TANDA TANGAN (KIRI & KANAN) -->
+                    <div style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 10pt; page-break-inside: avoid;">
+                        <!-- Kiri: Pengurus Barang -->
+                        <div style="text-align: center; width: 40%;">
+                            <div>Mengetahui / Dibuat Oleh:</div>
+                            <div style="font-weight: bold;">${pengurusJabatan}</div>
+                            <div style="height: 65px;"></div>
+                            <div style="font-weight: bold; text-decoration: underline;">${pengurusNama}</div>
+                            <div>NIP. ${pengurusNip}</div>
+                        </div>
+
+                        <!-- Kanan: Kepala SKPD / Camat -->
+                        <div style="text-align: center; width: 40%;">
+                            <div>${tglDokumen}</div>
+                            <div style="font-weight: bold;">${kadisJabatan}</div>
+                            <div style="height: 65px;"></div>
+                            <div style="font-weight: bold; text-decoration: underline;">${kadisNama}</div>
+                            <div>NIP. ${kadisNip}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            closePrintConfigModal();
+
+            // Panggil dialog cetak bawaan browser
+            setTimeout(() => {
+                window.print();
+            }, 300);
         }
 
         // TOAST, LOADER & EXCEL TABEL USULAN
