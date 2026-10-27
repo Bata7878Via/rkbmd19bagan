@@ -20,6 +20,19 @@
         }
         .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
+        
+        /* Hilangkan I-beam cursor dan seleksi teks liar */
+        .select-none {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        input[readonly], textarea[readonly] {
+            caret-color: transparent !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            cursor: pointer !important;
+        }
+
         .donut-segment {
             transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease, stroke-width 0.2s ease, opacity 0.2s ease;
         }
@@ -56,7 +69,7 @@
 <body class="bg-slate-100 text-slate-800 min-h-screen relative pb-12 overflow-x-hidden">
 
     <!-- OVERLAY LOADING SINKRONISASI -->
-    <div id="globalLoader" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex flex-col items-center justify-center text-white hidden">
+    <div id="globalLoader" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex flex-col items-center justify-center text-white hidden select-none">
         <div class="bg-slate-800 p-5 sm:p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-3 border border-slate-700 max-w-xs text-center">
             <i class="fa-solid fa-circle-notch fa-spin text-3xl sm:text-4xl text-blue-400"></i>
             <span id="globalLoaderMsg" class="text-xs sm:text-sm font-bold tracking-wide">Menghubungkan Database...</span>
@@ -64,23 +77,23 @@
     </div>
 
     <!-- NOTIFIKASI TOAST -->
-    <div id="toastNotification" class="fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform -translate-y-28 opacity-0 pointer-events-none">
+    <div id="toastNotification" class="fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform -translate-y-28 opacity-0 pointer-events-none select-none">
         <div id="toastIconBox" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
             <i id="toastIcon" class="fa-solid fa-check text-base"></i>
         </div>
         <div>
             <h4 id="toastTitle" class="text-[11px] font-bold uppercase tracking-wider text-emerald-100">Informasi Database</h4>
-            <p id="toastMessage" class="text-xs sm:text-sm font-semibold">Berhasil Disimpan Didatabase</p>
+            <p id="toastMessage" class="text-xs sm:text-sm font-semibold">Data Berhasil Di simpan Di Database</p>
         </div>
     </div>
 
-    <!-- BANNER PERINGATAN KONEKSI JIKA ERROR (DIAGNOSTIK OTOMATIS) -->
-    <div id="connectionErrorBanner" class="hidden bg-rose-600 text-white p-3 text-xs font-semibold flex justify-between items-center px-4 sticky top-0 z-40 shadow-md">
+    <!-- BANNER PERINGATAN KONEKSI JIKA ERROR -->
+    <div id="connectionErrorBanner" class="hidden bg-rose-600 text-white p-3 text-xs font-semibold flex justify-between items-center px-4 sticky top-0 z-40 shadow-md select-none">
         <div class="flex items-center gap-2">
             <i class="fa-solid fa-triangle-exclamation text-base animate-pulse"></i>
             <span id="connectionErrorText">Koneksi ke database bermasalah.</span>
         </div>
-        <button type="button" onclick="testServerConnection()" class="bg-white text-rose-700 px-3 py-1 rounded-lg font-bold text-[11px] hover:bg-rose-50">
+        <button type="button" onclick="testServerConnection()" class="bg-white text-rose-700 px-3 py-1 rounded-lg font-bold text-[11px] hover:bg-rose-50 cursor-pointer">
             Uji Ulang Koneksi
         </button>
     </div>
@@ -88,44 +101,44 @@
     <!-- ================= LAYAR LOGIN ================= -->
     <div id="login-section" class="flex min-h-screen items-center justify-center p-3 sm:p-6 bg-slate-900/10">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-center">
-            <!-- LOGO KABUPATEN KONAWE (TRANSPARAN TANPA BORDER) -->
-            <div class="flex justify-center mb-4">
+            <!-- LOGO KABUPATEN KONAWE -->
+            <div class="flex justify-center mb-4 select-none">
                 <img src="logo.png" alt="Logo Kab. Konawe" class="h-20 sm:h-24 w-auto object-contain">
             </div>
             
-            <span class="px-3 py-1 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">Permendagri No. 19/2016</span>
-            <h1 class="text-xl sm:text-2xl font-black text-slate-800 mt-2">Sistem E-RKBMD & RKPBMD</h1>
-            <p class="text-xs text-slate-500 mb-6">Pemerintah Kabupaten Konawe &bull; TA. 2027</p>
+            <span class="px-3 py-1 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide select-none">Permendagri No. 19/2016</span>
+            <h1 class="text-xl sm:text-2xl font-black text-slate-800 mt-2 select-none">Sistem E-RKBMD & RKPBMD</h1>
+            <p class="text-xs text-slate-500 mb-6 select-none">Pemerintah Kabupaten Konawe &bull; TA. 2027</p>
 
             <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 text-left">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Username SKPD / Admin</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1 select-none">Username SKPD / Admin</label>
                     <div class="relative">
                         <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-400 text-xs"></i>
                         <input type="text" id="login-user" required placeholder="Ketik username..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1 select-none">Password</label>
                     <div class="relative">
                         <i class="fa-solid fa-lock absolute left-3.5 top-3 text-slate-400 text-xs"></i>
                         <input type="password" id="login-pass" required placeholder="Ketik password..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
-                <button type="submit" id="btn-login" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow-md text-xs sm:text-sm uppercase tracking-wide cursor-pointer active:scale-95">
+                <button type="submit" id="btn-login" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow-md text-xs sm:text-sm uppercase tracking-wide cursor-pointer active:scale-95 select-none">
                     Masuk Ke Sistem
                 </button>
             </form>
 
-            <div id="login-alert" class="mt-4 text-center text-xs font-bold text-rose-500 p-2.5 bg-rose-50 border border-rose-200 rounded-xl hidden"></div>
+            <div id="login-alert" class="mt-4 text-center text-xs font-bold text-rose-500 p-2.5 bg-rose-50 border border-rose-200 rounded-xl hidden select-none"></div>
 
-            <div class="mt-4 flex justify-center">
-                <button type="button" onclick="testServerConnection()" class="text-[11px] text-blue-600 hover:underline font-semibold flex items-center gap-1">
+            <div class="mt-4 flex justify-center select-none">
+                <button type="button" onclick="testServerConnection()" class="text-[11px] text-blue-600 hover:underline font-semibold flex items-center gap-1 cursor-pointer">
                     <i class="fa-solid fa-network-wired"></i> Cek Status Koneksi Server
                 </button>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
+            <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-400 font-medium select-none">
                 &copy;Copyright 2026 Irman_Aset. All rights reserved
             </div>
         </div>
@@ -135,7 +148,7 @@
     <div id="app-section" class="hidden p-2 sm:p-4 md:p-6 space-y-4 sm:space-y-6 max-w-7xl mx-auto min-w-0">
         
         <!-- HEADER UTAMA -->
-        <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-4 sm:p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-4 sm:p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 select-none">
             <div class="flex items-center gap-3 min-w-0">
                 <img src="logo.png" alt="Logo Kab. Konawe" class="h-12 sm:h-14 w-auto object-contain shrink-0">
                 <div class="min-w-0">
@@ -159,7 +172,7 @@
         </header>
 
         <!-- KARTU STATISTIK -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 select-none">
             <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
                 <span class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Total Usulan Masuk</span>
                 <div class="text-lg sm:text-2xl font-black text-slate-800 mt-1" id="statTotalItems">0</div>
@@ -186,22 +199,28 @@
         <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
                 <div>
-                    <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-2 select-none">
                         <span class="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-sm">
                             <i class="fa-solid fa-chart-pie"></i>
                         </span>
                         <h2 class="font-bold text-slate-800 text-sm sm:text-base">Monitoring Kepatuhan Penginputan SKPD</h2>
                     </div>
-                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">Dihitung otomatis dari usulan masuk terhadap daftar SKPD terdaftar.</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 select-none">
+                        Dihitung otomatis dari usulan masuk terhadap daftar SKPD terdaftar.
+                    </p>
+                    <p class="text-[11px] sm:text-xs text-indigo-600 font-semibold flex items-center gap-1.5 mt-1 select-none">
+                        <i class="fa-solid fa-hand-pointer text-indigo-500 animate-pulse"></i>
+                        Sentuh kartu di bawah ini untuk melihat rincian unit yang sudah atau belum menginput usulan.
+                    </p>
                 </div>
-                <button type="button" onclick="openSkpdDetailsModal()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer active:scale-95 w-full sm:w-auto justify-center">
+                <button type="button" onclick="openSkpdDetailsModal()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer active:scale-95 w-full sm:w-auto justify-center select-none">
                     <i class="fa-solid fa-list-check"></i> Rincian Status SKPD
                 </button>
             </div>
 
-            <!-- 4 Kartu Kategori SKPD -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
-                <div onclick="openSkpdDetailsModal('DINAS_BADAN')" class="p-3 bg-blue-50/70 border border-blue-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
+            <!-- 4 Kartu Kategori SKPD (Sentuh untuk melihat detail) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 select-none">
+                <div onclick="openSkpdDetailsModal('DINAS_BADAN')" class="p-3 bg-blue-50/70 border border-blue-200 rounded-xl cursor-pointer hover:shadow-md hover:border-blue-300 transition active:scale-95">
                     <div class="flex items-center justify-between text-blue-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Badan & Dinas</span>
                         <i class="fa-solid fa-building text-xs"></i>
@@ -213,7 +232,7 @@
                     <div class="mt-1 text-[10px] font-semibold text-blue-600" id="metricDinasPercent">0% Selesai</div>
                 </div>
 
-                <div onclick="openSkpdDetailsModal('KECAMATAN')" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('KECAMATAN')" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl cursor-pointer hover:shadow-md hover:border-emerald-300 transition active:scale-95">
                     <div class="flex items-center justify-between text-emerald-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Kecamatan</span>
                         <i class="fa-solid fa-map-location-dot text-xs"></i>
@@ -225,7 +244,7 @@
                     <div class="mt-1 text-[10px] font-semibold text-emerald-600" id="metricKecamatanPercent">0% Selesai</div>
                 </div>
 
-                <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md hover:border-purple-300 transition active:scale-95">
                     <div class="flex items-center justify-between text-purple-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Bagian (Setda)</span>
                         <i class="fa-solid fa-landmark text-xs"></i>
@@ -237,7 +256,7 @@
                     <div class="mt-1 text-[10px] font-semibold text-purple-600" id="metricBagianPercent">0% Selesai</div>
                 </div>
 
-                <div onclick="openSkpdDetailsModal('BELUM')" class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
+                <div onclick="openSkpdDetailsModal('BELUM')" class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl cursor-pointer hover:shadow-md hover:border-rose-300 transition active:scale-95">
                     <div class="flex items-center justify-between text-rose-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Belum Input</span>
                         <i class="fa-solid fa-triangle-exclamation text-xs text-rose-500"></i>
@@ -250,8 +269,9 @@
                 </div>
             </div>
 
-            <!-- Dua Diagram Bulat SVG Murni dengan Indikator Legenda Warna -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+            <!-- Dua Diagram Bulat SVG Murni dengan Indikator Interaktif -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1 select-none">
+                <!-- DIAGRAM 1: STATUS SELURUH SKPD -->
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
                     <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Status Penginputan Seluruh SKPD</h3>
                     <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
@@ -265,22 +285,23 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-4 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full justify-center">
-                        <span class="inline-flex items-center gap-1.5 text-emerald-700 cursor-pointer" onclick="openSkpdDetailsModal('SUDAH')">
+                        <span class="inline-flex items-center gap-1.5 text-emerald-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('SUDAH')">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Sudah: <strong id="legendSudahVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1.5 text-rose-700 cursor-pointer" onclick="openSkpdDetailsModal('BELUM')">
+                        <span class="inline-flex items-center gap-1.5 text-rose-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('BELUM')">
                             <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Belum: <strong id="legendBelumVal">0</strong>
                         </span>
                     </div>
                 </div>
 
+                <!-- DIAGRAM 2: KOMPOSISI UNIT YANG SUDAH INPUT (DILENGKAPI AKSES KLIK) -->
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
                     <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Komposisi Unit yang Sudah Input</h3>
                     <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
                         <svg viewBox="0 0 160 160" class="w-full h-full transform -rotate-90">
-                            <circle id="donutCatDinas" cx="80" cy="80" r="55" fill="transparent" stroke="#3b82f6" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment"></circle>
-                            <circle id="donutCatKec" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment"></circle>
-                            <circle id="donutCatBagian" cx="80" cy="80" r="55" fill="transparent" stroke="#a855f7" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment"></circle>
+                            <circle id="donutCatDinas" cx="80" cy="80" r="55" fill="transparent" stroke="#3b82f6" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('DINAS_BADAN')" title="Klik lihat Badan & Dinas"></circle>
+                            <circle id="donutCatKec" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('KECAMATAN')" title="Klik lihat Kecamatan"></circle>
+                            <circle id="donutCatBagian" cx="80" cy="80" r="55" fill="transparent" stroke="#a855f7" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('BAGIAN')" title="Klik lihat Bagian"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                             <span id="svgCategoryTotal" class="text-xl sm:text-2xl font-black text-slate-800">0</span>
@@ -288,13 +309,13 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full">
-                        <span class="inline-flex items-center gap-1 text-blue-700">
+                        <span class="inline-flex items-center gap-1 text-blue-700 cursor-pointer hover:underline p-1 rounded transition" onclick="openSkpdDetailsModal('DINAS_BADAN')">
                             <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Dinas/Badan: <strong id="legendDinasVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1 text-emerald-700">
+                        <span class="inline-flex items-center gap-1 text-emerald-700 cursor-pointer hover:underline p-1 rounded transition" onclick="openSkpdDetailsModal('KECAMATAN')">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Kecamatan: <strong id="legendKecVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1 text-purple-700">
+                        <span class="inline-flex items-center gap-1 text-purple-700 cursor-pointer hover:underline p-1 rounded transition" onclick="openSkpdDetailsModal('BAGIAN')">
                             <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Bagian: <strong id="legendBagianVal">0</strong>
                         </span>
                     </div>
@@ -305,7 +326,7 @@
         <!-- ================= 1. FORMULIR PENGINPUTAN ================= -->
         <div id="formCardContainer" class="bg-white p-3.5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 transition-colors min-w-0">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-100 pb-3 mb-4 gap-2">
-                <div class="flex items-center gap-2 min-w-0">
+                <div class="flex items-center gap-2 min-w-0 select-none">
                     <div id="formIconContainer" class="p-2 sm:p-2.5 bg-indigo-50 text-indigo-600 rounded-xl shrink-0">
                         <i id="formIcon" class="fa-solid fa-pen-nib text-base"></i>
                     </div>
@@ -315,7 +336,7 @@
                     </div>
                 </div>
 
-                <div class="p-1 bg-slate-100 rounded-xl border border-slate-200 flex gap-1 w-full sm:w-auto">
+                <div class="p-1 bg-slate-100 rounded-xl border border-slate-200 flex gap-1 w-full sm:w-auto select-none">
                     <button type="button" onclick="switchMode('RKBMD')" id="formTabRkbmd" class="flex-1 sm:flex-none px-3.5 py-1.5 text-center rounded-lg bg-indigo-600 text-white font-bold text-xs shadow transition cursor-pointer">
                         <i class="fa-solid fa-cart-plus mr-1"></i> RKBMD Pengadaan
                     </button>
@@ -331,66 +352,72 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                     <div class="min-w-0">
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
                         <select id="skpd" class="w-full max-w-full min-w-0 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none truncate" required></select>
                     </div>
 
                     <div class="min-w-0">
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">PROGRAM / KEGIATAN / OUTPUT <span class="text-rose-500">*</span></label>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">PROGRAM / KEGIATAN / OUTPUT <span class="text-rose-500">*</span></label>
                         <textarea id="programKegiatanOutput" rows="1" placeholder="Program / Kegiatan / Output..." class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:bg-white focus:outline-none" required></textarea>
                     </div>
                 </div>
 
                 <div class="p-3 bg-blue-50/50 rounded-xl border border-blue-100 grid grid-cols-1 md:grid-cols-3 gap-3 min-w-0">
                     <div class="md:col-span-2 min-w-0">
-                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate">Nama Barang (Master SSH / KIB) <span class="text-rose-500">*</span></label>
+                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama Barang (Master SSH / KIB) <span class="text-rose-500">*</span></label>
                         <div class="flex gap-1.5 min-w-0">
-                            <input type="text" id="namaBarang" placeholder="Klik untuk cari barang..." readonly required onclick="openBarangModal()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate">
-                            <button type="button" onclick="openBarangModal()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow shrink-0">
+                            <!-- BEBAS I-BEAM CURSOR DENGAN CARET TRANSPARENT -->
+                            <input type="text" id="namaBarang" placeholder="Klik untuk cari barang..." readonly required onclick="openBarangModal()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate focus:outline-none">
+                            <button type="button" onclick="openBarangModal()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow shrink-0 cursor-pointer">
                                 <i class="fa-solid fa-search"></i>
                             </button>
                         </div>
                     </div>
                     <div class="min-w-0">
-                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate">Kode Barang</label>
-                        <input type="text" id="kodeBarang" placeholder="Terisi otomatis..." readonly class="w-full max-w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono">
+                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Kode Barang</label>
+                        <input type="text" id="kodeBarang" placeholder="Terisi otomatis..." readonly class="w-full max-w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none">
                     </div>
                 </div>
 
+                <!-- SECTION RKBMD DENGAN PENGUNCI LOGIKA VALIDASI -->
                 <div id="sectionRkbmdBox" class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200 space-y-3 min-w-0">
-                    <div class="text-[11px] font-bold text-indigo-950 flex items-center gap-1.5">
-                        <i class="fa-solid fa-calculator text-indigo-600"></i> Kebutuhan Riil: [Maksimum] - [Optimalisasi]
+                    <div class="text-[11px] font-bold text-indigo-950 flex items-center justify-between select-none flex-wrap gap-1">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-calculator text-indigo-600"></i> Rumus Permendagri: Kebutuhan Riil = [Kebutuhan Maksimum] - [Optimalisasi]
+                        </span>
+                        <span id="riilValidationStatus" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-200 text-slate-700">Menunggu Input</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="min-w-0">
-                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1 truncate">Kebutuhan Maksimum</label>
-                            <input type="number" id="kebutuhanMaksimum" min="0" value="0" oninput="calcKebutuhanRiil()" class="w-full bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-indigo-900">
+                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1 truncate select-none">Kebutuhan Maksimum</label>
+                            <input type="number" id="kebutuhanMaksimum" min="0" value="0" oninput="calcKebutuhanRiil()" class="w-full bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-xs font-bold text-indigo-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         </div>
                         <div class="min-w-0">
-                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1 truncate">Optimalisasi</label>
-                            <input type="number" id="optimalisasi" min="0" value="0" oninput="calcKebutuhanRiil()" class="w-full bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-xs font-bold">
+                            <label class="block text-[10px] font-bold text-indigo-900 uppercase mb-1 truncate select-none">Optimalisasi (Barang Existing)</label>
+                            <input type="number" id="optimalisasi" min="0" value="0" oninput="calcKebutuhanRiil()" class="w-full bg-white border border-indigo-200 rounded-lg px-2.5 py-1.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         </div>
-                        <div class="p-2.5 bg-indigo-900 text-white rounded-lg flex flex-col justify-center">
-                            <span class="text-[9px] font-bold uppercase text-indigo-200">Kebutuhan Riil:</span>
+                        <div class="p-2.5 bg-indigo-950 text-white rounded-lg flex flex-col justify-center select-none shadow-sm">
+                            <span class="text-[9px] font-bold uppercase text-indigo-200">Kebutuhan Riil (Batas Usulan):</span>
                             <span id="labelKebutuhanRiil" class="text-base font-black text-amber-300">0</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- SECTION RKPBMD -->
                 <div id="sectionRkpbmBox" class="hidden p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-3 min-w-0">
-                    <div class="text-[11px] font-bold text-amber-950 flex items-center gap-1.5">
+                    <div class="text-[11px] font-bold text-amber-950 flex items-center gap-1.5 select-none">
                         <i class="fa-solid fa-wrench text-amber-600"></i> Detail Pemeliharaan KIB
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div class="min-w-0">
-                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate">Status Barang</label>
+                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate select-none">Status Barang</label>
                             <select id="rkpbmStatus" class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-semibold truncate">
                                 <option value="Dipergunakan Sendiri">Dipergunakan Sendiri</option>
                                 <option value="Pinjam Pakai">Pinjam Pakai</option>
                             </select>
                         </div>
                         <div class="min-w-0">
-                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate">Kondisi Barang</label>
+                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate select-none">Kondisi Barang</label>
                             <select id="rkpbmKondisi" onchange="validateRkpbmKondisi()" class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800 truncate">
                                 <option value="Baik">Baik (B)</option>
                                 <option value="Rusak Ringan">Rusak Ringan (RR)</option>
@@ -398,21 +425,21 @@
                             </select>
                         </div>
                         <div class="min-w-0">
-                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate">Nama Pemeliharaan</label>
-                            <input type="text" id="namaPemeliharaan" placeholder="Servis berkala, suku cadang..." class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs">
+                            <label class="block text-[10px] font-bold text-amber-900 uppercase mb-1 truncate select-none">Nama Pemeliharaan</label>
+                            <input type="text" id="namaPemeliharaan" placeholder="Servis berkala, perbaikan..." class="w-full max-w-full bg-white border border-amber-300 rounded-lg px-2.5 py-1.5 text-xs">
                         </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 min-w-0">
                     <div class="min-w-0">
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">
                             <span id="labelUsulanQty">Jumlah Usulan</span> <span class="text-rose-500">*</span>
                         </label>
-                        <input type="number" id="jumlahUsulan" min="1" value="1" class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-blue-700 focus:bg-white focus:outline-none" required>
+                        <input type="number" id="jumlahUsulan" min="1" value="1" oninput="validateInputLock()" class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-blue-700 focus:bg-white focus:outline-none" required>
                     </div>
                     <div class="min-w-0">
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">Satuan <span class="text-rose-500">*</span></label>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Satuan <span class="text-rose-500">*</span></label>
                         <select id="satuan" class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none truncate" required>
                             <option value="Unit">Unit</option>
                             <option value="Pcs">Pcs</option>
@@ -428,20 +455,25 @@
                         </select>
                     </div>
                     <div class="min-w-0">
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate">Keterangan</label>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Keterangan</label>
                         <input type="text" id="keterangan" placeholder="Keterangan spesifikasi..." class="w-full max-w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs focus:bg-white focus:outline-none">
                     </div>
                 </div>
 
-                <div id="errorValidationMsg" class="text-xs font-bold text-rose-600 hidden"></div>
+                <!-- PESAN PERINGATAN LOGIKA VALIDASI -->
+                <div id="errorValidationMsg" class="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-700 hidden flex items-center gap-2 select-none">
+                    <i class="fa-solid fa-circle-exclamation shrink-0 text-base"></i>
+                    <span id="errorValidationText">Kebutuhan riil tidak valid!</span>
+                </div>
 
-                <div class="flex space-x-2 pt-2">
+                <div class="flex space-x-2 pt-2 select-none">
                     <button type="button" id="btnCancel" onclick="resetForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs py-2 rounded-xl transition cursor-pointer active:scale-95">
                         Batal
                     </button>
+                    <!-- TOMBOL KIRIM DAN SIMPAN -->
                     <button type="submit" id="btnSubmit" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs py-2.5 rounded-xl shadow transition flex justify-center items-center gap-1.5 cursor-pointer active:scale-95">
-                        <i id="btnSubmitIcon" class="fa-solid fa-cloud-arrow-up"></i>
-                        <span id="btnSubmitText">Simpan Didatabase</span>
+                        <i id="btnSubmitIcon" class="fa-solid fa-paper-plane"></i>
+                        <span id="btnSubmitText">Kirim dan Simpan</span>
                     </button>
                 </div>
             </form>
@@ -450,7 +482,7 @@
         <!-- ================= 2. TABEL DAFTAR USULAN ================= -->
         <div class="bg-white p-3.5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4 min-w-0">
             <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 select-none">
                     <button type="button" onclick="switchMode('RKBMD')" id="tabRkbmdBtn" class="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-xs cursor-pointer shadow">
                         <i class="fa-solid fa-cart-plus mr-1"></i> Usulan RKBMD
                     </button>
@@ -459,7 +491,7 @@
                     </button>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-2 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 min-w-0 select-none">
                     <div id="adminSkpdFilterWrapper" class="hidden w-full sm:w-auto min-w-0">
                         <select id="adminSkpdFilter" onchange="renderTables()" class="w-full sm:w-56 max-w-full bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-amber-900 focus:outline-none truncate">
                             <option value="SEMUA">-- Semua SKPD (Admin) --</option>
@@ -483,7 +515,7 @@
             <!-- TABEL RKBMD (12 KOLOM) -->
             <div id="containerTableRkbmd" class="overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
-                    <thead class="bg-indigo-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10">
+                    <thead class="bg-indigo-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
                         <tr>
                             <th class="p-2.5 border border-indigo-800">No</th>
                             <th class="p-2.5 border border-indigo-800">Nama SKPD</th>
@@ -508,7 +540,7 @@
             <!-- TABEL RKPBMD (13 KOLOM) -->
             <div id="containerTableRkpbm" class="hidden overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkpbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
-                    <thead class="bg-amber-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10">
+                    <thead class="bg-amber-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
                         <tr>
                             <th class="p-2.5 border border-amber-800">No</th>
                             <th class="p-2.5 border border-amber-800">Nama SKPD</th>
@@ -531,7 +563,7 @@
                 </table>
             </div>
 
-            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-1 text-center sm:text-left">
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-1 text-center sm:text-left select-none">
                 <span id="labelTotalRecords">0 data usulan</span>
                 <span class="font-semibold text-slate-500">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
             </div>
@@ -540,7 +572,7 @@
     </div>
 
     <!-- MODAL PENCARIAN MASTER BARANG -->
-    <div id="barangModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
+    <div id="barangModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
         <div class="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-5 shadow-2xl flex flex-col max-h-[85vh] border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
@@ -558,7 +590,7 @@
     </div>
 
     <!-- MODAL RINCIAN STATUS SKPD -->
-    <div id="skpdDetailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
+    <div id="skpdDetailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
         <div class="bg-white rounded-2xl max-w-3xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] border border-slate-100" id="printable-modal">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                 <div>
@@ -587,7 +619,7 @@
                     <thead class="bg-slate-50 text-slate-600 sticky top-0 uppercase font-semibold border-b">
                         <tr>
                             <th class="p-2.5 text-center w-12">No</th>
-                            <th class="p-2.5">Nama SKPD</th>
+                            <th class="p-2.5">Nama SKPD / Unit Kerja</th>
                             <th class="p-2.5 text-center w-28">Kategori</th>
                             <th class="p-2.5 text-center w-28">Status</th>
                             <th class="p-2.5 text-center w-28">Jml Usulan</th>
@@ -597,14 +629,44 @@
                 </table>
             </div>
             <div class="pt-3 border-t text-right no-print">
-                <button type="button" onclick="closeSkpdDetailsModal()" class="bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Tutup</button>
+                <button type="button" onclick="closeSkpdDetailsModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DIAGNOSTIK STATUS KONEKSI (PROFESIONAL TANPA ALERT BROWSER) -->
+    <div id="serverStatusModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-center relative">
+            <div id="statusModalIconBox" class="w-16 h-16 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl mb-4 shadow-inner">
+                <i id="statusModalIcon" class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 id="statusModalTitle" class="text-base sm:text-lg font-black text-slate-800">Status Server Database</h3>
+            <p id="statusModalDesc" class="text-xs text-slate-600 mt-2 leading-relaxed font-medium">
+                Koneksi ke Server Database E-RKBMD & RKPBMD Pemerintah Kabupaten Konawe terverifikasi aman, stabil, dan siap digunakan.
+            </p>
+
+            <div id="statusModalConfigBox" class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hidden">
+                <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1">Perbarui Tautan Endpoint Server (URL):</label>
+                <input type="text" id="statusCustomUrlInput" class="w-full px-2.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-mono focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <div class="mt-2 text-right">
+                    <button type="button" onclick="saveCustomEndpoint()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-xs font-bold cursor-pointer">Simpan Tautan</button>
+                </div>
+            </div>
+
+            <div class="mt-6 flex gap-2">
+                <button type="button" id="statusBtnToggleUrl" onclick="toggleConfigEndpoint()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                    Atur URL
+                </button>
+                <button type="button" onclick="closeServerStatusModal()" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow">
+                    Selesai
+                </button>
             </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIKA LENGKAP -->
     <script>
-        // URL WEB APP APPS SCRIPT ANDA
+        // URL WEB APP APPS SCRIPT
         const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbyA1r8QMabJDhTlZYblqM4bE2eSh1N82alUZRjHMFf_6zh9wzOoJ6IrtP0KSSugBsU/exec";
         let API_URL = localStorage.getItem('custom_rkbmd_url') || DEFAULT_API_URL;
 
@@ -623,28 +685,81 @@
             }
         });
 
-        // FUNGSI DIAGNOSTIK KONEKSI (CEK LANGSUNG KE SERVER)
+        // 1. DIAGNOSTIK KONEKSI TANPA ALERT BROWSER (PROFESIONAL & MODERN)
         async function testServerConnection() {
-            showLoader("Menguji sambungan server database...");
-            const alertBox = document.getElementById('login-alert');
+            showLoader("Memeriksa status respon server database...");
             try {
                 const resp = await fetch(`${API_URL}?action=ping`);
                 const res = await resp.json();
                 hideLoader();
+
                 if (res.status === "success") {
-                    alert(`✅ KONEKSI SUKSES!\n\nNama File: ${res.spreadsheetTitle}\nTab Terdeteksi: ${res.daftarTab.join(', ')}`);
                     hideConnectionError();
+                    openServerStatusModal(
+                        true,
+                        "Koneksi Server Terverifikasi",
+                        "Sistem E-RKBMD & RKPBMD Pemerintah Kabupaten Konawe telah terhubung dengan Pusat Database Cloud secara optimal. Layanan beroperasi normal dan siap menerima penginputan data usulan."
+                    );
                 } else {
-                    showConnectionError("Server merespon dengan error: " + res.message);
+                    openServerStatusModal(
+                        false,
+                        "Respon Server Mengalami Kendala",
+                        "Server merespon dengan status peringatan: " + (res.message || "Gagal sinkronisasi data.")
+                    );
                 }
             } catch (err) {
                 hideLoader();
-                const newUrl = prompt(`❌ GAGAL TERHUBUNG KE SERVER APPS SCRIPT!\n\nPenyebab paling sering: Deployment belum disetel ke 'Anyone' atau URL Apps Script berubah saat deployment baru.\n\nJika Anda punya URL deployment baru, masukkan di sini (atau tekan Batal):`, API_URL);
-                if (newUrl && newUrl.startsWith('https://script.google.com')) {
-                    API_URL = newUrl.trim();
-                    localStorage.setItem('custom_rkbmd_url', API_URL);
-                    alert("URL diperbarui! Silakan klik 'Cek Status Koneksi Server' kembali.");
-                }
+                openServerStatusModal(
+                    false,
+                    "Gagal Terhubung Ke Server",
+                    "Aplikasi tidak dapat menjangkau endpoint Apps Script. Hal ini biasanya terjadi jika izin deployment belum disetel ke 'Anyone' atau URL Web App telah diperbarui."
+                );
+            }
+        }
+
+        function openServerStatusModal(isSuccess, title, desc) {
+            const modal = document.getElementById('serverStatusModal');
+            const iconBox = document.getElementById('statusModalIconBox');
+            const icon = document.getElementById('statusModalIcon');
+            const titleEl = document.getElementById('statusModalTitle');
+            const descEl = document.getElementById('statusModalDesc');
+            const cfgBox = document.getElementById('statusModalConfigBox');
+
+            cfgBox.classList.add('hidden');
+            titleEl.innerText = title;
+            descEl.innerText = desc;
+
+            if (isSuccess) {
+                iconBox.className = "w-16 h-16 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl mb-4 shadow-inner";
+                icon.className = "fa-solid fa-shield-halved text-emerald-500";
+            } else {
+                iconBox.className = "w-16 h-16 mx-auto rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-3xl mb-4 shadow-inner";
+                icon.className = "fa-solid fa-triangle-exclamation text-rose-500";
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeServerStatusModal() {
+            document.getElementById('serverStatusModal').classList.add('hidden');
+        }
+
+        function toggleConfigEndpoint() {
+            const box = document.getElementById('statusModalConfigBox');
+            const inp = document.getElementById('statusCustomUrlInput');
+            inp.value = API_URL;
+            box.classList.toggle('hidden');
+        }
+
+        function saveCustomEndpoint() {
+            const val = document.getElementById('statusCustomUrlInput').value.trim();
+            if (val && val.startsWith('https://script.google.com')) {
+                API_URL = val;
+                localStorage.setItem('custom_rkbmd_url', API_URL);
+                showToast("Tautan Server Berhasil Diperbarui");
+                closeServerStatusModal();
+            } else {
+                alert("Format URL Apps Script tidak valid!");
             }
         }
 
@@ -662,7 +777,7 @@
             if (b) b.classList.add('hidden');
         }
 
-        // 1. SISTEM LOGIN
+        // 2. SISTEM LOGIN
         async function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('login-user').value.trim();
@@ -717,7 +832,7 @@
             switchMode('RKBMD');
         }
 
-        // 2. AMBIL DATA DARI APPS SCRIPT
+        // 3. AMBIL DATA DARI APPS SCRIPT
         async function fetchDataFromDatabase() {
             showLoader("Menghubungkan ke Database...");
             try {
@@ -732,10 +847,6 @@
                     populateSkpdSelect();
                     renderAllViews();
                     hideConnectionError();
-
-                    if (masterSkpdList.length === 0) {
-                        showToast("Perhatian: Tab Master SKPD di spreadsheet masih kosong!", true);
-                    }
                 } else {
                     showConnectionError("Gagal membaca data: " + res.message);
                 }
@@ -746,7 +857,7 @@
             }
         }
 
-        // 3. POPULATE SKPD (HANYA NAMA SKPD, JENIS TIDAK TERLIHAT)
+        // 4. POPULATE SKPD
         function populateSkpdSelect() {
             const skpdSelect = document.getElementById('skpd');
             const adminFilter = document.getElementById('adminSkpdFilter');
@@ -771,10 +882,9 @@
             }
         }
 
-        // 4. PENGALIH MODE RKBMD / RKPBMD
+        // 5. PENGALIH MODE RKBMD / RKPBMD
         function switchMode(tabName) {
             currentTab = tabName;
-
             const isRk = (tabName === "RKBMD");
             document.getElementById('formJenisDokumen').value = tabName;
 
@@ -792,32 +902,91 @@
 
             document.getElementById('formSubtitle').innerText = isRk ? "Mode RKBMD Pengadaan (12 Kolom)" : "Mode RKPBMD Pemeliharaan (13 Kolom)";
 
+            validateInputLock();
             renderTables();
         }
 
-        // 5. RUMUS: Kebutuhan Riil = Kebutuhan Maksimum - Optimalisasi
+        // 6. RUMUS & PENGUNCI LOGIKA INPUT (POIN E)
         function calcKebutuhanRiil() {
             const maks = parseInt(document.getElementById('kebutuhanMaksimum').value) || 0;
             const opt = parseInt(document.getElementById('optimalisasi').value) || 0;
-            const riil = Math.max(0, maks - opt);
-            document.getElementById('labelKebutuhanRiil').innerText = riil;
+            const riil = maks - opt;
+            
+            document.getElementById('labelKebutuhanRiil').innerText = riil > 0 ? riil : (riil === 0 ? "0" : `0 (${riil})`);
+            validateInputLock();
             return riil;
         }
 
-        // 6. VALIDASI KONDISI RUSAK BERAT DITOLAK
+        function validateInputLock() {
+            const errBox = document.getElementById('errorValidationMsg');
+            const errTxt = document.getElementById('errorValidationText');
+            const btn = document.getElementById('btnSubmit');
+            const statusBadge = document.getElementById('riilValidationStatus');
+
+            if (currentTab === "RKBMD") {
+                const maks = parseInt(document.getElementById('kebutuhanMaksimum').value) || 0;
+                const opt = parseInt(document.getElementById('optimalisasi').value) || 0;
+                const usulan = parseInt(document.getElementById('jumlahUsulan').value) || 0;
+                const riil = maks - opt;
+
+                // Logika: Kebutuhan riil > optimalisasi adalah VALID
+                // Logika: Kebutuhan riil <= 0 OTOMATIS TIDAK BISA DISIMPAN
+                if (maks === 0 && opt === 0 && usulan === 1) {
+                    statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-200 text-slate-700";
+                    statusBadge.innerText = "Belum Dihitung";
+                    errBox.classList.add('hidden');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    return true;
+                }
+
+                if (riil <= 0) {
+                    statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-rose-200 text-rose-800";
+                    statusBadge.innerText = "Terkunci: Riil = 0";
+                    errTxt.innerText = "Pengunci Sistem: Kebutuhan Riil bernilai 0 atau negatif. Usulan pengadaan tidak dapat disimpan jika kebutuhan telah terpenuhi oleh optimalisasi!";
+                    errBox.classList.remove('hidden');
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    return false;
+                }
+
+                if (usulan > riil) {
+                    statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-200 text-amber-800";
+                    statusBadge.innerText = "Usulan Melebihi Riil";
+                    errTxt.innerText = `Jumlah usulan (${usulan}) melebihi standar batas maksimum Kebutuhan Riil (${riil})!`;
+                    errBox.classList.remove('hidden');
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    return false;
+                }
+
+                // Kondisi Valid: Riil > 0 dan usulan <= riil
+                statusBadge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-200 text-emerald-800";
+                statusBadge.innerText = (riil > opt) ? "Valid (Riil > Optimalisasi)" : "Kebutuhan Riil Valid";
+                errBox.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                return true;
+            } else {
+                return validateRkpbmKondisi();
+            }
+        }
+
+        // VALIDASI KONDISI RUSAK BERAT DITOLAK
         function validateRkpbmKondisi() {
             const kondisi = document.getElementById('rkpbmKondisi').value;
-            const err = document.getElementById('errorValidationMsg');
+            const errBox = document.getElementById('errorValidationMsg');
+            const errTxt = document.getElementById('errorValidationText');
             const btn = document.getElementById('btnSubmit');
 
             if (kondisi === "Rusak Berat") {
-                err.innerText = "Peringatan Permendagri: Kondisi Rusak Berat otomatis ditolak untuk usulan pemeliharaan!";
-                err.classList.remove('hidden');
+                errTxt.innerText = "Peringatan Permendagri: Kondisi Rusak Berat otomatis ditolak untuk usulan pemeliharaan!";
+                errBox.classList.remove('hidden');
                 btn.disabled = true;
                 btn.classList.add('opacity-50', 'cursor-not-allowed');
                 return false;
             }
-            err.classList.add('hidden');
+            errBox.classList.add('hidden');
             btn.disabled = false;
             btn.classList.remove('opacity-50', 'cursor-not-allowed');
             return true;
@@ -826,7 +995,7 @@
         // 7. SIMPAN / EDIT DATA USULAN
         async function handleFormSubmit(e) {
             e.preventDefault();
-            if (currentTab === "RKPBMD" && !validateRkpbmKondisi()) return;
+            if (!validateInputLock()) return;
 
             const editId = document.getElementById('editId').value;
             const isEdit = (editId !== "");
@@ -853,7 +1022,7 @@
             if (currentTab === "RKBMD") {
                 payload.kebutuhanMaksimum = parseInt(document.getElementById('kebutuhanMaksimum').value) || 0;
                 payload.optimalisasi = parseInt(document.getElementById('optimalisasi').value) || 0;
-                payload.kebutuhanRiil = calcKebutuhanRiil();
+                payload.kebutuhanRiil = payload.kebutuhanMaksimum - payload.optimalisasi;
             } else {
                 payload.statusBarang = document.getElementById('rkpbmStatus').value;
                 payload.kondisiBarang = document.getElementById('rkpbmKondisi').value;
@@ -868,7 +1037,7 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
-                showToast("Berhasil Disimpan Didatabase");
+                showToast("Data Berhasil Di simpan Di Database");
                 resetForm();
                 await fetchDataFromDatabase();
             } catch(err) {
@@ -904,7 +1073,9 @@
             }
 
             document.getElementById('formTitle').innerText = "Edit Data Usulan";
-            document.getElementById('btnSubmitText').innerText = "Perbarui Didatabase";
+            // SIMPAN PERUBAHAN
+            document.getElementById('btnSubmitText').innerText = "Simpan Perubahan";
+            document.getElementById('btnSubmitIcon').className = "fa-solid fa-floppy-disk";
             document.getElementById('btnCancel').classList.remove('hidden');
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
@@ -921,7 +1092,7 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ action: "delete", jenis: it.jenis, id: it.id })
                 });
-                showToast("Berhasil Dihapus Dari Database", true);
+                showToast("Data Berhasil Dihapus Dari Database", true);
                 await fetchDataFromDatabase();
             } catch(e) {
                 alert("Gagal menghapus.");
@@ -934,12 +1105,15 @@
             document.getElementById('permenForm').reset();
             document.getElementById('editId').value = "";
             document.getElementById('btnCancel').classList.add('hidden');
-            document.getElementById('btnSubmitText').innerText = "Simpan Didatabase";
+            // KIRIM DAN SIMPAN
+            document.getElementById('btnSubmitText').innerText = "Kirim dan Simpan";
+            document.getElementById('btnSubmitIcon').className = "fa-solid fa-paper-plane";
             document.getElementById('formTitle').innerText = "Formulir Usulan BMD";
             calcKebutuhanRiil();
+            validateInputLock();
         }
 
-        // 8. RENDER TABEL & PENCARIAN SKPD KHUSUS ADMIN
+        // 8. RENDER TABEL & PENCARIAN
         function renderTables() {
             const keyword = (document.getElementById('tableSearchInput').value || '').toLowerCase().trim();
             const adminFilter = document.getElementById('adminSkpdFilter')?.value || "SEMUA";
@@ -975,8 +1149,8 @@
                         <td class="p-2.5 text-center font-black bg-amber-50 text-amber-900">${it.kebutuhanRiil || 0}</td>
                         <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
                         <td class="p-2.5 text-center space-x-1 no-print">
-                            <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
-                            <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
+                            <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
                 `).join('');
@@ -1003,8 +1177,8 @@
                         <td class="p-2.5 text-center font-black bg-emerald-50 text-emerald-800">${it.jumlahUsulan}</td>
                         <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
                         <td class="p-2.5 text-center space-x-1 no-print">
-                            <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-pencil"></i></button>
-                            <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
+                            <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
                 `).join('');
@@ -1173,7 +1347,7 @@
             }
         }
 
-        // 11. MODAL RINCIAN STATUS SKPD
+        // 11. MODAL RINCIAN STATUS SKPD DENGAN FILTER FLEKSIBEL
         function openSkpdDetailsModal(filter = "SEMUA") {
             modalActiveFilter = filter;
             const c = getCompliance();
@@ -1181,13 +1355,26 @@
             const summary = document.getElementById('skpdModalSummaryText');
 
             let filteredList = c.all;
-            if (filter === "SUDAH") filteredList = c.all.filter(s => s.submitted);
-            else if (filter === "BELUM") filteredList = c.all.filter(s => !s.submitted);
-            else if (filter === "DINAS_BADAN") filteredList = c.all.filter(s => s.kategori.includes("Dinas") || s.kategori.includes("Badan"));
-            else if (filter === "KECAMATAN") filteredList = c.all.filter(s => s.kategori === "Kecamatan");
-            else if (filter === "BAGIAN") filteredList = c.all.filter(s => s.kategori === "Bagian");
+            let labelKategori = "Seluruh SKPD";
 
-            summary.innerText = `Menampilkan ${filteredList.length} dari ${c.totalSemua} SKPD`;
+            if (filter === "SUDAH") {
+                filteredList = c.all.filter(s => s.submitted);
+                labelKategori = "SKPD yang Sudah Input";
+            } else if (filter === "BELUM") {
+                filteredList = c.all.filter(s => !s.submitted);
+                labelKategori = "SKPD yang Belum Input";
+            } else if (filter === "DINAS_BADAN") {
+                filteredList = c.all.filter(s => s.kategori.includes("Dinas") || s.kategori.includes("Badan"));
+                labelKategori = "Badan & Dinas";
+            } else if (filter === "KECAMATAN") {
+                filteredList = c.all.filter(s => s.kategori === "Kecamatan");
+                labelKategori = "Kecamatan";
+            } else if (filter === "BAGIAN") {
+                filteredList = c.all.filter(s => s.kategori === "Bagian");
+                labelKategori = "Bagian Setda";
+            }
+
+            summary.innerText = `Menampilkan ${filteredList.length} dari ${c.totalSemua} SKPD (${labelKategori})`;
 
             tbody.innerHTML = filteredList.map((s, idx) => `
                 <tr class="hover:bg-slate-50 border-b text-xs">
@@ -1210,34 +1397,48 @@
             document.getElementById('skpdDetailModal').classList.add('hidden');
         }
 
+        // 12. UNDUH REKAP EXCEL MONITORING DENGAN URUTAN KOLOM RESMI (POIN D)
         function exportSkpdComplianceExcel() {
             const c = getCompliance();
             const rows = [
                 ["REKAPITULASI STATUS PENGINPUTAN RKBMD & RKPBMD TA. 2027"],
                 ["PEMERINTAH KABUPATEN KONAWE"],
-                [`Dicetak Tanggal: ${new Date().toLocaleDateString('id-ID')}`],
+                [`Dicetak Pada: ${new Date().toLocaleString('id-ID')}`],
                 [],
                 ["No", "Nama SKPD / Unit Kerja", "Kategori", "Status Penginputan", "Jumlah Usulan Masuk"]
             ];
 
             c.all.forEach((s, idx) => {
                 rows.push([
-                    idx + 1, s.nama, s.kategori,
-                    s.submitted ? "SUDAH INPUT" : "BELUM INPUT", s.count
+                    idx + 1,
+                    s.nama,
+                    s.kategori,
+                    s.submitted ? "SUDAH INPUT" : "BELUM INPUT",
+                    s.count
                 ]);
             });
 
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.aoa_to_sheet(rows);
+
+            // Set lebar kolom agar rapi saat dibuka di Microsoft Excel
+            ws['!cols'] = [
+                { wch: 6 },
+                { wch: 45 },
+                { wch: 20 },
+                { wch: 22 },
+                { wch: 22 }
+            ];
+
             XLSX.utils.book_append_sheet(wb, ws, "Rekap_Kepatuhan_SKPD");
-            XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_${Date.now()}.xlsx`);
+            XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_TA2027.xlsx`);
         }
 
-        // 12. TOAST, LOADER & EXCEL TABEL USULAN
-        function showToast(msg, isAlert = false) {
+        // 13. NOTIFIKASI TOAST, LOADER & EXCEL TABEL USULAN
+        function showToast(msg = "Data Berhasil Di simpan Di Database", isAlert = false) {
             const toast = document.getElementById('toastNotification');
             document.getElementById('toastMessage').innerText = msg;
-            toast.className = `fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 ${isAlert ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100`;
+            toast.className = `fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 ${isAlert ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 select-none`;
 
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
