@@ -70,25 +70,64 @@
             }
         }
 
-        /* ================= ATURAN CETAK RESMI (PRINT FORMAT) ================= */
+        /* ================= ATURAN CETAK RESMI PRESISI TINGGI ================= */
         @media print {
-            body * { visibility: hidden !important; }
-            #printable-doc, #printable-doc * { visibility: visible !important; }
-            #printable-doc {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                display: block !important;
-                background: white !important;
-                color: black !important;
-                font-family: 'Times New Roman', Times, serif !important;
-            }
             @page {
                 size: legal landscape;
-                margin: 8mm 10mm 10mm 10mm;
+                margin: 8mm 10mm 8mm 10mm;
             }
-            .no-print { display: none !important; }
+            html, body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                height: auto !important;
+                min-height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+            }
+            /* Hilangkan SEMUA elemen layar agar TIDAK ada ghost-pages/halaman kosong */
+            #login-section,
+            #app-section,
+            #globalLoader,
+            #toastNotification,
+            #connectionErrorBanner,
+            #skpdModal,
+            #barangModal,
+            #skpdDetailModal,
+            #serverStatusModal,
+            #printConfigModal,
+            .no-print {
+                display: none !important;
+            }
+            /* Hanya tampilkan kontainer dokumen cetak secara natural */
+            #printable-doc {
+                display: block !important;
+                position: static !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-family: 'Times New Roman', Times, serif !important;
+            }
+            table {
+                page-break-inside: auto;
+                border-collapse: collapse !important;
+                width: 100% !important;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tfoot {
+                display: table-footer-group;
+            }
+            .ttd-container {
+                page-break-inside: avoid !important;
+            }
         }
     </style>
 </head>
@@ -206,12 +245,12 @@
             <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box">
                 <span class="text-[10px] sm:text-xs font-bold text-indigo-600 uppercase">RKBMD Pengadaan</span>
                 <div class="text-lg sm:text-2xl font-black text-indigo-700 mt-1" id="statRkbmdCount">0</div>
-                <div class="text-[10px] text-indigo-400 font-medium mt-0.5">Format 12 Kolom</div>
+                <div class="text-[10px] text-indigo-400 font-medium mt-0.5">Standar Permendagri 19/2016</div>
             </div>
             <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box">
                 <span class="text-[10px] sm:text-xs font-bold text-amber-600 uppercase">RKPBMD Pemeliharaan</span>
                 <div class="text-lg sm:text-2xl font-black text-amber-700 mt-1" id="statRkpbmCount">0</div>
-                <div class="text-[10px] text-amber-500 font-medium mt-0.5">Format 13 Kolom</div>
+                <div class="text-[10px] text-amber-500 font-medium mt-0.5">Standar Permendagri 19/2016</div>
             </div>
             <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box">
                 <span class="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase">Master Data Terhubung</span>
@@ -357,7 +396,7 @@
                     </div>
                     <div class="min-w-0">
                         <h2 class="font-bold text-slate-800 text-sm sm:text-base truncate">Formulir Usulan BMD</h2>
-                        <p class="text-[11px] text-slate-400 truncate" id="formSubtitle">Mode RKBMD Pengadaan (12 Kolom)</p>
+                        <p class="text-[11px] text-slate-400 truncate" id="formSubtitle">Mode RKBMD Pengadaan (Permendagri No. 19/2016)</p>
                     </div>
                 </div>
 
@@ -376,7 +415,6 @@
                 <input type="hidden" id="formJenisDokumen" value="RKBMD">
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                    <!-- MODEL PENCARIAN SKPD MENGGUNAKAN POP-UP SEPERTI NAMA BARANG -->
                     <div class="min-w-0">
                         <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
                         <div class="flex gap-1.5 min-w-0">
@@ -410,7 +448,7 @@
                     </div>
                 </div>
 
-                <!-- SECTION RKBMD DENGAN PENGUNCI LOGIKA VALIDASI -->
+                <!-- SECTION RKBMD -->
                 <div id="sectionRkbmdBox" class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-200 space-y-3 min-w-0 select-none">
                     <div class="text-[11px] font-bold text-indigo-950 flex items-center justify-between flex-wrap gap-1">
                         <span class="flex items-center gap-1.5">
@@ -501,7 +539,6 @@
                     <button type="button" id="btnCancel" onclick="resetForm()" class="hidden w-1/3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs py-2 rounded-xl transition cursor-pointer active:scale-95">
                         Batal
                     </button>
-                    <!-- TOMBOL KIRIM DAN SIMPAN -->
                     <button type="submit" id="btnSubmit" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs py-2.5 rounded-xl shadow transition flex justify-center items-center gap-1.5 cursor-pointer active:scale-95">
                         <i id="btnSubmitIcon" class="fa-solid fa-paper-plane"></i>
                         <span id="btnSubmitText">Kirim dan Simpan</span>
@@ -538,27 +575,26 @@
                         <i class="fa-solid fa-file-excel"></i> Excel
                     </button>
                     
-                    <!-- TOMBOL CETAK LANGSUNG KE FORMAT RESMI PERMENDAGRI -->
                     <button type="button" onclick="openPrintConfigModal()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
                         <i class="fa-solid fa-print"></i> Cetak / PDF
                     </button>
                 </div>
             </div>
 
-            <!-- TABEL RKBMD (12 KOLOM) -->
+            <!-- TABEL RKBMD LAYAR DASHBOARD -->
             <div id="containerTableRkbmd" class="overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
                     <thead class="bg-indigo-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
                         <tr>
                             <th class="p-2.5 border border-indigo-800">No</th>
                             <th class="p-2.5 border border-indigo-800">Nama SKPD</th>
-                            <th class="p-2.5 border border-indigo-800">PROGRAM/KEGIATAN/ OUTPUT</th>
+                            <th class="p-2.5 border border-indigo-800">PROGRAM/KEGIATAN/OUTPUT</th>
                             <th class="p-2.5 border border-indigo-800">Kode Barang</th>
                             <th class="p-2.5 border border-indigo-800">Nama Barang</th>
                             <th class="p-2.5 border border-indigo-800">Jumlah</th>
                             <th class="p-2.5 border border-indigo-800">Satuan</th>
                             <th class="p-2.5 border border-indigo-800">Kebutuhan Maksimum</th>
-                            <th class="p-2.5 border border-indigo-800">Jumlah YANG DAPAT DIOPTIMALISASIKAN</th>
+                            <th class="p-2.5 border border-indigo-800">Optimalisasi</th>
                             <th class="p-2.5 border border-indigo-800 bg-amber-500 text-slate-950 font-black">Kebutuhan Riil</th>
                             <th class="p-2.5 border border-indigo-800">Keterangan</th>
                             <th class="p-2.5 border border-indigo-800 no-print">Aksi</th>
@@ -570,21 +606,21 @@
                 </table>
             </div>
 
-            <!-- TABEL RKPBMD (13 KOLOM) -->
+            <!-- TABEL RKPBMD LAYAR DASHBOARD -->
             <div id="containerTableRkpbm" class="hidden overflow-x-auto border border-slate-200 rounded-xl shadow-inner max-h-[560px] overflow-y-auto custom-scroll w-full min-w-0">
                 <table id="table-rkpbmd" class="w-full text-left text-xs border-collapse whitespace-nowrap">
                     <thead class="bg-amber-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
                         <tr>
                             <th class="p-2.5 border border-amber-800">No</th>
                             <th class="p-2.5 border border-amber-800">Nama SKPD</th>
-                            <th class="p-2.5 border border-amber-800">PROGRAM/KEGIATAN/ OUTPUT</th>
+                            <th class="p-2.5 border border-amber-800">PROGRAM/KEGIATAN/OUTPUT</th>
                             <th class="p-2.5 border border-amber-800">Kode Barang</th>
                             <th class="p-2.5 border border-amber-800">Nama Barang</th>
                             <th class="p-2.5 border border-amber-800">Jumlah KIB</th>
                             <th class="p-2.5 border border-amber-800">Satuan</th>
-                            <th class="p-2.5 border border-amber-800">STATUS BARANG</th>
-                            <th class="p-2.5 border border-amber-800">KONDISI BARANG</th>
-                            <th class="p-2.5 border border-amber-800">NAMA PEMELIHARAAN</th>
+                            <th class="p-2.5 border border-amber-800">Status Barang</th>
+                            <th class="p-2.5 border border-amber-800">Kondisi Barang</th>
+                            <th class="p-2.5 border border-amber-800">Nama Pemeliharaan</th>
                             <th class="p-2.5 border border-amber-800 bg-emerald-700 font-bold">Jumlah</th>
                             <th class="p-2.5 border border-amber-800">Keterangan</th>
                             <th class="p-2.5 border border-amber-800 no-print">Aksi</th>
@@ -642,7 +678,7 @@
 
     <!-- MODAL RINCIAN STATUS SKPD -->
     <div id="skpdDetailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] border border-slate-100" id="printable-modal">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] border border-slate-100">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                 <div>
                     <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
@@ -659,8 +695,9 @@
                     <button type="button" onclick="exportSkpdComplianceExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
                         <i class="fa-solid fa-file-excel"></i> Rekap Excel
                     </button>
-                    <button type="button" onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
-                        <i class="fa-solid fa-print"></i> Cetak Rekap
+                    <!-- CETAK REKAP TERINTEGRASI -->
+                    <button type="button" onclick="printSkpdComplianceReport()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-print"></i> Cetak Rekap Resmi
                     </button>
                 </div>
             </div>
@@ -675,7 +712,7 @@
                             <th class="p-2.5 text-center w-28">Status Penginputan</th>
                             <th class="p-2.5 text-center w-24 text-indigo-700">Usulan Pengadaan</th>
                             <th class="p-2.5 text-center w-24 text-amber-700">Usulan Pemeliharaan</th>
-                            <th class="p-2.5 text-center w-24 font-bold text-slate-900">Jumlah Usulan Masuk</th>
+                            <th class="p-2.5 text-center w-24 font-bold text-slate-900">Total Usulan</th>
                         </tr>
                     </thead>
                     <tbody id="skpdModalTableBody" class="divide-y divide-slate-100"></tbody>
@@ -687,7 +724,7 @@
         </div>
     </div>
 
-    <!-- MODAL STATUS KONEKSI (BERSIH & PROFESIONAL) -->
+    <!-- MODAL STATUS KONEKSI -->
     <div id="serverStatusModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center">
             <div id="statusModalIconBox" class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
@@ -711,7 +748,7 @@
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <div>
                     <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
-                        <i class="fa-solid fa-file-invoice text-indigo-600"></i> Pengaturan Cetak Dokumen Resmi
+                        <i class="fa-solid fa-file-invoice text-indigo-600"></i> Pengaturan Cetak Sesuai Permendagri No. 19/2016
                     </h3>
                     <p class="text-xs text-slate-500 mt-0.5">Lengkapi data pejabat penandatangan sebelum mencetak.</p>
                 </div>
@@ -730,21 +767,21 @@
                     </div>
                 </div>
 
-                <!-- Bagian Pengguna Barang (Kepala Dinas / Camat / Kabag) -->
+                <!-- Bagian Pengguna Barang -->
                 <div class="p-3 bg-indigo-50/60 border border-indigo-200 rounded-2xl space-y-2">
                     <span class="font-bold text-indigo-900 flex items-center gap-1.5 uppercase text-[10px]">
-                        <i class="fa-solid fa-user-tie text-indigo-600"></i> Pejabat Pengguna Barang (Kepala SKPD / Camat / Kabag)
+                        <i class="fa-solid fa-user-tie text-indigo-600"></i> Pengguna Barang / Kuasa Pengguna Barang (Kanan)
                     </span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div class="sm:col-span-1">
+                        <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Sebutan Jabatan</label>
                             <input type="text" id="printKadisJabatan" placeholder="Kepala Dinas..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-medium" required>
                         </div>
-                        <div class="sm:col-span-1">
+                        <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Nama Lengkap & Gelar</label>
                             <input type="text" id="printKadisNama" placeholder="Nama Lengkap..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-bold" required>
                         </div>
-                        <div class="sm:col-span-1">
+                        <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">NIP Pejabat</label>
                             <input type="text" id="printKadisNip" placeholder="19XXXXXXXX XXXXXX X XXX" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-mono" required>
                         </div>
@@ -754,18 +791,18 @@
                 <!-- Bagian Pengurus Barang Pengguna -->
                 <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-2xl space-y-2">
                     <span class="font-bold text-amber-900 flex items-center gap-1.5 uppercase text-[10px]">
-                        <i class="fa-solid fa-user-gear text-amber-600"></i> Pengurus Barang Pengguna (Penyusun Usulan)
+                        <i class="fa-solid fa-user-gear text-amber-600"></i> Pengurus Barang Pengguna (Kiri)
                     </span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div class="sm:col-span-1">
+                        <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Sebutan Jabatan</label>
                             <input type="text" id="printPengurusJabatan" value="Pengurus Barang Pengguna" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-medium" required>
                         </div>
-                        <div class="sm:col-span-1">
+                        <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Nama Lengkap & Gelar</label>
                             <input type="text" id="printPengurusNama" placeholder="Nama Pengurus Barang..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-bold" required>
                         </div>
-                        <div class="sm:col-span-1">
+                        <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">NIP Pengurus Barang</label>
                             <input type="text" id="printPengurusNip" placeholder="19XXXXXXXX XXXXXX X XXX" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-mono" required>
                         </div>
@@ -777,14 +814,14 @@
                         Batal
                     </button>
                     <button type="submit" class="flex-1 bg-indigo-700 hover:bg-indigo-800 text-white py-2.5 rounded-xl font-bold shadow transition flex justify-center items-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-print"></i> Pratinjau & Cetak Dokumen Resmi
+                        <i class="fa-solid fa-print"></i> Cetak Dokumen Resmi
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ================= ELEMEN CETAK DOKUMEN RESMI (HANYA MUNCUL SAAT DI-PRINT) ================= -->
+    <!-- ================= ELEMEN CETAK DOKUMEN RESMI (HANYA DITAMPILKAN DI KERTAS PRINT) ================= -->
     <div id="printable-doc" class="hidden"></div>
 
     <!-- JAVASCRIPT LOGIKA LENGKAP -->
@@ -1049,7 +1086,7 @@
             document.getElementById('tabRkbmdBtn').className = isRk ? "px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white font-bold text-xs cursor-pointer shadow" : "px-3.5 py-1.5 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer";
             document.getElementById('tabRkpbmBtn').className = !isRk ? "px-3.5 py-1.5 rounded-lg bg-amber-600 text-white font-bold text-xs cursor-pointer shadow" : "px-3.5 py-1.5 rounded-lg bg-transparent text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer";
 
-            document.getElementById('formSubtitle').innerText = isRk ? "Mode RKBMD Pengadaan (12 Kolom)" : "Mode RKPBMD Pemeliharaan (13 Kolom)";
+            document.getElementById('formSubtitle').innerText = isRk ? "Mode RKBMD Pengadaan (Permendagri No. 19/2016)" : "Mode RKPBMD Pemeliharaan (Permendagri No. 19/2016)";
 
             validateInputLock();
             renderTables();
@@ -1567,7 +1604,7 @@
             document.getElementById('skpdDetailModal').classList.add('hidden');
         }
 
-        // UNDUH REKAP EXCEL KEPATUHAN DENGAN URUTAN KOLOM RESMI
+        // UNDUH EXCEL REKAP
         function exportSkpdComplianceExcel() {
             const c = getCompliance();
             const rows = [
@@ -1607,7 +1644,94 @@
             XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_TA2027_${Date.now()}.xlsx`);
         }
 
-        // ================= FITUR CETAK RESMI PERMENDAGRI =================
+        // ================= CETAK RESMI REKAP STATUS KEPATUHAN SKPD (PERBAIKAN 1) =================
+        function printSkpdComplianceReport() {
+            const c = getCompliance();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const todayStr = new Date().toLocaleDateString('id-ID', options);
+
+            const docContainer = document.getElementById('printable-doc');
+            docContainer.innerHTML = `
+                <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.25;">
+                    <!-- KOP SURAT RESMI PEMERINTAH DAERAH KABUPATEN KONAWE -->
+                    <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 5px;">
+                        <tr>
+                            <td style="width: 85px; vertical-align: middle; text-align: left; border: none;">
+                                <img src="logo.png" style="height: 72px; width: auto; object-fit: contain;">
+                            </td>
+                            <td style="text-align: center; vertical-align: middle; border: none;">
+                                <div style="font-size: 13pt; font-weight: bold; letter-spacing: 0.5px;">PEMERINTAH KABUPATEN KONAWE</div>
+                                <div style="font-size: 11pt; font-weight: bold; margin: 2px 0;">BADAN PENGELOLAAN KEUANGAN DAN ASET DAERAH (BPKAD)</div>
+                                <div style="font-size: 12pt; font-weight: bold; text-decoration: underline; margin-top: 4px;">REKAPITULASI KEPATUHAN PENGINPUTAN E-RKBMD & E-RKPBMD</div>
+                                <div style="font-size: 10pt; font-weight: bold; margin-top: 2px;">TAHUN ANGGARAN 2027</div>
+                            </td>
+                            <td style="width: 85px; border: none;"></td>
+                        </tr>
+                    </table>
+                    <div style="border-top: 2px solid #000; border-bottom: 1px solid #000; height: 3px; margin-bottom: 10px;"></div>
+
+                    <!-- RINGKASAN METRIK -->
+                    <div style="margin-bottom: 10px; font-size: 9pt; display: flex; justify-content: space-between;">
+                        <div>
+                            <span>Total Unit SKPD Terdaftar : <strong>${c.totalSemua} SKPD</strong></span> | 
+                            <span>Sudah Input : <strong style="color: #047857;">${c.totalSudah} Unit</strong></span> | 
+                            <span>Belum Input : <strong style="color: #b91c1c;">${c.totalBelum} Unit</strong></span>
+                        </div>
+                        <div>
+                            <span>Tingkat Kepatuhan : <strong>${c.totalSemua ? Math.round((c.totalSudah / c.totalSemua) * 100) : 0}%</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- TABEL DATA REKAPITULASI -->
+                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;" border="1">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 5px; width: 30px;">NO</th>
+                                <th style="border: 1px solid black; padding: 5px; text-align: left;">NAMA SKPD / UNIT KERJA</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 110px;">KATEGORI</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 110px;">STATUS PENGINPUTAN</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 90px;">USULAN PENGADAAN</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 90px;">USULAN PEMELIHARAAN</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 90px;">TOTAL USULAN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${c.all.map((s, idx) => `
+                                <tr>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${idx + 1}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-weight: bold;">${s.nama}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${s.kategori}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold; ${s.submitted ? 'color: #047857;' : 'color: #b91c1c;'}">
+                                        ${s.submitted ? 'SUDAH INPUT' : 'BELUM INPUT'}
+                                    </td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${s.countPengadaan} Baris</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${s.countPemeliharaan} Baris</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${s.count} Baris</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <!-- TANDA TANGAN REKAP -->
+                    <div class="ttd-container" style="margin-top: 25px; display: flex; justify-content: flex-end; font-size: 10pt;">
+                        <div style="text-align: center; width: 35%;">
+                            <div>Unaaha, ${todayStr}</div>
+                            <div style="font-weight: bold; margin-top: 2px;">Administrator Pengelola Aset Daerah</div>
+                            <div style="height: 60px;"></div>
+                            <div style="font-weight: bold; text-decoration: underline;">BIDANG ASET & AKUNTANSI BPKAD</div>
+                            <div>Pemerintah Kabupaten Konawe</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Cetak langsung tanpa blank-page
+            setTimeout(() => {
+                window.print();
+            }, 250);
+        }
+
+        // ================= CETAK RESMI FORMAT 100% PERMENDAGRI NO. 19/2016 (PERBAIKAN 2 & 3) =================
         function openPrintConfigModal() {
             const modal = document.getElementById('printConfigModal');
             const targetSelect = document.getElementById('printTargetSkpd');
@@ -1619,12 +1743,10 @@
             const pengurusNama = document.getElementById('printPengurusNama');
             const pengurusNip = document.getElementById('printPengurusNip');
 
-            // Set Tanggal default hari ini
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             const todayStr = new Date().toLocaleDateString('id-ID', options);
             tglInput.value = `Unaaha, ${todayStr}`;
 
-            // Pilihan SKPD
             const isAdmin = (currentUser.kategori === "Admin");
             let skpdOptions = "";
             if (isAdmin) {
@@ -1636,7 +1758,6 @@
             }
             targetSelect.innerHTML = skpdOptions;
 
-            // Load data tanda tangan tersimpan
             function loadSavedSignatures(selectedSkpd) {
                 const savedData = JSON.parse(localStorage.getItem(`rkbmd_ttd_${selectedSkpd}`) || "{}");
                 kadisJabatan.value = savedData.kadisJabatan || (selectedSkpd.toUpperCase().includes('KECAMATAN') ? 'Camat' : (selectedSkpd.toUpperCase().includes('BAGIAN') ? 'Kepala Bagian' : 'Kepala Dinas / Badan'));
@@ -1669,54 +1790,60 @@
             const pengurusNama = document.getElementById('printPengurusNama').value;
             const pengurusNip = document.getElementById('printPengurusNip').value;
 
-            // Simpan ke localStorage agar tidak perlu ketik ulang
             localStorage.setItem(`rkbmd_ttd_${targetSkpd}`, JSON.stringify({
                 kadisJabatan, kadisNama, kadisNip,
                 pengurusJabatan, pengurusNama, pengurusNip
             }));
 
-            // Ambil usulan yang sesuai jenis dokumen dan SKPD
             const rows = dataset.filter(i => i.jenis === currentTab && i.skpd === targetSkpd);
 
             if (rows.length === 0) {
-                alert(`Tidak ada usulan ${currentTab} untuk SKPD ${targetSkpd}.`);
+                alert(`Tidak ada usulan ${currentTab} untuk SKPD ${targetSkpd}. Silakan input usulan terlebih dahulu.`);
                 return;
             }
 
             const isRk = (currentTab === "RKBMD");
-            const docTitle = isRk ? "USULAN RENCANA KEBUTUHAN BARANG MILIK DAERAH (PENGADAAN)" : "USULAN RENCANA KEBUTUHAN PEMELIHARAAN BARANG MILIK DAERAH (RKPBMD)";
-            const lampiranNo = isRk ? "LAMPIRAN I PERMENDAGRI NOMOR 19 TAHUN 2016" : "LAMPIRAN II PERMENDAGRI NOMOR 19 TAHUN 2016";
+            const docTitle = isRk 
+                ? "USULAN RENCANA KEBUTUHAN BARANG MILIK DAERAH (PENGADAAN)<br><span style='font-size: 11pt; font-weight: bold;'>(RENCANA PENGADAAN)</span>" 
+                : "USULAN RENCANA KEBUTUHAN PEMELIHARAAN BARANG MILIK DAERAH (RKPBMD)<br><span style='font-size: 11pt; font-weight: bold;'>(RENCANA PEMELIHARAAN)</span>";
+
+            const lampiranNo = isRk ? "LAMPIRAN I PERATURAN MENTERI DALAM NEGERI NOMOR 19 TAHUN 2016" : "LAMPIRAN II PERATURAN MENTERI DALAM NEGERI NOMOR 19 TAHUN 2016";
 
             let tableHtml = "";
 
             if (isRk) {
-                // TABEL RESMI RKBMD (12 KOLOM)
+                // ================= TABEL 100% SESUAI PERMENDAGRI NO. 19/2016 (RKBMD PENGADAAN) =================
+                // Baris Header Bertingkat (Two-Tier Thead) + Baris Penomoran Kolom (1) s.d (10)
                 tableHtml = `
-                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt; text-align: left;" border="1">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;" border="1">
                         <thead>
                             <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
-                                <th style="border: 1px solid black; padding: 4px;">NO</th>
-                                <th style="border: 1px solid black; padding: 4px;">PROGRAM / KEGIATAN / OUTPUT</th>
-                                <th style="border: 1px solid black; padding: 4px;">KODE BARANG</th>
-                                <th style="border: 1px solid black; padding: 4px;">NAMA BARANG</th>
-                                <th style="border: 1px solid black; padding: 4px;">JUMLAH</th>
-                                <th style="border: 1px solid black; padding: 4px;">SATUAN</th>
-                                <th style="border: 1px solid black; padding: 4px;">KEBUTUHAN MAKSIMUM</th>
-                                <th style="border: 1px solid black; padding: 4px;">OPTIMALISASI</th>
-                                <th style="border: 1px solid black; padding: 4px;">KEBUTUHAN RIIL</th>
-                                <th style="border: 1px solid black; padding: 4px;">KETERANGAN</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 4px; width: 28px;">NO</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 4px; width: 190px;">PROGRAM / KEGIATAN / OUTPUT</th>
+                                <th colspan="4" style="border: 1px solid black; padding: 4px;">USULAN RKBMD</th>
+                                <th colspan="3" style="border: 1px solid black; padding: 4px;">KEBUTUHAN RIIL BMD</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 4px; width: 100px;">KETERANGAN</th>
                             </tr>
-                            <tr style="background-color: #f8fafc; text-align: center; font-size: 7.5pt;">
-                                <td style="border: 1px solid black; padding: 2px;">1</td>
-                                <td style="border: 1px solid black; padding: 2px;">2</td>
-                                <td style="border: 1px solid black; padding: 2px;">3</td>
-                                <td style="border: 1px solid black; padding: 2px;">4</td>
-                                <td style="border: 1px solid black; padding: 2px;">5</td>
-                                <td style="border: 1px solid black; padding: 2px;">6</td>
-                                <td style="border: 1px solid black; padding: 2px;">7</td>
-                                <td style="border: 1px solid black; padding: 2px;">8</td>
-                                <td style="border: 1px solid black; padding: 2px;">9</td>
-                                <td style="border: 1px solid black; padding: 2px;">10</td>
+                            <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 4px; width: 100px;">KODE BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">NAMA BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 50px;">JUMLAH</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 55px;">SATUAN</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 75px;">KEBUTUHAN MAKSIMUM</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 75px;">OPTIMALISASI</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 65px;">RIIL</th>
+                            </tr>
+                            <tr style="background-color: #f8fafc; text-align: center; font-size: 7.5pt; font-weight: bold;">
+                                <td style="border: 1px solid black; padding: 2px;">(1)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(2)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(3)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(4)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(5)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(6)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(7)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(8)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(9) = (7-8)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(10)</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -1724,7 +1851,7 @@
                                 <tr>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${idx + 1}</td>
                                     <td style="border: 1px solid black; padding: 4px;">${r.programKegiatanOutput || '-'}</td>
-                                    <td style="border: 1px solid black; padding: 4px; font-family: monospace;">${r.kodeBarang || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-family: monospace; text-align: center;">${r.kodeBarang || '-'}</td>
                                     <td style="border: 1px solid black; padding: 4px; font-weight: bold;">${r.namaBarang}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.satuan}</td>
@@ -1738,35 +1865,40 @@
                     </table>
                 `;
             } else {
-                // TABEL RESMI RKPBMD (13 KOLOM)
+                // ================= TABEL 100% SESUAI PERMENDAGRI NO. 19/2016 (RKPBMD PEMELIHARAAN) =================
+                // Baris Header Bertingkat (Two-Tier Thead) + Baris Penomoran Kolom (1) s.d (11)
                 tableHtml = `
-                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt; text-align: left;" border="1">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;" border="1">
                         <thead>
                             <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
-                                <th style="border: 1px solid black; padding: 4px;">NO</th>
-                                <th style="border: 1px solid black; padding: 4px;">PROGRAM / KEGIATAN / OUTPUT</th>
-                                <th style="border: 1px solid black; padding: 4px;">KODE BARANG</th>
-                                <th style="border: 1px solid black; padding: 4px;">NAMA BARANG</th>
-                                <th style="border: 1px solid black; padding: 4px;">JUMLAH KIB</th>
-                                <th style="border: 1px solid black; padding: 4px;">SATUAN</th>
-                                <th style="border: 1px solid black; padding: 4px;">STATUS BARANG</th>
-                                <th style="border: 1px solid black; padding: 4px;">KONDISI</th>
-                                <th style="border: 1px solid black; padding: 4px;">NAMA PEMELIHARAAN</th>
-                                <th style="border: 1px solid black; padding: 4px;">JUMLAH DIUSULKAN</th>
-                                <th style="border: 1px solid black; padding: 4px;">KETERANGAN</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 4px; width: 28px;">NO</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 4px; width: 180px;">PROGRAM / KEGIATAN / OUTPUT</th>
+                                <th colspan="6" style="border: 1px solid black; padding: 4px;">BARANG YANG DIPELIHARA</th>
+                                <th colspan="2" style="border: 1px solid black; padding: 4px;">USULAN KEBUTUHAN PEMELIHARAAN</th>
+                                <th rowspan="2" style="border: 1px solid black; padding: 4px; width: 90px;">KETERANGAN</th>
                             </tr>
-                            <tr style="background-color: #f8fafc; text-align: center; font-size: 7.5pt;">
-                                <td style="border: 1px solid black; padding: 2px;">1</td>
-                                <td style="border: 1px solid black; padding: 2px;">2</td>
-                                <td style="border: 1px solid black; padding: 2px;">3</td>
-                                <td style="border: 1px solid black; padding: 2px;">4</td>
-                                <td style="border: 1px solid black; padding: 2px;">5</td>
-                                <td style="border: 1px solid black; padding: 2px;">6</td>
-                                <td style="border: 1px solid black; padding: 2px;">7</td>
-                                <td style="border: 1px solid black; padding: 2px;">8</td>
-                                <td style="border: 1px solid black; padding: 2px;">9</td>
-                                <td style="border: 1px solid black; padding: 2px;">10</td>
-                                <td style="border: 1px solid black; padding: 2px;">11</td>
+                            <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
+                                <th style="border: 1px solid black; padding: 4px; width: 95px;">KODE BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px;">NAMA BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 45px;">JUMLAH</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 50px;">SATUAN</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 90px;">STATUS BARANG</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 65px;">KONDISI</th>
+                                <th style="border: 1px solid black; padding: 4px;">NAMA PEMELIHARAAN</th>
+                                <th style="border: 1px solid black; padding: 4px; width: 55px;">JUMLAH</th>
+                            </tr>
+                            <tr style="background-color: #f8fafc; text-align: center; font-size: 7.5pt; font-weight: bold;">
+                                <td style="border: 1px solid black; padding: 2px;">(1)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(2)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(3)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(4)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(5)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(6)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(7)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(8)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(9)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(10)</td>
+                                <td style="border: 1px solid black; padding: 2px;">(11)</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -1774,12 +1906,12 @@
                                 <tr>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${idx + 1}</td>
                                     <td style="border: 1px solid black; padding: 4px;">${r.programKegiatanOutput || '-'}</td>
-                                    <td style="border: 1px solid black; padding: 4px; font-family: monospace;">${r.kodeBarang || '-'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; font-family: monospace; text-align: center;">${r.kodeBarang || '-'}</td>
                                     <td style="border: 1px solid black; padding: 4px; font-weight: bold;">${r.namaBarang}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.jumlahKib || r.jumlahUsulan}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.satuan}</td>
-                                    <td style="border: 1px solid black; padding: 4px;">${r.statusBarang || 'Dipergunakan Sendiri'}</td>
-                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.kondisiBarang || 'Baik'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center;">${r.statusBarang || 'Dipergunakan Sendiri'}</td>
+                                    <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${r.kondisiBarang || 'Baik'}</td>
                                     <td style="border: 1px solid black; padding: 4px;">${r.namaPemeliharaan || '-'}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
                                     <td style="border: 1px solid black; padding: 4px;">${r.keterangan || '-'}</td>
@@ -1790,30 +1922,58 @@
                 `;
             }
 
-            // SUSUN HALAMAN DOKUMEN CETAK RESMI
+            // SUSUN HALAMAN DOKUMEN CETAK RESMI PRESISI TINGGI
             const docContainer = document.getElementById('printable-doc');
             docContainer.innerHTML = `
-                <div style="padding: 10px; font-family: 'Times New Roman', Times, serif; line-height: 1.3;">
-                    <!-- HEADER DOKUMEN -->
-                    <div style="text-align: right; font-size: 8pt; font-weight: bold; margin-bottom: 5px;">
+                <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.25;">
+                    <!-- LABEL LAMPIRAN RESMI POJOK KANAN ATAS -->
+                    <div style="text-align: right; font-size: 8pt; font-weight: bold; margin-bottom: 6px;">
                         ${lampiranNo}
                     </div>
-                    <div style="text-align: center; margin-bottom: 15px;">
-                        <h2 style="font-size: 13pt; font-weight: bold; margin: 0; text-transform: uppercase;">PEMERINTAH KABUPATEN KONAWE</h2>
-                        <h3 style="font-size: 11pt; font-weight: bold; margin: 2px 0; text-transform: uppercase;">${docTitle}</h3>
-                        <h4 style="font-size: 10pt; font-weight: bold; margin: 2px 0;">TAHUN ANGGARAN 2027</h4>
-                    </div>
 
-                    <div style="font-size: 9.5pt; font-weight: bold; margin-bottom: 8px;">
-                        SKPD / UNIT KERJA : ${targetSkpd.toUpperCase()}
-                    </div>
+                    <!-- KOP DOKUMEN DINAS LENGKAP LOGO RESMI KABUPATEN KONAWE -->
+                    <table style="width: 100%; border-collapse: collapse; border: none; margin-bottom: 6px;">
+                        <tr>
+                            <td style="width: 80px; vertical-align: middle; text-align: left; border: none;">
+                                <img src="logo.png" style="height: 72px; width: auto; object-fit: contain;">
+                            </td>
+                            <td style="text-align: center; vertical-align: middle; border: none;">
+                                <div style="font-size: 13pt; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase;">PEMERINTAH KABUPATEN KONAWE</div>
+                                <div style="font-size: 11pt; font-weight: bold; margin: 2px 0; text-transform: uppercase;">${docTitle}</div>
+                                <div style="font-size: 10.5pt; font-weight: bold;">PENGGUNA BARANG / KUASA PENGGUNA BARANG</div>
+                                <div style="font-size: 10pt; font-weight: bold; margin-top: 2px;">TAHUN ANGGARAN 2027</div>
+                            </td>
+                            <td style="width: 80px; border: none;"></td>
+                        </tr>
+                    </table>
+                    
+                    <div style="border-top: 2px solid #000; border-bottom: 1px solid #000; height: 3px; margin-bottom: 8px;"></div>
 
-                    <!-- TABEL ISI -->
+                    <!-- META INFO RESMI -->
+                    <table style="width: 100%; border-collapse: collapse; border: none; font-size: 9.5pt; font-weight: bold; margin-bottom: 8px;">
+                        <tr>
+                            <td style="width: 160px; border: none; padding: 2px 0;">SKPD / UNIT KERJA</td>
+                            <td style="width: 15px; border: none; padding: 2px 0;">:</td>
+                            <td style="border: none; padding: 2px 0; text-transform: uppercase;">${targetSkpd}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; padding: 2px 0;">KABUPATEN</td>
+                            <td style="border: none; padding: 2px 0;">:</td>
+                            <td style="border: none; padding: 2px 0;">KONAWE</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none; padding: 2px 0;">PROVINSI</td>
+                            <td style="border: none; padding: 2px 0;">:</td>
+                            <td style="border: none; padding: 2px 0;">SULAWESI TENGGARA</td>
+                        </tr>
+                    </table>
+
+                    <!-- TABEL ISI RESMI PERMENDAGRI -->
                     ${tableHtml}
 
-                    <!-- KOLOM TANDA TANGAN (KIRI & KANAN) -->
-                    <div style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 10pt; page-break-inside: avoid;">
-                        <!-- Kiri: Pengurus Barang -->
+                    <!-- FORMAT BLOK TANDA TANGAN KIRI & KANAN SESUAI TATA NASKAH DINAS -->
+                    <div class="ttd-container" style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 10pt; page-break-inside: avoid;">
+                        <!-- Kiri: Pengurus Barang Pengguna -->
                         <div style="text-align: center; width: 40%;">
                             <div>Mengetahui / Dibuat Oleh:</div>
                             <div style="font-weight: bold;">${pengurusJabatan}</div>
@@ -1822,7 +1982,7 @@
                             <div>NIP. ${pengurusNip}</div>
                         </div>
 
-                        <!-- Kanan: Kepala SKPD / Camat -->
+                        <!-- Kanan: Kepala SKPD / Camat / Pengguna Barang -->
                         <div style="text-align: center; width: 40%;">
                             <div>${tglDokumen}</div>
                             <div style="font-weight: bold;">${kadisJabatan}</div>
@@ -1836,7 +1996,7 @@
 
             closePrintConfigModal();
 
-            // Panggil dialog cetak bawaan browser
+            // Panggil dialog cetak browser
             setTimeout(() => {
                 window.print();
             }, 300);
