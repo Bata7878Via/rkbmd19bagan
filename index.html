@@ -71,6 +71,7 @@
             #barangModal,
             #skpdDetailModal,
             #serverStatusModal,
+            #appSystemDialogModal,
             #printConfigModal,
             .no-print {
                 display: none !important;
@@ -113,17 +114,6 @@
         </div>
     </div>
 
-    <!-- NOTIFIKASI TOAST -->
-    <div id="toastNotification" class="fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform -translate-y-28 opacity-0 pointer-events-none select-none">
-        <div id="toastIconBox" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-            <i id="toastIcon" class="fa-solid fa-check text-base"></i>
-        </div>
-        <div>
-            <h4 id="toastTitle" class="text-[11px] font-bold uppercase tracking-wider text-emerald-100">Informasi Database</h4>
-            <p id="toastMessage" class="text-xs sm:text-sm font-semibold">Data Berhasil Di simpan Di Database</p>
-        </div>
-    </div>
-
     <!-- BANNER PERINGATAN KONEKSI -->
     <div id="connectionErrorBanner" class="hidden bg-rose-600 text-white p-3 text-xs font-semibold flex justify-between items-center px-4 sticky top-0 z-40 shadow-md select-none">
         <div class="flex items-center gap-2">
@@ -138,13 +128,25 @@
     <!-- ================= LAYAR LOGIN ================= -->
     <div id="login-section" class="flex min-h-screen items-center justify-center p-3 sm:p-6 bg-slate-900/10">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-center">
-            <div class="flex justify-center mb-4 select-none">
+            <!-- 1. Logo Pemerintah Kabupaten Konawe -->
+            <div class="flex justify-center mb-3 select-none">
                 <img src="logo.png" alt="Logo Kab. Konawe" class="h-20 sm:h-24 w-auto object-contain">
             </div>
             
-            <span class="px-3 py-1 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide select-none">Permendagri No. 19/2016</span>
-            <h1 class="text-xl sm:text-2xl font-black text-slate-800 mt-2 select-none">Sistem E-RKBMD & RKPBMD</h1>
-            <p class="text-xs text-slate-500 mb-6 select-none">Pemerintah Kabupaten Konawe &bull; TA. 2027</p>
+            <!-- 2. Tulisan BPKAD Kabupaten Konawe, TA. 2027 di bawah logo -->
+            <p class="text-xs sm:text-sm font-bold text-slate-600 uppercase tracking-wide select-none">
+                BPKAD Kabupaten Konawe, TA. 2027
+            </p>
+
+            <!-- 3. Tulisan Sistem E-RKBMD & RKPBMD -->
+            <h1 class="text-xl sm:text-2xl font-black text-slate-800 mt-1.5 select-none">Sistem E-RKBMD & RKPBMD</h1>
+
+            <!-- 4. Tulisan PERMENDAGRI NO. 19 TAHUN 2016 di bawah nama sistem -->
+            <div class="mt-2 mb-6 select-none">
+                <span class="px-3.5 py-1 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide inline-block shadow-sm">
+                    PERMENDAGRI NO. 19 TAHUN 2016
+                </span>
+            </div>
 
             <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 text-left">
                 <div>
@@ -154,13 +156,19 @@
                         <input type="text" id="login-user" required placeholder="Ketik username..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
+
+                <!-- Input Password dengan Fitur Tampilkan Password (Gambar Mata) -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1 select-none">Password</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-                        <input type="password" id="login-pass" required placeholder="Ketik password..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="relative flex items-center">
+                        <i class="fa-solid fa-lock absolute left-3.5 text-slate-400 text-xs pointer-events-none"></i>
+                        <input type="password" id="login-pass" required placeholder="Ketik password..." class="w-full pl-9 pr-10 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer p-1" title="Tampilkan / Sembunyikan Password">
+                            <i id="togglePassIcon" class="fa-solid fa-eye text-xs"></i>
+                        </button>
                     </div>
                 </div>
+
                 <button type="submit" id="btn-login" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow-md text-xs sm:text-sm uppercase tracking-wide cursor-pointer active:scale-95 select-none">
                     Masuk Ke Sistem
                 </button>
@@ -185,15 +193,16 @@
         
         <!-- HEADER UTAMA -->
         <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-4 sm:p-6 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 select-none">
-            <div class="flex items-center gap-3 min-w-0">
+            <div class="flex items-center gap-3 min-w-0 w-full md:w-auto">
                 <img src="logo.png" alt="Logo Kab. Konawe" class="h-12 sm:h-14 w-auto object-contain shrink-0">
-                <div class="min-w-0">
+                <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-2 mb-1 flex-wrap">
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide">Permendagri No. 19/2016</span>
                         <span class="text-xs text-blue-200 font-semibold">TA. 2027</span>
                     </div>
-                    <h1 class="text-base sm:text-xl md:text-2xl font-black tracking-tight leading-snug truncate">Sistem Terpadu RKBMD & RKPBMD</h1>
-                    <p class="text-blue-100 text-xs mt-0.5 truncate" id="user-display-label">SKPD: -</p>
+                    <h1 class="text-base sm:text-xl md:text-2xl font-black tracking-tight leading-snug break-words">Sistem Terpadu RKBMD & RKPBMD</h1>
+                    <!-- Label SKPD Responsif Tidak Terpotong di Android -->
+                    <p class="text-blue-100 text-xs sm:text-sm mt-0.5 break-words font-medium leading-relaxed" id="user-display-label">SKPD: -</p>
                 </div>
             </div>
             
@@ -224,9 +233,12 @@
                 <div class="text-lg sm:text-2xl font-black text-amber-700 mt-1" id="statRkpbmCount">0</div>
                 <div class="text-[10px] text-amber-500 font-medium mt-0.5">Standar Permendagri 19/2016</div>
             </div>
-            <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box">
+            <!-- Kartu Master Data Terhubung (Tulisan Tidak Terpotong di Android) -->
+            <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box min-w-0">
                 <span class="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase">Master Data Terhubung</span>
-                <div class="text-sm sm:text-lg font-black text-emerald-700 mt-1 truncate" id="statMasterInfo">0 SKPD / 0 Barang</div>
+                <div class="text-xs sm:text-base md:text-lg font-black text-emerald-700 mt-1 leading-tight break-words whitespace-normal" id="statMasterInfo">
+                    0 SKPD / 0 Barang
+                </div>
                 <div class="text-[10px] text-emerald-600 font-medium mt-0.5" id="statMasterStatus">Terverifikasi Database</div>
             </div>
         </div>
@@ -244,7 +256,6 @@
                     <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 select-none">
                         Dihitung otomatis dari usulan masuk terhadap daftar SKPD terdaftar.
                     </p>
-                    <!-- PARAGRAF SENTUH KARTU TELAH DIKEMBALIKAN -->
                     <p class="text-[11px] sm:text-xs text-indigo-600 font-semibold flex items-center gap-1.5 mt-1 select-none">
                         <i class="fa-solid fa-hand-pointer text-indigo-500 animate-pulse"></i>
                         Sentuh kartu di bawah ini untuk melihat rincian unit yang sudah atau belum menginput usulan.
@@ -605,7 +616,6 @@
             <!-- KONTROL PAGINASI DENGAN COPYRIGHT DI TENGAH -->
             <div class="pt-3 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-2 select-none">
                 <span id="labelTotalRecords">0 data ditampilkan</span>
-                <!-- HAK CIPTA DI TENGAH SESUAI PERMINTAAN -->
                 <span class="font-semibold text-slate-500 text-center order-last md:order-none">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
                 <div class="flex items-center gap-1.5" id="paginationControls">
                     <button type="button" onclick="prevPage()" id="btnPrevPage" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed">
@@ -704,7 +714,7 @@
         </div>
     </div>
 
-    <!-- MODAL STATUS KONEKSI (DIKEMBALIKAN SESUAI TAMPILAN RESMI SEMULA) -->
+    <!-- MODAL STATUS KONEKSI SERVER -->
     <div id="serverStatusModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center">
             <div id="statusModalIconBox" class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
@@ -722,20 +732,41 @@
         </div>
     </div>
 
-    <!-- MODAL PARAMETER TANDA TANGAN & CETAK -->
-    <div id="printConfigModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
-        <div class="bg-white rounded-3xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+    <!-- ================= MODAL DIALOG SISTEM RESMI PEMKAB KONAWE ================= -->
+    <!-- Pengganti alert() & confirm() bawaan browser untuk Konfirmasi Hapus, Simpan, dan Notifikasi Resmi -->
+    <div id="appSystemDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center">
+            <div id="dialogIconBox" class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
+                <i id="dialogIcon" class="fa-solid fa-circle-check"></i>
+            </div>
+            <h3 id="dialogTitle" class="text-base font-bold text-slate-800">Informasi Database</h3>
+            <p id="dialogMessage" class="text-xs text-slate-600 mt-2 leading-relaxed whitespace-pre-line">Data berhasil diproses ke dalam database.</p>
+            <div id="dialogActions" class="mt-6 flex items-center justify-center gap-2">
+                <button type="button" id="dialogBtnCancel" onclick="handleDialogCancel()" class="hidden w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer">
+                    Batal
+                </button>
+                <button type="button" id="dialogBtnConfirm" onclick="handleDialogConfirm()" class="w-full bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow">
+                    Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARAMETER TANDA TANGAN & CETAK (RESPONSIF & DAPAT DI-SCROLL DI ANDROID) -->
+    <div id="printConfigModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-4 sm:p-6 shadow-2xl border border-slate-100 max-h-[92vh] flex flex-col my-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 shrink-0">
                 <div>
                     <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
                         <i class="fa-solid fa-file-invoice text-indigo-600"></i> Pengaturan Cetak Sesuai Permendagri No. 19/2016
                     </h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Lengkapi data pejabat penandatangan sebelum mencetak.</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">Lengkapi data pejabat penandatangan sebelum mencetak.</p>
                 </div>
                 <button type="button" onclick="closePrintConfigModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer leading-none">&times;</button>
             </div>
 
-            <form id="formPrintConfig" onsubmit="executeOfficialPrint(event)" class="space-y-3.5 mt-3 text-xs">
+            <!-- Form dibuat scrollable dengan custom scroll agar nyaman di HP Android -->
+            <form id="formPrintConfig" onsubmit="executeOfficialPrint(event)" class="space-y-3.5 mt-3 text-xs overflow-y-auto custom-scroll pr-1 flex-1">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 uppercase mb-1">SKPD yang Dicetak</label>
@@ -789,7 +820,7 @@
                     </div>
                 </div>
 
-                <div class="flex gap-2 pt-2 border-t border-slate-100">
+                <div class="flex gap-2 pt-2 border-t border-slate-100 shrink-0">
                     <button type="button" onclick="closePrintConfigModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-bold cursor-pointer">
                         Batal
                     </button>
@@ -821,6 +852,10 @@
         let currentPage = 1;
         const rowsPerPage = 15;
 
+        // Callback Dialog Modal Sistem
+        let dialogConfirmCallback = null;
+        let dialogCancelCallback = null;
+
         window.addEventListener('DOMContentLoaded', () => {
             const saved = sessionStorage.getItem('user_rkbmd_session');
             const token = sessionStorage.getItem('user_rkbmd_token');
@@ -831,7 +866,102 @@
             }
         });
 
-        // ================= DIAGNOSTIK KONEKSI (DIKEMBALIKAN SESUAI VERSI SEMULA) =================
+        // ================= FITUR LIHAT PASSWORD DENGAN GAMBAR MATA =================
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('login-pass');
+            const passIcon = document.getElementById('togglePassIcon');
+
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                passIcon.classList.remove('fa-eye');
+                passIcon.classList.add('fa-eye-slash', 'text-blue-600');
+            } else {
+                passInput.type = "password";
+                passIcon.classList.remove('fa-eye-slash', 'text-blue-600');
+                passIcon.classList.add('fa-eye');
+            }
+        }
+
+        // ================= DIALOG SISTEM RESMI PEMKAB KONAWE (PENGGANTI ALERT & CONFIRM) =================
+        function showSystemDialog({
+            title = "Pemberitahuan Sistem",
+            message = "",
+            type = "info", // "success", "danger", "warning", "info"
+            confirmText = "Mengerti",
+            cancelText = null,
+            onConfirm = null,
+            onCancel = null
+        }) {
+            const modal = document.getElementById('appSystemDialogModal');
+            const iconBox = document.getElementById('dialogIconBox');
+            const icon = document.getElementById('dialogIcon');
+            const titleEl = document.getElementById('dialogTitle');
+            const msgEl = document.getElementById('dialogMessage');
+            const btnConfirm = document.getElementById('dialogBtnConfirm');
+            const btnCancel = document.getElementById('dialogBtnCancel');
+
+            titleEl.innerText = title;
+            msgEl.innerText = message;
+            btnConfirm.innerText = confirmText;
+
+            dialogConfirmCallback = onConfirm;
+            dialogCancelCallback = onCancel;
+
+            if (type === "success") {
+                iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
+                icon.className = "fa-solid fa-circle-check text-emerald-600";
+                btnConfirm.className = cancelText 
+                    ? "w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow" 
+                    : "w-full bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow";
+            } else if (type === "danger") {
+                iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
+                icon.className = "fa-solid fa-triangle-exclamation text-rose-600";
+                btnConfirm.className = cancelText 
+                    ? "w-1/2 bg-rose-600 hover:bg-rose-700 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow" 
+                    : "w-full bg-rose-600 hover:bg-rose-700 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow";
+            } else if (type === "warning") {
+                iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
+                icon.className = "fa-solid fa-circle-exclamation text-amber-600";
+                btnConfirm.className = cancelText 
+                    ? "w-1/2 bg-amber-600 hover:bg-amber-700 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow" 
+                    : "w-full bg-amber-600 hover:bg-amber-700 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow";
+            } else {
+                iconBox.className = "w-14 h-14 mx-auto rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mb-3 shadow-inner";
+                icon.className = "fa-solid fa-circle-info text-indigo-600";
+                btnConfirm.className = cancelText 
+                    ? "w-1/2 bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow" 
+                    : "w-full bg-blue-700 hover:bg-blue-800 text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer shadow";
+            }
+
+            if (cancelText) {
+                btnCancel.innerText = cancelText;
+                btnCancel.classList.remove('hidden');
+            } else {
+                btnCancel.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeSystemDialog() {
+            document.getElementById('appSystemDialogModal').classList.add('hidden');
+        }
+
+        function handleDialogConfirm() {
+            closeSystemDialog();
+            if (typeof dialogConfirmCallback === "function") {
+                dialogConfirmCallback();
+            }
+        }
+
+        function handleDialogCancel() {
+            closeSystemDialog();
+            if (typeof dialogCancelCallback === "function") {
+                dialogCancelCallback();
+            }
+        }
+
+        // ================= DIAGNOSTIK KONEKSI =================
         async function testServerConnection() {
             showLoader("Memeriksa status respon database...");
             try {
@@ -899,7 +1029,7 @@
             if (b) b.classList.add('hidden');
         }
 
-        // SISTEM LOGIN AMAN (METODE POST)
+        // SISTEM LOGIN AMAN
         async function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('login-user').value.trim();
@@ -961,7 +1091,7 @@
             switchMode('RKBMD');
         }
 
-        // AMBIL DATA DENGAN TOKEN KEAMANAN
+        // AMBIL DATA DARI DATABASE
         async function fetchDataFromDatabase() {
             showLoader("Menghubungkan ke Database...");
             try {
@@ -981,8 +1111,13 @@
                     renderAllViews();
                     hideConnectionError();
                 } else if (res.status === "unauthorized") {
-                    alert("Sesi login Anda telah habis. Silakan login kembali.");
-                    handleLogout();
+                    showSystemDialog({
+                        title: "Sesi Berakhir",
+                        message: "Sesi login Anda telah habis demi keamanan. Silakan login kembali ke sistem.",
+                        type: "warning",
+                        confirmText: "Login Ulang",
+                        onConfirm: handleLogout
+                    });
                 } else {
                     showConnectionError("Gagal membaca data: " + res.message);
                 }
@@ -1171,7 +1306,7 @@
             return true;
         }
 
-        // SIMPAN / EDIT DATA USULAN
+        // ================= SIMPAN / EDIT DATA DENGAN MODAL DIALOG TENGAH =================
         async function handleFormSubmit(e) {
             e.preventDefault();
             if (!validateInputLock()) return;
@@ -1181,7 +1316,12 @@
             const skpdVal = (currentUser.kategori === "Admin") ? document.getElementById('skpd').value : currentUser.nama_skpd;
 
             if (!skpdVal) {
-                alert("Harap pilih nama SKPD!");
+                showSystemDialog({
+                    title: "Peringatan Validasi",
+                    message: "Harap pilih nama SKPD pengusul terlebih dahulu sebelum menyimpan data.",
+                    type: "warning",
+                    confirmText: "Mengerti"
+                });
                 return;
             }
 
@@ -1220,14 +1360,32 @@
                 const res = await resp.json();
 
                 if (res.status === "success") {
-                    showToast("Data Berhasil Di simpan Di Database");
                     resetForm();
                     await fetchDataFromDatabase();
+                    // Notifikasi Sukses Simpan / Ubah di Posisi Tengah
+                    showSystemDialog({
+                        title: isEdit ? "Perubahan Disimpan" : "Usulan Berhasil Disimpan",
+                        message: isEdit 
+                            ? "Pembaruan data usulan telah berhasil disimpan dan dicatat di database Pemerintah Kabupaten Konawe."
+                            : "Data usulan baru telah berhasil disimpan dan dicatat di database Pemerintah Kabupaten Konawe.",
+                        type: "success",
+                        confirmText: "Tutup"
+                    });
                 } else {
-                    alert(res.message || "Gagal menyimpan usulan.");
+                    showSystemDialog({
+                        title: "Gagal Menyimpan Usulan",
+                        message: res.message || "Terjadi kendala saat menyimpan data ke database server.",
+                        type: "danger",
+                        confirmText: "Tutup"
+                    });
                 }
             } catch(err) {
-                alert("Gagal terhubung ke database.");
+                showSystemDialog({
+                    title: "Gangguan Sambungan",
+                    message: "Gagal terhubung ke database server. Pastikan jaringan internet Anda aktif.",
+                    type: "danger",
+                    confirmText: "Tutup"
+                });
             } finally {
                 hideLoader();
             }
@@ -1267,12 +1425,23 @@
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
-        async function deleteItem(id) {
+        // ================= HAPUS DATA DENGAN MODAL DIALOG RESMI =================
+        function deleteItem(id) {
             const it = dataset.find(d => String(d.id) === String(id));
             if (!it) return;
-            if (!confirm(`Hapus permanen usulan "${it.namaBarang}"?`)) return;
 
-            showLoader("Menghapus usulan...");
+            showSystemDialog({
+                title: "Konfirmasi Hapus Data Usulan",
+                message: `Apakah Anda yakin ingin menghapus data usulan:\n"${it.namaBarang}"?\n\nTindakan ini bersifat permanen pada database daerah.`,
+                type: "danger",
+                confirmText: "Ya, Hapus Data",
+                cancelText: "Batal",
+                onConfirm: () => executeDelete(it)
+            });
+        }
+
+        async function executeDelete(it) {
+            showLoader("Menghapus data usulan...");
             try {
                 const resp = await fetch(API_URL, {
                     method: 'POST',
@@ -1282,13 +1451,28 @@
                 const res = await resp.json();
 
                 if (res.status === "success") {
-                    showToast("Data Berhasil Dihapus Dari Database", true);
                     await fetchDataFromDatabase();
+                    showSystemDialog({
+                        title: "Data Berhasil Dihapus",
+                        message: `Data usulan "${it.namaBarang}" telah berhasil dihapus dari database.`,
+                        type: "success",
+                        confirmText: "Tutup"
+                    });
                 } else {
-                    alert(res.message || "Gagal menghapus.");
+                    showSystemDialog({
+                        title: "Gagal Menghapus Data",
+                        message: res.message || "Terjadi kendala saat menghapus data dari database.",
+                        type: "danger",
+                        confirmText: "Tutup"
+                    });
                 }
             } catch(e) {
-                alert("Gagal menghapus.");
+                showSystemDialog({
+                    title: "Gangguan Sambungan",
+                    message: "Gagal terhubung ke database server saat menghapus usulan.",
+                    type: "danger",
+                    confirmText: "Tutup"
+                });
             } finally {
                 hideLoader();
             }
@@ -1325,7 +1509,6 @@
             const isAdmin = (currentUser && currentUser.kategori === "Admin");
 
             return dataset.filter(item => {
-                // Admin dapat melihat semua / filter SKPD. SKPD biasa hanya mengelola usulan miliknya di tabel
                 const matchSkpd = isAdmin 
                     ? (adminFilter === "SEMUA" || item.skpd === adminFilter)
                     : (item.skpd.toLowerCase() === currentUser.nama_skpd.toLowerCase());
@@ -1371,8 +1554,8 @@
                             <td class="p-2.5 text-center font-black bg-amber-50 text-amber-900">${it.kebutuhanRiil || 0}</td>
                             <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
                             <td class="p-2.5 text-center space-x-1 no-print">
-                                <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
-                                <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                                <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer" title="Ubah Usulan"><i class="fa-solid fa-pencil"></i></button>
+                                <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer" title="Hapus Usulan"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         </tr>
                     `).join('');
@@ -1397,8 +1580,8 @@
                             <td class="p-2.5 text-center font-black bg-emerald-50 text-emerald-800">${it.jumlahUsulan}</td>
                             <td class="p-2.5 text-slate-500">${it.keterangan || '-'}</td>
                             <td class="p-2.5 text-center space-x-1 no-print">
-                                <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer"><i class="fa-solid fa-pencil"></i></button>
-                                <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                                <button onclick="editItem('${it.id}')" class="p-1.5 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-lg cursor-pointer" title="Ubah Usulan"><i class="fa-solid fa-pencil"></i></button>
+                                <button onclick="deleteItem('${it.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg cursor-pointer" title="Hapus Usulan"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         </tr>
                     `).join('');
@@ -1467,7 +1650,7 @@
             closeBarangModal();
         }
 
-        // ================= MONITORING KEPATUHAN (DAPAT DIAKSES SEMUA SKPD) =================
+        // ================= MONITORING KEPATUHAN =================
         function renderAllViews() {
             renderTables();
             updateStats();
@@ -1476,7 +1659,6 @@
 
         function updateStats() {
             const isAdmin = (currentUser && currentUser.kategori === "Admin");
-            // Admin melihat total Konawe, SKPD biasa melihat total usulan miliknya di kartu atas
             const userDataset = isAdmin ? dataset : dataset.filter(i => (i.skpd || '').toLowerCase() === (currentUser.nama_skpd || '').toLowerCase());
             const rk = userDataset.filter(i => i.jenis === "RKBMD");
             const rkp = userDataset.filter(i => i.jenis === "RKPBMD");
@@ -1484,10 +1666,11 @@
             document.getElementById('statTotalItems').innerText = userDataset.length;
             document.getElementById('statRkbmdCount').innerText = rk.length;
             document.getElementById('statRkpbmCount').innerText = rkp.length;
+            
+            // Format rapi agar tidak terpotong di Android
             document.getElementById('statMasterInfo').innerText = `${masterSkpdList.length} SKPD / ${masterBarangList.length} Barang`;
         }
 
-        // Menghitung status kepatuhan dari SEMUA USULAN agar dapat dipantau seluruh SKPD
         function getCompliance() {
             const usageTotal = {};
             const usagePengadaan = {};
@@ -1597,7 +1780,7 @@
             }
         }
 
-        // MODAL RINCIAN STATUS SKPD (TERBUKA LENGKAP UNTUK SEMUA SKPD)
+        // MODAL RINCIAN STATUS SKPD
         function openSkpdDetailsModal(filter = "SEMUA") {
             modalActiveFilter = filter;
             const c = getCompliance();
@@ -1754,7 +1937,7 @@
             setTimeout(() => { window.print(); }, 250);
         }
 
-        // ================= CETAK RESMI FORMAT 100% PERMENDAGRI =================
+        // ================= CETAK RESMI FORMAT PERMENDAGRI =================
         function openPrintConfigModal() {
             const modal = document.getElementById('printConfigModal');
             const targetSelect = document.getElementById('printTargetSkpd');
@@ -1819,7 +2002,12 @@
             const rows = dataset.filter(i => i.jenis === currentTab && i.skpd === targetSkpd);
 
             if (rows.length === 0) {
-                alert(`Tidak ada usulan ${currentTab} untuk SKPD ${targetSkpd}.`);
+                showSystemDialog({
+                    title: "Data Tidak Ditemukan",
+                    message: `Tidak ada usulan ${currentTab} untuk SKPD:\n"${targetSkpd}".\nSilakan pastikan data telah diinput.`,
+                    type: "warning",
+                    confirmText: "Tutup"
+                });
                 return;
             }
 
@@ -2007,18 +2195,7 @@
             setTimeout(() => { window.print(); }, 300);
         }
 
-        // TOAST, LOADER & EXCEL
-        function showToast(msg = "Data Berhasil Di simpan Di Database", isAlert = false) {
-            const toast = document.getElementById('toastNotification');
-            document.getElementById('toastMessage').innerText = msg;
-            toast.className = `fixed top-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-auto z-50 flex items-center gap-3 ${isAlert ? 'bg-rose-600' : 'bg-emerald-600'} text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 select-none`;
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('-translate-y-28', 'opacity-0', 'pointer-events-none');
-            }, 3000);
-        }
-
+        // LOADER & EXCEL
         function showLoader(txt) {
             document.getElementById('globalLoaderMsg').innerText = txt;
             document.getElementById('globalLoader').classList.remove('hidden');
