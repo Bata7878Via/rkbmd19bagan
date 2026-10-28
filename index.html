@@ -128,20 +128,16 @@
     <!-- ================= LAYAR LOGIN ================= -->
     <div id="login-section" class="flex min-h-screen items-center justify-center p-3 sm:p-6 bg-slate-900/10">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-center">
-            <!-- 1. Logo Pemerintah Kabupaten Konawe -->
             <div class="flex justify-center mb-3 select-none">
                 <img src="logo.png" alt="Logo Kab. Konawe" class="h-20 sm:h-24 w-auto object-contain">
             </div>
             
-            <!-- 2. Tulisan BPKAD Kabupaten Konawe, TA. 2027 di bawah logo -->
             <p class="text-xs sm:text-sm font-bold text-slate-600 uppercase tracking-wide select-none">
                 BPKAD Kabupaten Konawe, TA. 2027
             </p>
 
-            <!-- 3. Tulisan Sistem E-RKBMD & RKPBMD -->
             <h1 class="text-xl sm:text-2xl font-black text-slate-800 mt-1.5 select-none">Sistem E-RKBMD & RKPBMD</h1>
 
-            <!-- 4. Tulisan PERMENDAGRI NO. 19 TAHUN 2016 di bawah nama sistem -->
             <div class="mt-2 mb-6 select-none">
                 <span class="px-3.5 py-1 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 uppercase tracking-wide inline-block shadow-sm">
                     PERMENDAGRI NO. 19 TAHUN 2016
@@ -150,14 +146,13 @@
 
             <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4 text-left">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1 select-none">Username SKPD / Admin</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1 select-none">Username SKPD / UPTD / Admin</label>
                     <div class="relative">
                         <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-400 text-xs"></i>
                         <input type="text" id="login-user" required placeholder="Ketik username..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
 
-                <!-- Input Password dengan Fitur Tampilkan Password (Gambar Mata) -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1 select-none">Password</label>
                     <div class="relative flex items-center">
@@ -201,7 +196,6 @@
                         <span class="text-xs text-blue-200 font-semibold">TA. 2027</span>
                     </div>
                     <h1 class="text-base sm:text-xl md:text-2xl font-black tracking-tight leading-snug break-words">Sistem Terpadu RKBMD & RKPBMD</h1>
-                    <!-- Label SKPD Responsif Tidak Terpotong di Android -->
                     <p class="text-blue-100 text-xs sm:text-sm mt-0.5 break-words font-medium leading-relaxed" id="user-display-label">SKPD: -</p>
                 </div>
             </div>
@@ -216,7 +210,7 @@
             </div>
         </header>
 
-        <!-- KARTU STATISTIK -->
+        <!-- KARTU STATISTIK ATAS -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 select-none">
             <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box">
                 <span class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Total Usulan Masuk</span>
@@ -233,13 +227,83 @@
                 <div class="text-lg sm:text-2xl font-black text-amber-700 mt-1" id="statRkpbmCount">0</div>
                 <div class="text-[10px] text-amber-500 font-medium mt-0.5">Standar Permendagri 19/2016</div>
             </div>
-            <!-- Kartu Master Data Terhubung (Tulisan Tidak Terpotong di Android) -->
             <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box min-w-0">
                 <span class="text-[10px] sm:text-xs font-bold text-emerald-600 uppercase">Master Data Terhubung</span>
-                <div class="text-xs sm:text-base md:text-lg font-black text-emerald-700 mt-1 leading-tight break-words whitespace-normal" id="statMasterInfo">
+                <div class="text-xs sm:base md:text-lg font-black text-emerald-700 mt-1 leading-tight break-words whitespace-normal" id="statMasterInfo">
                     0 SKPD / 0 Barang
                 </div>
                 <div class="text-[10px] text-emerald-600 font-medium mt-0.5" id="statMasterStatus">Terverifikasi Database</div>
+            </div>
+        </div>
+
+        <!-- AGENDA & TIMELINE PELAPORAN RESMI (AGENDA BARU) -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 select-none">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="p-1.5 bg-blue-50 text-blue-600 rounded-lg text-sm">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </span>
+                    <h3 class="font-bold text-slate-800 text-xs sm:text-sm uppercase tracking-wide">Agenda & Jadwal Batas Waktu Pelaporan</h3>
+                </div>
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800">T.A. 2027</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs" id="agendaTimelineContainer">
+                <div class="p-3 bg-teal-50/60 border border-teal-200 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center text-teal-800 font-black text-[10px] uppercase">
+                            <span>Tahap 1: Puskesmas & Kelurahan</span>
+                            <span class="px-1.5 py-0.5 rounded bg-teal-200 text-teal-900 text-[9px]">Prioritas</span>
+                        </div>
+                        <p class="text-slate-600 font-semibold text-[11px] mt-1">Input usulan ke SKPD Induk (Dinkes & Kecamatan)</p>
+                    </div>
+                    <div class="mt-2.5 pt-2 border-t border-teal-200/60 flex justify-between items-center text-[10px]">
+                        <span class="text-slate-500">Batas Waktu:</span>
+                        <span class="font-bold text-teal-900 bg-white px-2 py-0.5 rounded border border-teal-300">15 Mei 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center text-blue-800 font-black text-[10px] uppercase">
+                            <span>Tahap 2: SKPD Induk & Kecamatan</span>
+                            <span class="px-1.5 py-0.5 rounded bg-blue-200 text-blue-900 text-[9px]">Verifikasi</span>
+                        </div>
+                        <p class="text-slate-600 font-semibold text-[11px] mt-1">Rekapitulasi usulan internal & submit ke BPKAD</p>
+                    </div>
+                    <div class="mt-2.5 pt-2 border-t border-blue-200/60 flex justify-between items-center text-[10px]">
+                        <span class="text-slate-500">Batas Waktu:</span>
+                        <span class="font-bold text-blue-900 bg-white px-2 py-0.5 rounded border border-blue-300">31 Mei 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-indigo-50/60 border border-indigo-200 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center text-indigo-800 font-black text-[10px] uppercase">
+                            <span>Tahap 3: Penelaahan BPKAD</span>
+                            <span class="px-1.5 py-0.5 rounded bg-indigo-200 text-indigo-900 text-[9px]">Pengelola</span>
+                        </div>
+                        <p class="text-slate-600 font-semibold text-[11px] mt-1">Penelaahan Standar Kebutuhan Riil & SSH</p>
+                    </div>
+                    <div class="mt-2.5 pt-2 border-t border-indigo-200/60 flex justify-between items-center text-[10px]">
+                        <span class="text-slate-500">Batas Waktu:</span>
+                        <span class="font-bold text-indigo-900 bg-white px-2 py-0.5 rounded border border-indigo-300">30 Juni 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center text-amber-800 font-black text-[10px] uppercase">
+                            <span>Tahap 4: RKPBMD (Perubahan)</span>
+                            <span class="px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 text-[9px]">Penyesuaian</span>
+                        </div>
+                        <p class="text-slate-600 font-semibold text-[11px] mt-1">Usulan perubahan pemeliharaan tahun berjalan</p>
+                    </div>
+                    <div class="mt-2.5 pt-2 border-t border-amber-200/60 flex justify-between items-center text-[10px]">
+                        <span class="text-slate-500">Jadwal:</span>
+                        <span class="font-bold text-amber-900 bg-white px-2 py-0.5 rounded border border-amber-300">Triwulan III 2026</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -251,23 +315,20 @@
                         <span class="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-sm">
                             <i class="fa-solid fa-chart-pie"></i>
                         </span>
-                        <h2 class="font-bold text-slate-800 text-sm sm:text-base">Monitoring Kepatuhan Penginputan SKPD</h2>
+                        <h2 class="font-bold text-slate-800 text-sm sm:text-base">Monitoring Kepatuhan Penginputan SKPD, Puskesmas, & Kelurahan</h2>
                     </div>
                     <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 select-none">
-                        Dihitung otomatis dari usulan masuk terhadap daftar SKPD terdaftar.
-                    </p>
-                    <p class="text-[11px] sm:text-xs text-indigo-600 font-semibold flex items-center gap-1.5 mt-1 select-none">
-                        <i class="fa-solid fa-hand-pointer text-indigo-500 animate-pulse"></i>
-                        Sentuh kartu di bawah ini untuk melihat rincian unit yang sudah atau belum menginput usulan.
+                        Dihitung otomatis dari usulan masuk terhadap daftar seluruh unit kerja terdaftar.
                     </p>
                 </div>
-                <button type="button" onclick="openSkpdDetailsModal()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer active:scale-95 w-full sm:w-auto justify-center select-none">
-                    <i class="fa-solid fa-list-check"></i> Rincian Status SKPD
+                <button type="button" onclick="openSkpdDetailsModal('SEMUA')" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 cursor-pointer active:scale-95 w-full sm:w-auto justify-center select-none">
+                    <i class="fa-solid fa-list-check"></i> Rincian Status Semua Unit
                 </button>
             </div>
 
-            <!-- 4 Kartu Kategori SKPD -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 select-none">
+            <!-- 6 KARTU MONITORING KATEGORI ENTITAS (TERMASUK PUSKESMAS & KELURAHAN) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 select-none">
+                <!-- 1. Dinas & Badan -->
                 <div onclick="openSkpdDetailsModal('DINAS_BADAN')" class="p-3 bg-blue-50/70 border border-blue-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-blue-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Badan & Dinas</span>
@@ -275,11 +336,12 @@
                     </div>
                     <div class="flex items-baseline gap-1">
                         <span id="metricDinasSudah" class="text-base sm:text-2xl font-black text-blue-800">0</span>
-                        <span id="metricDinasTotal" class="text-[10px] sm:text-[11px] text-blue-600 font-semibold truncate">/ 0 Unit</span>
+                        <span id="metricDinasTotal" class="text-[10px] sm:text-[11px] text-blue-600 font-semibold truncate">/ 0</span>
                     </div>
                     <div class="mt-1 text-[10px] font-semibold text-blue-600" id="metricDinasPercent">0% Selesai</div>
                 </div>
 
+                <!-- 2. Kecamatan -->
                 <div onclick="openSkpdDetailsModal('KECAMATAN')" class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-emerald-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Kecamatan</span>
@@ -287,23 +349,51 @@
                     </div>
                     <div class="flex items-baseline gap-1">
                         <span id="metricKecamatanSudah" class="text-base sm:text-2xl font-black text-emerald-800">0</span>
-                        <span id="metricKecamatanTotal" class="text-[10px] sm:text-[11px] text-emerald-600 font-semibold truncate">/ 0 Unit</span>
+                        <span id="metricKecamatanTotal" class="text-[10px] sm:text-[11px] text-emerald-600 font-semibold truncate">/ 0</span>
                     </div>
                     <div class="mt-1 text-[10px] font-semibold text-emerald-600" id="metricKecamatanPercent">0% Selesai</div>
                 </div>
 
+                <!-- 3. Puskesmas (Baru) -->
+                <div onclick="openSkpdDetailsModal('PUSKESMAS')" class="p-3 bg-teal-50/70 border border-teal-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
+                    <div class="flex items-center justify-between text-teal-700 mb-1">
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Puskesmas</span>
+                        <i class="fa-solid fa-house-medical text-xs"></i>
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <span id="metricPuskesmasSudah" class="text-base sm:text-2xl font-black text-teal-800">0</span>
+                        <span id="metricPuskesmasTotal" class="text-[10px] sm:text-[11px] text-teal-600 font-semibold truncate">/ 0</span>
+                    </div>
+                    <div class="mt-1 text-[10px] font-semibold text-teal-600" id="metricPuskesmasPercent">0% Selesai</div>
+                </div>
+
+                <!-- 4. Kelurahan (Baru) -->
+                <div onclick="openSkpdDetailsModal('KELURAHAN')" class="p-3 bg-amber-50/70 border border-amber-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
+                    <div class="flex items-center justify-between text-amber-700 mb-1">
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Kelurahan</span>
+                        <i class="fa-solid fa-tree-city text-xs"></i>
+                    </div>
+                    <div class="flex items-baseline gap-1">
+                        <span id="metricKelurahanSudah" class="text-base sm:text-2xl font-black text-amber-800">0</span>
+                        <span id="metricKelurahanTotal" class="text-[10px] sm:text-[11px] text-amber-600 font-semibold truncate">/ 0</span>
+                    </div>
+                    <div class="mt-1 text-[10px] font-semibold text-amber-600" id="metricKelurahanPercent">0% Selesai</div>
+                </div>
+
+                <!-- 5. Bagian Setda -->
                 <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-purple-700 mb-1">
-                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Bagian (Setda)</span>
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Bagian Setda</span>
                         <i class="fa-solid fa-landmark text-xs"></i>
                     </div>
                     <div class="flex items-baseline gap-1">
                         <span id="metricBagianSudah" class="text-base sm:text-2xl font-black text-purple-800">0</span>
-                        <span id="metricBagianTotal" class="text-[10px] sm:text-[11px] text-purple-600 font-semibold truncate">/ 0 Unit</span>
+                        <span id="metricBagianTotal" class="text-[10px] sm:text-[11px] text-purple-600 font-semibold truncate">/ 0</span>
                     </div>
                     <div class="mt-1 text-[10px] font-semibold text-purple-600" id="metricBagianPercent">0% Selesai</div>
                 </div>
 
+                <!-- 6. Belum Input -->
                 <div onclick="openSkpdDetailsModal('BELUM')" class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
                     <div class="flex items-center justify-between text-rose-700 mb-1">
                         <span class="text-[10px] sm:text-[11px] font-bold uppercase truncate">Belum Input</span>
@@ -311,16 +401,16 @@
                     </div>
                     <div class="flex items-baseline gap-1">
                         <span id="metricBelumInput" class="text-base sm:text-2xl font-black text-rose-700">0</span>
-                        <span id="metricTotalSkpdSemua" class="text-[10px] sm:text-[11px] text-rose-600 font-semibold truncate">/ 0 SKPD</span>
+                        <span id="metricTotalSkpdSemua" class="text-[10px] sm:text-[11px] text-rose-600 font-semibold truncate">/ 0 Total</span>
                     </div>
                     <div class="mt-1 text-[10px] font-bold text-rose-600">Klik lihat daftar</div>
                 </div>
             </div>
 
-            <!-- Dua Diagram Bulat SVG -->
+            <!-- Dua Diagram Bulat SVG Komposisi Menyeluruh -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1 select-none">
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col items-center">
-                    <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Status Penginputan Seluruh SKPD</h3>
+                    <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide text-center">Status Penginputan Seluruh Entitas Daerah</h3>
                     <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
                         <svg viewBox="0 0 160 160" class="w-full h-full transform -rotate-90">
                             <circle id="donutBgStatus" cx="80" cy="80" r="55" fill="transparent" stroke="#f43f5e" stroke-width="20" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('BELUM')"></circle>
@@ -347,6 +437,8 @@
                         <svg viewBox="0 0 160 160" class="w-full h-full transform -rotate-90">
                             <circle id="donutCatDinas" cx="80" cy="80" r="55" fill="transparent" stroke="#3b82f6" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('DINAS_BADAN')"></circle>
                             <circle id="donutCatKec" cx="80" cy="80" r="55" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('KECAMATAN')"></circle>
+                            <circle id="donutCatPkm" cx="80" cy="80" r="55" fill="transparent" stroke="#0d9488" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('PUSKESMAS')"></circle>
+                            <circle id="donutCatKel" cx="80" cy="80" r="55" fill="transparent" stroke="#f59e0b" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('KELURAHAN')"></circle>
                             <circle id="donutCatBagian" cx="80" cy="80" r="55" fill="transparent" stroke="#a855f7" stroke-width="20" stroke-dasharray="0 345.58" stroke-dashoffset="0" class="cursor-pointer donut-segment" onclick="openSkpdDetailsModal('BAGIAN')"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -354,15 +446,21 @@
                             <span class="text-[9px] font-bold text-slate-500 uppercase">UNIT SELESAI</span>
                         </div>
                     </div>
-                    <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs font-semibold mt-3 pt-2 border-t border-slate-200 w-full">
-                        <span class="inline-flex items-center gap-1 text-blue-700 cursor-pointer hover:underline p-1" onclick="openSkpdDetailsModal('DINAS_BADAN')">
-                            <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Dinas/Badan: <strong id="legendDinasVal">0</strong>
+                    <div class="flex flex-wrap items-center justify-center gap-2 text-[11px] font-semibold mt-3 pt-2 border-t border-slate-200 w-full">
+                        <span class="inline-flex items-center gap-1 text-blue-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('DINAS_BADAN')">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span> Dinas: <strong id="legendDinasVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1 text-emerald-700 cursor-pointer hover:underline p-1" onclick="openSkpdDetailsModal('KECAMATAN')">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Kecamatan: <strong id="legendKecVal">0</strong>
+                        <span class="inline-flex items-center gap-1 text-emerald-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('KECAMATAN')">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Kec: <strong id="legendKecVal">0</strong>
                         </span>
-                        <span class="inline-flex items-center gap-1 text-purple-700 cursor-pointer hover:underline p-1" onclick="openSkpdDetailsModal('BAGIAN')">
-                            <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Bagian: <strong id="legendBagianVal">0</strong>
+                        <span class="inline-flex items-center gap-1 text-teal-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('PUSKESMAS')">
+                            <span class="w-2 h-2 rounded-full bg-teal-600"></span> PKM: <strong id="legendPkmVal">0</strong>
+                        </span>
+                        <span class="inline-flex items-center gap-1 text-amber-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('KELURAHAN')">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span> Kel: <strong id="legendKelVal">0</strong>
+                        </span>
+                        <span class="inline-flex items-center gap-1 text-purple-700 cursor-pointer hover:underline" onclick="openSkpdDetailsModal('BAGIAN')">
+                            <span class="w-2 h-2 rounded-full bg-purple-500"></span> Bagian: <strong id="legendBagianVal">0</strong>
                         </span>
                     </div>
                 </div>
@@ -398,10 +496,10 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                     <div class="min-w-0">
-                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama SKPD Pengusul <span class="text-rose-500">*</span></label>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1 truncate select-none">Nama SKPD / Unit Kerja <span class="text-rose-500">*</span></label>
                         <div class="flex gap-1.5 min-w-0">
                             <input type="hidden" id="skpd" value="">
-                            <input type="text" id="skpdNamaInput" placeholder="Klik untuk cari nama SKPD..." readonly required onclick="openSkpdModal()" onfocus="this.blur()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate focus:outline-none select-none">
+                            <input type="text" id="skpdNamaInput" placeholder="Klik untuk cari nama SKPD / UPTD..." readonly required onclick="openSkpdModal()" onfocus="this.blur()" class="w-full min-w-0 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer truncate focus:outline-none select-none">
                             <button type="button" id="btnCariSkpd" onclick="openSkpdModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition shadow shrink-0 cursor-pointer">
                                 <i class="fa-solid fa-search"></i>
                             </button>
@@ -568,7 +666,7 @@
                     <thead class="bg-indigo-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
                         <tr>
                             <th class="p-2.5 border border-indigo-800">No</th>
-                            <th class="p-2.5 border border-indigo-800">Nama SKPD</th>
+                            <th class="p-2.5 border border-indigo-800">Nama SKPD / UPTD</th>
                             <th class="p-2.5 border border-indigo-800">PROGRAM/KEGIATAN/OUTPUT</th>
                             <th class="p-2.5 border border-indigo-800">Kode Barang</th>
                             <th class="p-2.5 border border-indigo-800">Nama Barang</th>
@@ -593,7 +691,7 @@
                     <thead class="bg-amber-900 text-white sticky top-0 uppercase font-semibold text-[10px] text-center tracking-wider z-10 select-none">
                         <tr>
                             <th class="p-2.5 border border-amber-800">No</th>
-                            <th class="p-2.5 border border-amber-800">Nama SKPD</th>
+                            <th class="p-2.5 border border-amber-800">Nama SKPD / UPTD</th>
                             <th class="p-2.5 border border-amber-800">PROGRAM/KEGIATAN/OUTPUT</th>
                             <th class="p-2.5 border border-amber-800">Kode Barang</th>
                             <th class="p-2.5 border border-amber-800">Nama Barang</th>
@@ -613,7 +711,7 @@
                 </table>
             </div>
 
-            <!-- KONTROL PAGINASI DENGAN COPYRIGHT DI TENGAH -->
+            <!-- KONTROL PAGINASI -->
             <div class="pt-3 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-2 select-none">
                 <span id="labelTotalRecords">0 data ditampilkan</span>
                 <span class="font-semibold text-slate-500 text-center order-last md:order-none">&copy;Copyright 2026 Irman_Aset. All rights reserved</span>
@@ -636,12 +734,12 @@
         <div class="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-5 shadow-2xl flex flex-col max-h-[85vh] border border-slate-100">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-building text-indigo-600"></i> Pilih Nama SKPD Pengusul
+                    <i class="fa-solid fa-building text-indigo-600"></i> Pilih SKPD / Puskesmas / Kelurahan
                 </h3>
                 <button type="button" onclick="closeSkpdModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer leading-none">&times;</button>
             </div>
             <div class="py-3 border-b border-slate-100">
-                <input type="text" id="searchSkpdModalInput" oninput="filterSkpdModal()" placeholder="Ketik nama atau kategori SKPD..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="searchSkpdModalInput" oninput="filterSkpdModal()" placeholder="Ketik nama, kategori, atau induk..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
             <div class="overflow-y-auto flex-1 custom-scroll p-1">
                 <ul id="skpdModalList" class="divide-y divide-slate-100 text-xs"></ul>
@@ -667,21 +765,31 @@
         </div>
     </div>
 
-    <!-- MODAL RINCIAN STATUS SKPD -->
+    <!-- MODAL RINCIAN STATUS SKPD / PUSKESMAS / KELURAHAN -->
     <div id="skpdDetailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] border border-slate-100">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] border border-slate-100">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                 <div>
                     <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
-                        <i class="fa-solid fa-clipboard-check text-indigo-600"></i> Rincian Status Penginputan SKPD
+                        <i class="fa-solid fa-clipboard-check text-indigo-600"></i> Rincian Kepatuhan Penginputan Unit Kerja
                     </h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Pemerintah Kabupaten Konawe &bull; TA. 2027</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Dinas/Badan, Kecamatan, Puskesmas, dan Kelurahan &bull; TA. 2027</p>
                 </div>
                 <button type="button" onclick="closeSkpdDetailsModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer no-print">&times;</button>
             </div>
 
-            <div class="py-3 flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 no-print">
-                <span class="text-xs font-semibold text-slate-600 truncate" id="skpdModalSummaryText">Menampilkan daftar SKPD</span>
+            <!-- Tab Filter Kategori di Dalam Modal -->
+            <div class="py-2.5 flex flex-wrap gap-1.5 border-b border-slate-100 no-print text-xs">
+                <button onclick="filterModalCategory('SEMUA')" id="btnModalCatSemua" class="px-2.5 py-1 rounded-lg bg-slate-800 text-white font-bold">Semua</button>
+                <button onclick="filterModalCategory('DINAS_BADAN')" id="btnModalCatDinas" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">Dinas/Badan</button>
+                <button onclick="filterModalCategory('KECAMATAN')" id="btnModalCatKec" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">Kecamatan</button>
+                <button onclick="filterModalCategory('PUSKESMAS')" id="btnModalCatPkm" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">Puskesmas</button>
+                <button onclick="filterModalCategory('KELURAHAN')" id="btnModalCatKel" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">Kelurahan</button>
+                <button onclick="filterModalCategory('BAGIAN')" id="btnModalCatBagian" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200">Bagian Setda</button>
+            </div>
+
+            <div class="py-2.5 flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 no-print">
+                <span class="text-xs font-semibold text-slate-600 truncate" id="skpdModalSummaryText">Menampilkan daftar unit</span>
                 <div class="space-x-1.5 flex shrink-0">
                     <button type="button" onclick="exportSkpdComplianceExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
                         <i class="fa-solid fa-file-excel"></i> Rekap Excel
@@ -698,10 +806,11 @@
                         <tr>
                             <th class="p-2.5 text-center w-12">No</th>
                             <th class="p-2.5">Nama SKPD / Unit Kerja</th>
+                            <th class="p-2.5">SKPD Induk Pengampu</th>
                             <th class="p-2.5 text-center w-28">Kategori</th>
-                            <th class="p-2.5 text-center w-28">Status Penginputan</th>
-                            <th class="p-2.5 text-center w-24 text-indigo-700">Usulan Pengadaan</th>
-                            <th class="p-2.5 text-center w-24 text-amber-700">Usulan Pemeliharaan</th>
+                            <th class="p-2.5 text-center w-28">Status</th>
+                            <th class="p-2.5 text-center w-20 text-indigo-700">Pengadaan</th>
+                            <th class="p-2.5 text-center w-20 text-amber-700">Pemeliharaan</th>
                             <th class="p-2.5 text-center w-24 font-bold text-slate-900">Total Usulan</th>
                         </tr>
                     </thead>
@@ -732,8 +841,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL DIALOG SISTEM RESMI PEMKAB KONAWE ================= -->
-    <!-- Pengganti alert() & confirm() bawaan browser untuk Konfirmasi Hapus, Simpan, dan Notifikasi Resmi -->
+    <!-- MODAL DIALOG SISTEM RESMI -->
     <div id="appSystemDialogModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden select-none">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center">
             <div id="dialogIconBox" class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
@@ -752,7 +860,7 @@
         </div>
     </div>
 
-    <!-- MODAL PARAMETER TANDA TANGAN & CETAK (RESPONSIF & DAPAT DI-SCROLL DI ANDROID) -->
+    <!-- MODAL PARAMETER TANDA TANGAN & CETAK -->
     <div id="printConfigModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-xl w-full p-4 sm:p-6 shadow-2xl border border-slate-100 max-h-[92vh] flex flex-col my-auto">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3 shrink-0">
@@ -765,11 +873,10 @@
                 <button type="button" onclick="closePrintConfigModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer leading-none">&times;</button>
             </div>
 
-            <!-- Form dibuat scrollable dengan custom scroll agar nyaman di HP Android -->
             <form id="formPrintConfig" onsubmit="executeOfficialPrint(event)" class="space-y-3.5 mt-3 text-xs overflow-y-auto custom-scroll pr-1 flex-1">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 uppercase mb-1">SKPD yang Dicetak</label>
+                        <label class="block font-bold text-slate-700 uppercase mb-1">SKPD / Unit yang Dicetak</label>
                         <select id="printTargetSkpd" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-bold text-slate-800 focus:outline-none" required></select>
                     </div>
                     <div>
@@ -786,7 +893,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Sebutan Jabatan</label>
-                            <input type="text" id="printKadisJabatan" placeholder="Kepala Dinas..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-medium" required>
+                            <input type="text" id="printKadisJabatan" placeholder="Kepala Dinas / Camat..." class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1.5 font-medium" required>
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600 font-semibold mb-0.5">Nama Lengkap & Gelar</label>
@@ -802,7 +909,7 @@
                 <!-- Bagian Pengurus Barang Pengguna -->
                 <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-2xl space-y-2">
                     <span class="font-bold text-amber-900 flex items-center gap-1.5 uppercase text-[10px]">
-                        <i class="fa-solid fa-user-gear text-amber-600"></i> Pengurus Barang Pengguna (Kiri)
+                        <i class="fa-solid fa-user-gear text-amber-600"></i> Pengurus Barang Pengguna / Pembantu (Kiri)
                     </span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         <div>
@@ -832,10 +939,10 @@
         </div>
     </div>
 
-    <!-- ELEMEN CETAK DOKUMEN RESMI (HANYA MUNCUL DI PRINT) -->
+    <!-- ELEMEN CETAK DOKUMEN RESMI -->
     <div id="printable-doc" class="hidden"></div>
 
-    <!-- ================= JAVASCRIPT LOGIKA KLIEN AMAN & CEPAT ================= -->
+    <!-- JAVASCRIPT LOGIKA KLIEN -->
     <script>
         const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbwvEHaig9sUcGjI5AGV67sCblaxtMfzFTQI2np1Sx6tGUbpheEHOm2jn6-YtrbgVSV8/exec";
         let API_URL = localStorage.getItem('custom_rkbmd_url') || DEFAULT_API_URL;
@@ -845,14 +952,13 @@
         let dataset = [];
         let masterSkpdList = [];
         let masterBarangList = [];
+        let agendaList = [];
         let currentTab = "RKBMD";
         let modalActiveFilter = "SEMUA";
 
-        // Variabel Paginasi Anti-Lag
         let currentPage = 1;
         const rowsPerPage = 15;
 
-        // Callback Dialog Modal Sistem
         let dialogConfirmCallback = null;
         let dialogCancelCallback = null;
 
@@ -866,7 +972,6 @@
             }
         });
 
-        // ================= FITUR LIHAT PASSWORD DENGAN GAMBAR MATA =================
         function togglePasswordVisibility() {
             const passInput = document.getElementById('login-pass');
             const passIcon = document.getElementById('togglePassIcon');
@@ -882,11 +987,10 @@
             }
         }
 
-        // ================= DIALOG SISTEM RESMI PEMKAB KONAWE (PENGGANTI ALERT & CONFIRM) =================
         function showSystemDialog({
             title = "Pemberitahuan Sistem",
             message = "",
-            type = "info", // "success", "danger", "warning", "info"
+            type = "info",
             confirmText = "Mengerti",
             cancelText = null,
             onConfirm = null,
@@ -961,7 +1065,6 @@
             }
         }
 
-        // ================= DIAGNOSTIK KONEKSI =================
         async function testServerConnection() {
             showLoader("Memeriksa status respon database...");
             try {
@@ -1029,7 +1132,6 @@
             if (b) b.classList.add('hidden');
         }
 
-        // SISTEM LOGIN AMAN
         async function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('login-user').value.trim();
@@ -1081,7 +1183,7 @@
             document.getElementById('app-section').classList.remove('hidden');
 
             const isAdmin = (currentUser.kategori === "Admin");
-            document.getElementById('user-display-label').innerText = `SKPD: ${currentUser.nama_skpd} ${isAdmin ? '(Administrator)' : ''}`;
+            document.getElementById('user-display-label').innerText = `Unit: ${currentUser.nama_skpd} ${isAdmin ? '(Administrator)' : `(${currentUser.kategori})`}`;
 
             if (isAdmin) {
                 document.getElementById('adminSkpdFilterWrapper').classList.remove('hidden');
@@ -1091,7 +1193,6 @@
             switchMode('RKBMD');
         }
 
-        // AMBIL DATA DARI DATABASE
         async function fetchDataFromDatabase() {
             showLoader("Menghubungkan ke Database...");
             try {
@@ -1106,6 +1207,7 @@
                     dataset = res.data || [];
                     masterSkpdList = res.refSkpd || [];
                     masterBarangList = res.refBarang || [];
+                    agendaList = res.agenda || [];
 
                     populateSkpdSelect();
                     renderAllViews();
@@ -1136,15 +1238,15 @@
             const isAdmin = (currentUser.kategori === "Admin");
 
             if (isAdmin) {
-                let filterHtml = `<option value="SEMUA">-- Semua SKPD (Admin) --</option>`;
+                let filterHtml = `<option value="SEMUA">-- Semua SKPD & Unit (Admin) --</option>`;
                 masterSkpdList.forEach(s => {
-                    filterHtml += `<option value="${s.nama}">${s.nama}</option>`;
+                    filterHtml += `<option value="${s.nama}">${s.nama} (${s.kategori})</option>`;
                 });
                 adminFilter.innerHTML = filterHtml;
 
                 skpdInput.value = "";
                 skpdHidden.value = "";
-                skpdInput.placeholder = "Klik untuk cari nama SKPD...";
+                skpdInput.placeholder = "Klik untuk cari nama SKPD / UPTD...";
                 skpdInput.classList.remove('bg-slate-100', 'cursor-not-allowed');
                 skpdInput.classList.add('bg-white', 'cursor-pointer');
                 skpdInput.onclick = openSkpdModal;
@@ -1159,12 +1261,11 @@
             }
         }
 
-        // MODAL SKPD
         function openSkpdModal() {
             if (currentUser.kategori !== "Admin") return;
             document.getElementById('skpdModal').classList.remove('hidden');
             document.getElementById('searchSkpdModalInput').value = "";
-            renderSkpdModalList(masterSkpdList.slice(0, 40));
+            renderSkpdModalList(masterSkpdList.slice(0, 50));
         }
 
         function closeSkpdModal() {
@@ -1173,21 +1274,25 @@
 
         function filterSkpdModal() {
             const q = document.getElementById('searchSkpdModalInput').value.toLowerCase().trim();
-            const res = masterSkpdList.filter(s => s.nama.toLowerCase().includes(q) || (s.kategori && s.kategori.toLowerCase().includes(q))).slice(0, 40);
+            const res = masterSkpdList.filter(s => 
+                s.nama.toLowerCase().includes(q) || 
+                (s.kategori && s.kategori.toLowerCase().includes(q)) ||
+                (s.induk && s.induk.toLowerCase().includes(q))
+            ).slice(0, 50);
             renderSkpdModalList(res);
         }
 
         function renderSkpdModalList(list) {
             const ul = document.getElementById('skpdModalList');
             if (list.length === 0) {
-                ul.innerHTML = `<li class="p-4 text-center text-slate-400">SKPD tidak ditemukan dalam master data</li>`;
+                ul.innerHTML = `<li class="p-4 text-center text-slate-400">Unit tidak ditemukan dalam master data</li>`;
                 return;
             }
             ul.innerHTML = list.map(s => `
                 <li onclick="selectSkpd('${s.nama}')" class="p-2.5 hover:bg-indigo-50 rounded-xl cursor-pointer flex justify-between items-center transition">
                     <div>
                         <div class="font-bold text-slate-800">${s.nama}</div>
-                        <div class="text-[10px] text-slate-400 font-medium">${s.kategori}</div>
+                        <div class="text-[10px] text-slate-500 font-medium">${s.kategori} &bull; Induk: <span class="font-semibold text-slate-700">${s.induk || s.nama}</span></div>
                     </div>
                     <i class="fa-solid fa-plus text-indigo-600 text-xs"></i>
                 </li>
@@ -1200,7 +1305,6 @@
             closeSkpdModal();
         }
 
-        // PENGALIH MODE RKBMD / RKPBMD
         function switchMode(tabName) {
             currentTab = tabName;
             const isRk = (tabName === "RKBMD");
@@ -1225,7 +1329,6 @@
             renderTables();
         }
 
-        // RUMUS & PENGUNCI LOGIKA
         function calcKebutuhanRiil() {
             const maks = parseInt(document.getElementById('kebutuhanMaksimum').value) || 0;
             const opt = parseInt(document.getElementById('optimalisasi').value) || 0;
@@ -1306,7 +1409,6 @@
             return true;
         }
 
-        // ================= SIMPAN / EDIT DATA DENGAN MODAL DIALOG TENGAH =================
         async function handleFormSubmit(e) {
             e.preventDefault();
             if (!validateInputLock()) return;
@@ -1318,7 +1420,7 @@
             if (!skpdVal) {
                 showSystemDialog({
                     title: "Peringatan Validasi",
-                    message: "Harap pilih nama SKPD pengusul terlebih dahulu sebelum menyimpan data.",
+                    message: "Harap pilih nama SKPD / UPTD pengusul terlebih dahulu sebelum menyimpan data.",
                     type: "warning",
                     confirmText: "Mengerti"
                 });
@@ -1362,7 +1464,6 @@
                 if (res.status === "success") {
                     resetForm();
                     await fetchDataFromDatabase();
-                    // Notifikasi Sukses Simpan / Ubah di Posisi Tengah
                     showSystemDialog({
                         title: isEdit ? "Perubahan Disimpan" : "Usulan Berhasil Disimpan",
                         message: isEdit 
@@ -1425,7 +1526,6 @@
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
-        // ================= HAPUS DATA DENGAN MODAL DIALOG RESMI =================
         function deleteItem(id) {
             const it = dataset.find(d => String(d.id) === String(id));
             if (!it) return;
@@ -1497,7 +1597,6 @@
             validateInputLock();
         }
 
-        // ================= RENDER TABEL & PAGINASI =================
         function resetPageAndRender() {
             currentPage = 1;
             renderTables();
@@ -1610,7 +1709,6 @@
             }
         }
 
-        // MASTER BARANG MODAL
         function openBarangModal() {
             document.getElementById('barangModal').classList.remove('hidden');
             document.getElementById('searchBarangModalInput').value = "";
@@ -1650,7 +1748,7 @@
             closeBarangModal();
         }
 
-        // ================= MONITORING KEPATUHAN =================
+        // ================= MONITORING KEPATUHAN BERBASIS HIERARKI =================
         function renderAllViews() {
             renderTables();
             updateStats();
@@ -1666,9 +1764,7 @@
             document.getElementById('statTotalItems').innerText = userDataset.length;
             document.getElementById('statRkbmdCount').innerText = rk.length;
             document.getElementById('statRkpbmCount').innerText = rkp.length;
-            
-            // Format rapi agar tidak terpotong di Android
-            document.getElementById('statMasterInfo').innerText = `${masterSkpdList.length} SKPD / ${masterBarangList.length} Barang`;
+            document.getElementById('statMasterInfo').innerText = `${masterSkpdList.length} Unit / ${masterBarangList.length} Barang`;
         }
 
         function getCompliance() {
@@ -1688,12 +1784,20 @@
                 const countTotal = usageTotal[s.nama] || 0;
                 let kat = s.kategori || "Dinas & Badan";
                 const upper = s.nama.toUpperCase();
-                if (upper.includes("KECAMATAN") || upper.startsWith("KEC.")) kat = "Kecamatan";
-                if (upper.includes("BAGIAN") || upper.includes("SETDA")) kat = "Bagian";
+                
+                // Deteksi Otomatis Kategori Unit
+                if (upper.includes("PUSKESMAS") || upper.startsWith("PKM")) kat = "Puskesmas";
+                else if (upper.includes("KELURAHAN") || upper.startsWith("KEL.")) kat = "Kelurahan";
+                else if (upper.includes("KECAMATAN") || upper.startsWith("KEC.")) kat = "Kecamatan";
+                else if (upper.includes("BAGIAN") || upper.includes("SETDA")) kat = "Bagian";
+
+                let induk = s.induk || s.nama;
+                if (kat === "Puskesmas" && (!s.induk || s.induk === s.nama)) induk = "Dinas Kesehatan";
 
                 return {
                     nama: s.nama,
                     kategori: kat,
+                    induk: induk,
                     submitted: countTotal > 0,
                     count: countTotal,
                     countPengadaan: usagePengadaan[s.nama] || 0,
@@ -1703,6 +1807,8 @@
 
             const dinas = list.filter(s => s.kategori === "Dinas & Badan" || s.kategori === "Badan & Dinas");
             const kec = list.filter(s => s.kategori === "Kecamatan");
+            const pkm = list.filter(s => s.kategori === "Puskesmas");
+            const kel = list.filter(s => s.kategori === "Kelurahan");
             const bagian = list.filter(s => s.kategori === "Bagian");
 
             return {
@@ -1711,6 +1817,10 @@
                 dinasTotal: dinas.length,
                 kecSudah: kec.filter(s => s.submitted).length,
                 kecTotal: kec.length,
+                pkmSudah: pkm.filter(s => s.submitted).length,
+                pkmTotal: pkm.length,
+                kelSudah: kel.filter(s => s.submitted).length,
+                kelTotal: kel.length,
                 bagianSudah: bagian.filter(s => s.submitted).length,
                 bagianTotal: bagian.length,
                 totalSudah: list.filter(s => s.submitted).length,
@@ -1722,25 +1832,37 @@
         function updateComplianceDonut() {
             const c = getCompliance();
 
+            // 1. Update Metrik Kartu Kategori
             document.getElementById('metricDinasSudah').innerText = c.dinasSudah;
-            document.getElementById('metricDinasTotal').innerText = `/ ${c.dinasTotal} Unit`;
+            document.getElementById('metricDinasTotal').innerText = `/ ${c.dinasTotal}`;
             document.getElementById('metricDinasPercent').innerText = `${c.dinasTotal ? Math.round((c.dinasSudah / c.dinasTotal) * 100) : 0}% Selesai`;
 
             document.getElementById('metricKecamatanSudah').innerText = c.kecSudah;
-            document.getElementById('metricKecamatanTotal').innerText = `/ ${c.kecTotal} Unit`;
+            document.getElementById('metricKecamatanTotal').innerText = `/ ${c.kecTotal}`;
             document.getElementById('metricKecamatanPercent').innerText = `${c.kecTotal ? Math.round((c.kecSudah / c.kecTotal) * 100) : 0}% Selesai`;
 
+            document.getElementById('metricPuskesmasSudah').innerText = c.pkmSudah;
+            document.getElementById('metricPuskesmasTotal').innerText = `/ ${c.pkmTotal}`;
+            document.getElementById('metricPuskesmasPercent').innerText = `${c.pkmTotal ? Math.round((c.pkmSudah / c.pkmTotal) * 100) : 0}% Selesai`;
+
+            document.getElementById('metricKelurahanSudah').innerText = c.kelSudah;
+            document.getElementById('metricKelurahanTotal').innerText = `/ ${c.kelTotal}`;
+            document.getElementById('metricKelurahanPercent').innerText = `${c.kelTotal ? Math.round((c.kelSudah / c.kelTotal) * 100) : 0}% Selesai`;
+
             document.getElementById('metricBagianSudah').innerText = c.bagianSudah;
-            document.getElementById('metricBagianTotal').innerText = `/ ${c.bagianTotal} Unit`;
+            document.getElementById('metricBagianTotal').innerText = `/ ${c.bagianTotal}`;
             document.getElementById('metricBagianPercent').innerText = `${c.bagianTotal ? Math.round((c.bagianSudah / c.bagianTotal) * 100) : 0}% Selesai`;
 
             document.getElementById('metricBelumInput').innerText = c.totalBelum;
-            document.getElementById('metricTotalSkpdSemua').innerText = `/ ${c.totalSemua} SKPD`;
+            document.getElementById('metricTotalSkpdSemua').innerText = `/ ${c.totalSemua} Total`;
 
+            // 2. Legend Donut
             document.getElementById('legendSudahVal').innerText = c.totalSudah;
             document.getElementById('legendBelumVal').innerText = c.totalBelum;
             document.getElementById('legendDinasVal').innerText = c.dinasSudah;
             document.getElementById('legendKecVal').innerText = c.kecSudah;
+            document.getElementById('legendPkmVal').innerText = c.pkmSudah;
+            document.getElementById('legendKelVal').innerText = c.kelSudah;
             document.getElementById('legendBagianVal').innerText = c.bagianSudah;
 
             const circumference = 2 * Math.PI * 55;
@@ -1753,66 +1875,119 @@
                 fg.setAttribute('stroke-dasharray', `${dash} ${circumference}`);
             }
 
-            const totalSelesai = c.dinasSudah + c.kecSudah + c.bagianSudah;
+            // 3. Donut Komposisi 5 Kategori
+            const totalSelesai = c.dinasSudah + c.kecSudah + c.pkmSudah + c.kelSudah + c.bagianSudah;
             document.getElementById('svgCategoryTotal').innerText = totalSelesai;
 
             const arcDinas = document.getElementById('donutCatDinas');
             const arcKec = document.getElementById('donutCatKec');
+            const arcPkm = document.getElementById('donutCatPkm');
+            const arcKel = document.getElementById('donutCatKel');
             const arcBagian = document.getElementById('donutCatBagian');
 
-            if (arcDinas && arcKec && arcBagian) {
+            if (arcDinas && arcKec && arcPkm && arcKel && arcBagian) {
                 if (totalSelesai === 0) {
                     arcDinas.setAttribute('stroke-dasharray', `0 ${circumference}`);
                     arcKec.setAttribute('stroke-dasharray', `0 ${circumference}`);
+                    arcPkm.setAttribute('stroke-dasharray', `0 ${circumference}`);
+                    arcKel.setAttribute('stroke-dasharray', `0 ${circumference}`);
                     arcBagian.setAttribute('stroke-dasharray', `0 ${circumference}`);
                 } else {
                     const lenDinas = (c.dinasSudah / totalSelesai) * circumference;
                     const lenKec = (c.kecSudah / totalSelesai) * circumference;
+                    const lenPkm = (c.pkmSudah / totalSelesai) * circumference;
+                    const lenKel = (c.kelSudah / totalSelesai) * circumference;
                     const lenBagian = (c.bagianSudah / totalSelesai) * circumference;
 
                     arcDinas.setAttribute('stroke-dasharray', `${lenDinas} ${circumference}`);
                     arcDinas.setAttribute('stroke-dashoffset', '0');
+
                     arcKec.setAttribute('stroke-dasharray', `${lenKec} ${circumference}`);
                     arcKec.setAttribute('stroke-dashoffset', `-${lenDinas}`);
+
+                    arcPkm.setAttribute('stroke-dasharray', `${lenPkm} ${circumference}`);
+                    arcPkm.setAttribute('stroke-dashoffset', `-${lenDinas + lenKec}`);
+
+                    arcKel.setAttribute('stroke-dasharray', `${lenKel} ${circumference}`);
+                    arcKel.setAttribute('stroke-dashoffset', `-${lenDinas + lenKec + lenPkm}`);
+
                     arcBagian.setAttribute('stroke-dasharray', `${lenBagian} ${circumference}`);
-                    arcBagian.setAttribute('stroke-dashoffset', `-${lenDinas + lenKec}`);
+                    arcBagian.setAttribute('stroke-dashoffset', `-${lenDinas + lenKec + lenPkm + lenKel}`);
                 }
             }
         }
 
-        // MODAL RINCIAN STATUS SKPD
+        // ================= MODAL RINCIAN STATUS SKPD =================
         function openSkpdDetailsModal(filter = "SEMUA") {
             modalActiveFilter = filter;
+            renderModalTable();
+            document.getElementById('skpdDetailModal').classList.remove('hidden');
+        }
+
+        function filterModalCategory(filter) {
+            modalActiveFilter = filter;
+            renderModalTable();
+        }
+
+        function renderModalTable() {
             const c = getCompliance();
             const tbody = document.getElementById('skpdModalTableBody');
             const summary = document.getElementById('skpdModalSummaryText');
 
             let filteredList = c.all;
-            let filterName = "Seluruh SKPD";
+            let filterName = "Seluruh Unit Kerja";
 
-            if (filter === "SUDAH") {
-                filteredList = c.all.filter(s => s.submitted);
-                filterName = "Sudah Input";
-            } else if (filter === "BELUM") {
-                filteredList = c.all.filter(s => !s.submitted);
-                filterName = "Belum Input";
-            } else if (filter === "DINAS_BADAN") {
-                filteredList = c.all.filter(s => s.kategori.includes("Dinas") || s.kategori.includes("Badan"));
-                filterName = "Badan & Dinas";
-            } else if (filter === "KECAMATAN") {
-                filteredList = c.all.filter(s => s.kategori === "Kecamatan");
-                filterName = "Kecamatan";
-            } else if (filter === "BAGIAN") {
-                filteredList = c.all.filter(s => s.kategori === "Bagian");
-                filterName = "Bagian (Setda)";
+            // Update Style Tombol Kategori di Modal
+            const catButtons = {
+                'SEMUA': 'btnModalCatSemua',
+                'DINAS_BADAN': 'btnModalCatDinas',
+                'KECAMATAN': 'btnModalCatKec',
+                'PUSKESMAS': 'btnModalCatPkm',
+                'KELURAHAN': 'btnModalCatKel',
+                'BAGIAN': 'btnModalCatBagian'
+            };
+
+            for (let k in catButtons) {
+                const btn = document.getElementById(catButtons[k]);
+                if (btn) {
+                    if (k === modalActiveFilter) {
+                        btn.className = "px-2.5 py-1 rounded-lg bg-slate-800 text-white font-bold";
+                    } else {
+                        btn.className = "px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200";
+                    }
+                }
             }
 
-            summary.innerText = `Menampilkan ${filteredList.length} dari ${c.totalSemua} SKPD (${filterName})`;
+            if (modalActiveFilter === "SUDAH") {
+                filteredList = c.all.filter(s => s.submitted);
+                filterName = "Sudah Input";
+            } else if (modalActiveFilter === "BELUM") {
+                filteredList = c.all.filter(s => !s.submitted);
+                filterName = "Belum Input";
+            } else if (modalActiveFilter === "DINAS_BADAN") {
+                filteredList = c.all.filter(s => s.kategori.includes("Dinas") || s.kategori.includes("Badan"));
+                filterName = "Badan & Dinas";
+            } else if (modalActiveFilter === "KECAMATAN") {
+                filteredList = c.all.filter(s => s.kategori === "Kecamatan");
+                filterName = "Kecamatan";
+            } else if (modalActiveFilter === "PUSKESMAS") {
+                filteredList = c.all.filter(s => s.kategori === "Puskesmas");
+                filterName = "Puskesmas";
+            } else if (modalActiveFilter === "KELURAHAN") {
+                filteredList = c.all.filter(s => s.kategori === "Kelurahan");
+                filterName = "Kelurahan";
+            } else if (modalActiveFilter === "BAGIAN") {
+                filteredList = c.all.filter(s => s.kategori === "Bagian");
+                filterName = "Bagian Setda";
+            }
+
+            summary.innerText = `Menampilkan ${filteredList.length} dari ${c.totalSemua} Unit (${filterName})`;
 
             tbody.innerHTML = filteredList.map((s, idx) => `
                 <tr class="hover:bg-slate-50 border-b text-xs">
                     <td class="p-2.5 text-center text-slate-400 font-mono">${idx + 1}</td>
                     <td class="p-2.5 font-bold text-slate-800">${s.nama}</td>
+                    <td class="p-2.5 text-slate-600 font-medium">${s.induk || s.nama}</td>
                     <td class="p-2.5 text-center text-slate-600">${s.kategori}</td>
                     <td class="p-2.5 text-center">
                         ${s.submitted 
@@ -1824,8 +1999,6 @@
                     <td class="p-2.5 text-center font-bold text-slate-800">${s.count} Usulan</td>
                 </tr>
             `).join('');
-
-            document.getElementById('skpdDetailModal').classList.remove('hidden');
         }
 
         function closeSkpdDetailsModal() {
@@ -1835,16 +2008,16 @@
         function exportSkpdComplianceExcel() {
             const c = getCompliance();
             const rows = [
-                ["REKAPITULASI STATUS PENGINPUTAN RKBMD & RKPBMD TA. 2027"],
+                ["REKAPITULASI KEPATUHAN PENGINPUTAN RKBMD & RKPBMD TA. 2027"],
                 ["PEMERINTAH KABUPATEN KONAWE"],
                 [`Dicetak Pada: ${new Date().toLocaleString('id-ID')}`],
                 [],
-                ["No", "Nama SKPD / Unit Kerja", "Kategori", "Status Penginputan", "Usulan Pengadaan", "Usulan Pemeliharaan", "Jumlah Usulan Masuk"]
+                ["No", "Nama SKPD / Unit Kerja", "SKPD Induk Pengampu", "Kategori", "Status Penginputan", "Usulan Pengadaan", "Usulan Pemeliharaan", "Jumlah Usulan Masuk"]
             ];
 
             c.all.forEach((s, idx) => {
                 rows.push([
-                    idx + 1, s.nama, s.kategori,
+                    idx + 1, s.nama, s.induk || s.nama, s.kategori,
                     s.submitted ? "SUDAH INPUT" : "BELUM INPUT",
                     s.countPengadaan, s.countPemeliharaan, s.count
                 ]);
@@ -1852,12 +2025,11 @@
 
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.aoa_to_sheet(rows);
-            ws['!cols'] = [{ wch: 6 }, { wch: 45 }, { wch: 20 }, { wch: 22 }, { wch: 18 }, { wch: 20 }, { wch: 22 }];
-            XLSX.utils.book_append_sheet(wb, ws, "Rekap_Kepatuhan_SKPD");
-            XLSX.writeFile(wb, `Rekap_Kepatuhan_SKPD_Konawe_TA2027_${Date.now()}.xlsx`);
+            ws['!cols'] = [{ wch: 6 }, { wch: 40 }, { wch: 35 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 20 }, { wch: 22 }];
+            XLSX.utils.book_append_sheet(wb, ws, "Rekap_Kepatuhan_Semua_Unit");
+            XLSX.writeFile(wb, `Rekap_Kepatuhan_Konawe_TA2027_${Date.now()}.xlsx`);
         }
 
-        // ================= CETAK RESMI REKAP SKPD =================
         function printSkpdComplianceReport() {
             const c = getCompliance();
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -1875,7 +2047,7 @@
                                 <div style="font-size: 13pt; font-weight: bold; letter-spacing: 0.5px;">PEMERINTAH KABUPATEN KONAWE</div>
                                 <div style="font-size: 11pt; font-weight: bold; margin: 2px 0;">BADAN PENGELOLAAN KEUANGAN DAN ASET DAERAH (BPKAD)</div>
                                 <div style="font-size: 12pt; font-weight: bold; text-decoration: underline; margin-top: 4px;">REKAPITULASI KEPATUHAN PENGINPUTAN E-RKBMD & E-RKPBMD</div>
-                                <div style="font-size: 10pt; font-weight: bold; margin-top: 2px;">TAHUN ANGGARAN 2027</div>
+                                <div style="font-size: 10pt; font-weight: bold; margin-top: 2px;">TAHUN ANGGARAN 2027 (TERMASUK PUSKESMAS & KELURAHAN)</div>
                             </td>
                             <td style="width: 85px; border: none;"></td>
                         </tr>
@@ -1884,12 +2056,12 @@
 
                     <div style="margin-bottom: 10px; font-size: 9pt; display: flex; justify-content: space-between;">
                         <div>
-                            <span>Total Unit SKPD Terdaftar : <strong>${c.totalSemua} SKPD</strong></span> | 
+                            <span>Total Seluruh Unit Terdaftar : <strong>${c.totalSemua} Unit</strong></span> | 
                             <span>Sudah Input : <strong style="color: #047857;">${c.totalSudah} Unit</strong></span> | 
                             <span>Belum Input : <strong style="color: #b91c1c;">${c.totalBelum} Unit</strong></span>
                         </div>
                         <div>
-                            <span>Tingkat Kepatuhan : <strong>${c.totalSemua ? Math.round((c.totalSudah / c.totalSemua) * 100) : 0}%</strong></span>
+                            <span>Tingkat Kepatuhan Daerah : <strong>${c.totalSemua ? Math.round((c.totalSudah / c.totalSemua) * 100) : 0}%</strong></span>
                         </div>
                     </div>
 
@@ -1897,12 +2069,13 @@
                         <thead>
                             <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
                                 <th style="border: 1px solid black; padding: 5px; width: 30px;">NO</th>
-                                <th style="border: 1px solid black; padding: 5px; text-align: left;">NAMA SKPD / UNIT KERJA</th>
-                                <th style="border: 1px solid black; padding: 5px; width: 110px;">KATEGORI</th>
-                                <th style="border: 1px solid black; padding: 5px; width: 110px;">STATUS PENGINPUTAN</th>
-                                <th style="border: 1px solid black; padding: 5px; width: 90px;">USULAN PENGADAAN</th>
-                                <th style="border: 1px solid black; padding: 5px; width: 90px;">USULAN PEMELIHARAAN</th>
-                                <th style="border: 1px solid black; padding: 5px; width: 90px;">TOTAL USULAN</th>
+                                <th style="border: 1px solid black; padding: 5px; text-align: left;">NAMA UNIT KERJA</th>
+                                <th style="border: 1px solid black; padding: 5px; text-align: left; width: 140px;">SKPD INDUK</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 95px;">KATEGORI</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 100px;">STATUS</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 85px;">PENGADAAN</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 85px;">PEMELIHARAAN</th>
+                                <th style="border: 1px solid black; padding: 5px; width: 85px;">TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1910,6 +2083,7 @@
                                 <tr>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${idx + 1}</td>
                                     <td style="border: 1px solid black; padding: 4px; font-weight: bold;">${s.nama}</td>
+                                    <td style="border: 1px solid black; padding: 4px;">${s.induk || s.nama}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center;">${s.kategori}</td>
                                     <td style="border: 1px solid black; padding: 4px; text-align: center; font-weight: bold; ${s.submitted ? 'color: #047857;' : 'color: #b91c1c;'}">
                                         ${s.submitted ? 'SUDAH INPUT' : 'BELUM INPUT'}
@@ -1956,7 +2130,7 @@
             const isAdmin = (currentUser.kategori === "Admin");
             let skpdOptions = "";
             if (isAdmin) {
-                masterSkpdList.forEach(s => { skpdOptions += `<option value="${s.nama}">${s.nama}</option>`; });
+                masterSkpdList.forEach(s => { skpdOptions += `<option value="${s.nama}">${s.nama} (${s.kategori})</option>`; });
             } else {
                 skpdOptions = `<option value="${currentUser.nama_skpd}">${currentUser.nama_skpd}</option>`;
             }
@@ -1964,10 +2138,17 @@
 
             function loadSavedSignatures(selectedSkpd) {
                 const savedData = JSON.parse(localStorage.getItem(`rkbmd_ttd_${selectedSkpd}`) || "{}");
-                kadisJabatan.value = savedData.kadisJabatan || (selectedSkpd.toUpperCase().includes('KECAMATAN') ? 'Camat' : (selectedSkpd.toUpperCase().includes('BAGIAN') ? 'Kepala Bagian' : 'Kepala Dinas / Badan'));
+                const upper = selectedSkpd.toUpperCase();
+                let defaultJabatan = 'Kepala Dinas / Badan';
+                if (upper.includes('KECAMATAN')) defaultJabatan = 'Camat';
+                else if (upper.includes('PUSKESMAS')) defaultJabatan = 'Kepala Puskesmas';
+                else if (upper.includes('KELURAHAN')) defaultJabatan = 'Lurah';
+                else if (upper.includes('BAGIAN')) defaultJabatan = 'Kepala Bagian';
+
+                kadisJabatan.value = savedData.kadisJabatan || defaultJabatan;
                 kadisNama.value = savedData.kadisNama || '';
                 kadisNip.value = savedData.kadisNip || '';
-                pengurusJabatan.value = savedData.pengurusJabatan || 'Pengurus Barang Pengguna';
+                pengurusJabatan.value = savedData.pengurusJabatan || (upper.includes('PUSKESMAS') || upper.includes('KELURAHAN') ? 'Pengurus Barang Pembantu' : 'Pengurus Barang Pengguna');
                 pengurusNama.value = savedData.pengurusNama || '';
                 pengurusNip.value = savedData.pengurusNip || '';
             }
@@ -2004,7 +2185,7 @@
             if (rows.length === 0) {
                 showSystemDialog({
                     title: "Data Tidak Ditemukan",
-                    message: `Tidak ada usulan ${currentTab} untuk SKPD:\n"${targetSkpd}".\nSilakan pastikan data telah diinput.`,
+                    message: `Tidak ada usulan ${currentTab} untuk unit:\n"${targetSkpd}".\nSilakan pastikan data telah diinput.`,
                     type: "warning",
                     confirmText: "Tutup"
                 });
@@ -2195,7 +2376,6 @@
             setTimeout(() => { window.print(); }, 300);
         }
 
-        // LOADER & EXCEL
         function showLoader(txt) {
             document.getElementById('globalLoaderMsg').innerText = txt;
             document.getElementById('globalLoader').classList.remove('hidden');
