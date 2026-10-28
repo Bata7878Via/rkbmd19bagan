@@ -1230,12 +1230,42 @@
             }
         }
 
-        function populateSkpdSelect() {
+       function populateSkpdSelect() {
             const adminFilter = document.getElementById('adminSkpdFilter');
             const skpdHidden = document.getElementById('skpd');
             const skpdInput = document.getElementById('skpdNamaInput');
             const btnCari = document.getElementById('btnCariSkpd');
-            const isAdmin = (currentUser.kategori === "Admin");
+            const isAdmin = (currentUser && currentUser.kategori === "Admin");
+
+            // ================= PENGUNCI OTOMATIS KELURAHAN & PUSKESMAS =================
+            // Jika akun non-admin login, sistem mencocokkan username langsung ke Master Data
+            if (!isAdmin && currentUser) {
+                const uName = (currentUser.username || "").toLowerCase().trim();
+                const cleanKey = uName.replace(/^(kel|pkm|kec|kelurahan|puskesmas|kecamatan)[\s_-]*/i, "").trim();
+
+                if (cleanKey && masterSkpdList && masterSkpdList.length > 0) {
+                    const matchMaster = masterSkpdList.find(s => {
+                        const sClean = s.nama.toLowerCase().replace(/[\s_-]/g, "");
+                        return sClean.includes(cleanKey);
+                    });
+
+                    // Jika ditemukan di Master Data, PAKSA ganti menjadi nama Kelurahan/Puskesmas aslinya!
+                    if (matchMaster) {
+                        currentUser.nama_skpd = matchMaster.nama;
+                        currentUser.kategori = matchMaster.kategori || currentUser.kategori;
+                        currentUser.induk = matchMaster.induk || currentUser.induk;
+                        
+                        // Perbarui sesi di browser
+                        sessionStorage.setItem('user_rkbmd_session', JSON.stringify(currentUser));
+                        
+                        // Perbarui teks SKPD di Header atas
+                        const label = document.getElementById('user-display-label');
+                        if (label) {
+                            label.innerText = `Unit: ${currentUser.nama_skpd} (${currentUser.kategori})`;
+                        }
+                    }
+                }
+            }
 
             if (isAdmin) {
                 let filterHtml = `<option value="SEMUA">-- Semua SKPD & Unit (Admin) --</option>`;
@@ -1252,6 +1282,7 @@
                 skpdInput.onclick = openSkpdModal;
                 if (btnCari) btnCari.classList.remove('hidden');
             } else {
+                // KUNCI FORMULIR ATAS NAMA UNIT ASLINYA (KELURAHAN / PUSKESMAS)
                 skpdInput.value = currentUser.nama_skpd;
                 skpdHidden.value = currentUser.nama_skpd;
                 skpdInput.classList.add('bg-slate-100', 'cursor-not-allowed');
