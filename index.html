@@ -46,7 +46,7 @@
             box-sizing: border-box !important;
         }
 
-        /* ================= ATURAN CETAK RESMI PERMENDAGRI NO. 61 TAHUN 2023 ================= */
+        /* ATURAN CETAK RESMI PERMENDAGRI NO. 61 TAHUN 2023 */
         @media print {
             @page {
                 size: legal landscape;
@@ -60,8 +60,6 @@
                 margin: 0 !important;
                 padding: 0 !important;
                 overflow: visible !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
             }
             #login-section,
             #app-section,
@@ -86,29 +84,10 @@
                 color: #000000 !important;
                 font-family: 'Times New Roman', Times, serif !important;
             }
-            
-            /* KUNCI: MEMAKSA GARIS BORDER TABEL & KOLOM KELUAR SEMPURNA (ANTI-RESET TAILWIND) */
-            #printable-doc table {
-                border-collapse: collapse !important;
-                border: 1.5px solid #000000 !important;
-                width: 100% !important;
-                table-layout: fixed !important;
+            table {
                 page-break-inside: auto;
-            }
-            #printable-doc th, 
-            #printable-doc td {
-                border: 1px solid #000000 !important;
-                color: #000000 !important;
-                word-break: break-word !important;
-                overflow-wrap: break-word !important;
-                padding: 2.5px 2px !important;
-                font-size: 7.5pt !important;
-                line-height: 1.15 !important;
-            }
-            #printable-doc thead tr th,
-            #printable-doc thead tr td {
-                border: 1px solid #000000 !important;
-                background-color: #f1f5f9 !important;
+                border-collapse: collapse !important;
+                width: 100% !important;
             }
             tr {
                 page-break-inside: avoid;
@@ -230,7 +209,7 @@
             </div>
         </header>
 
-        <!-- KARTU STATISTIK -->
+        <!-- KARTU STATISTIK (4 KOTAK ASLI) -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 select-none">
             <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm card-box">
                 <span class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Total Usulan Masuk</span>
@@ -256,7 +235,7 @@
             </div>
         </div>
 
-        <!-- 1. AGENDA & JADWAL BATAS WAKTU PELAPORAN -->
+        <!-- 1. AGENDA & JADWAL BATAS WAKTU PELAPORAN (3 WARNA STATUS & JAM LENGKAP) -->
         <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 select-none">
             <div class="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
                 <div class="flex items-center gap-2">
@@ -267,12 +246,13 @@
                 </div>
                 <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800">T.A. 2027</span>
             </div>
+            <!-- Wadah kartu agenda diisi dinamis dari spreadsheet -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs" id="agendaTimelineContainer">
                 <div class="p-4 text-center text-slate-400 italic col-span-full">Memuat jadwal agenda dari database...</div>
             </div>
         </div>
 
-        <!-- 2. NOTIFIKASI JAM MUNDUR SESUAI AGENDA USER LOGIN -->
+        <!-- 2. NOTIFIKASI JAM MUNDUR SESUAI AGENDA USER LOGIN (RESPONSIF TOTAL DI HP ANDROID & LAPTOP) -->
         <div id="agendaUserCountdownBox" class="bg-gradient-to-r from-indigo-900 via-blue-900 to-slate-900 text-white p-3 sm:p-4 rounded-2xl shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-3 select-none w-full max-w-full overflow-hidden">
             <div class="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0 w-full md:w-auto flex-1">
                 <div class="p-2 sm:p-2.5 bg-amber-400 text-slate-950 rounded-xl text-base sm:text-lg font-black shrink-0 mt-0.5 sm:mt-0">
@@ -312,7 +292,7 @@
             </div>
         </div>
 
-        <!-- 3. MONITORING KEPATUHAN PENGINPUTAN -->
+        <!-- 3. MONITORING KEPATUHAN PENGINPUTAN (6 METRIK GLOBAL & 2 DONUT INTERAKTIF) -->
         <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
                 <div>
@@ -378,7 +358,7 @@
                         <span id="metricKelurahanSudah" class="text-base sm:text-2xl font-black text-amber-800">0</span>
                         <span id="metricKelurahanTotal" class="text-[10px] sm:text-[11px] text-amber-600 font-semibold truncate">/ 0</span>
                     </div>
-                    <div class="mt-1 text-[10px] font-semibold text-amber-600" id="metricKelurahanPercent">0% Selesai</div>
+                    <div class="mt-1 text-[10px] font-semibold text-emerald-600" id="metricKelurahanPercent">0% Selesai</div>
                 </div>
 
                 <div onclick="openSkpdDetailsModal('BAGIAN')" class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl cursor-pointer hover:shadow-md transition active:scale-95">
@@ -640,6 +620,7 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2 min-w-0 select-none">
+                    <!-- FILTER HIERARKI KECAMATAN / DINKES / ADMIN -->
                     <div id="adminSkpdFilterWrapper" class="hidden w-full sm:w-auto min-w-0">
                         <select id="adminSkpdFilter" onchange="resetPageAndRender()" class="w-full sm:w-56 max-w-full bg-amber-50 border border-amber-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-amber-900 focus:outline-none truncate">
                             <option value="SEMUA">-- Semua Unit --</option>
@@ -851,7 +832,7 @@
         </div>
     </div>
 
-    <!-- MODAL PARAMETER TANDA TANGAN & CETAK -->
+    <!-- MODAL PARAMETER TANDA TANGAN & CETAK (HANYA PENGGUNA BARANG) -->
     <div id="printConfigModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden select-none overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-100 max-h-[92vh] flex flex-col my-auto">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3 shrink-0">
@@ -859,7 +840,7 @@
                     <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
                         <i class="fa-solid fa-file-invoice text-indigo-600"></i> Pengaturan Cetak Permendagri No. 61/2023
                     </h3>
-                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">Lengkapi data pejabat penandatangan sebelum mencetak.</p>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5">Lengk data pejabat penandatangan sebelum mencetak.</p>
                 </div>
                 <button type="button" onclick="closePrintConfigModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer leading-none">&times;</button>
             </div>
@@ -874,6 +855,7 @@
                     <input type="text" id="printTanggalDokumen" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-semibold text-slate-800 focus:outline-none" required>
                 </div>
 
+                <!-- Bagian Pengguna Barang / Kuasa Pengguna Barang (Satu-satunya Penandatangan) -->
                 <div class="p-3 bg-indigo-50/60 border border-indigo-200 rounded-2xl space-y-2">
                     <span class="font-bold text-indigo-900 flex items-center gap-1.5 uppercase text-[10px]">
                         <i class="fa-solid fa-user-tie text-indigo-600"></i> Pengguna Barang / Kuasa Pengguna Barang
@@ -904,17 +886,13 @@
         </div>
     </div>
 
-    <!-- ELEMEN CETAK DOKUMEN RESMI -->
+    <!-- ELEMEN CETAK DOKUMEN RESMI (HANYA MUNCUL DI PRINT) -->
     <div id="printable-doc" class="hidden"></div>
 
     <!-- ================= JAVASCRIPT LOGIKA KLIEN ================= -->
     <script>
-        // API URL Resmi Terpusat (Tanpa LocalStorage)
         const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbwvEHaig9sUcGjI5AGV67sCblaxtMfzFTQI2np1Sx6tGUbpheEHOm2jn6-YtrbgVSV8/exec";
-        const API_URL = DEFAULT_API_URL;
-
-        // Memori Runtime Sesi (Bukan LocalStorage)
-        const memoryTtdCache = {};
+        let API_URL = localStorage.getItem('custom_rkbmd_url') || DEFAULT_API_URL;
 
         let currentUser = null;
         let authToken = null;
@@ -1186,7 +1164,11 @@
 
                     populateSkpdSelect();
                     renderAllViews();
+                    
+                    // Render 4 Kartu Agenda Dinamis dari Spreadsheet
                     renderAgendaTimeline(agendaList);
+                    
+                    // Jalankan Mesin Countdown Jam Mundur Real-Time
                     initUserCountdown(res.activeAgenda);
                     
                     hideConnectionError();
@@ -1208,7 +1190,9 @@
             }
         }
 
-        // 6. RENDER KARTU AGENDA DINAMIS
+        // =================================================================
+        // 6. RENDER KARTU AGENDA DINAMIS (3 WARNA STATUS & JAM LENGKAP)
+        // =================================================================
         function renderAgendaTimeline(list) {
             const container = document.getElementById('agendaTimelineContainer');
             if (!container) return;
@@ -1221,6 +1205,7 @@
             container.innerHTML = list.map((a) => {
                 const statusStr = (a.statusPelaksanaan || "").toLowerCase();
                 
+                // STANDARISASI HANYA 3 STATUS & 3 WARNA SAJA
                 let statusLabel = "SEDANG BERJALAN";
                 let theme = {
                     cardBg: "bg-emerald-50/70",
@@ -1253,6 +1238,7 @@
                     };
                 }
 
+                // Bagian Jam ditampilkan lengkap tanpa truncate (tidak terpotong di HP/Laptop)
                 return `
                     <div class="p-3 ${theme.cardBg} border ${theme.border} rounded-xl flex flex-col justify-between">
                         <div>
@@ -1271,7 +1257,9 @@
             }).join('');
         }
 
-        // 7. MESIN COUNTDOWN JAM MUNDUR
+        // =================================================================
+        // 7. MESIN COUNTDOWN JAM MUNDUR (RESPONSIF DI HP & 3 WARNA STATUS)
+        // =================================================================
         function initUserCountdown(activeAgenda) {
             if (countdownTimer) clearInterval(countdownTimer);
 
@@ -1286,6 +1274,7 @@
                 titleEl.innerText = activeAgenda.namaKegiatan || `Batas Penginputan: ${currentUser.nama_skpd}`;
                 deadlineText.innerText = `Batas Akhir: ${activeAgenda.batasAkhir}`;
                 
+                // Status sinkron 3 warna
                 const stLower = (activeAgenda.statusPelaksanaan || "").toLowerCase();
                 if (activeAgenda.isExpired || stLower.includes("berakhir")) {
                     tahapTag.innerText = "BERAKHIR";
@@ -1912,7 +1901,9 @@
             closeBarangModal();
         }
 
-        // 15. MONITORING KEPATUHAN & DIAGRAM DONUT GLOBAL
+        // =================================================================
+        // 15. MONITORING KEPATUHAN & DIAGRAM DONUT GLOBAL (POIN 1)
+        // =================================================================
         function renderAllViews() {
             renderTables();
             updateStats();
@@ -2009,6 +2000,7 @@
         function updateComplianceDonut() {
             const c = getCompliance();
 
+            // 6 Kartu Metrik Kepatuhan Global
             document.getElementById('metricDinasSudah').innerText = c.dinasSudah;
             document.getElementById('metricDinasTotal').innerText = `/ ${c.dinasTotal}`;
             document.getElementById('metricDinasPercent').innerText = `${c.dinasTotal ? Math.round((c.dinasSudah / c.dinasTotal) * 100) : 0}% Selesai`;
@@ -2040,7 +2032,7 @@
             document.getElementById('legendKelVal').innerText = c.kelSudah;
             document.getElementById('legendBagianVal').innerText = c.bagianSudah;
 
-            const circumference = 2 * Math.PI * 55;
+            const circumference = 2 * Math.PI * 55; // 345.575
             const pct = c.totalSemua > 0 ? Math.round((c.totalSudah / c.totalSemua) * 100) : 0;
             document.getElementById('svgStatusPercent').innerText = `${pct}%`;
 
@@ -2253,7 +2245,7 @@
         }
 
         // =================================================================
-        // 17. CETAK RESMI FORMAT PERMENDAGRI NO. 61 TAHUN 2023 (TANPA LOCALSTORAGE)
+        // 17. CETAK RESMI FORMAT PERMENDAGRI NO. 61 TAHUN 2023 (SEMPURNA SESUAI HASIL EVALUASI)
         // =================================================================
         function openPrintConfigModal() {
             const modal = document.getElementById('printConfigModal');
@@ -2284,10 +2276,9 @@
             }
             targetSelect.innerHTML = skpdOptions;
 
-            // Membaca dari Memori Sesi (Tanpa LocalStorage)
             function loadSavedSignatures(selectedUnit) {
                 const cleanKey = selectedUnit === "GABUNGAN_INDUK" ? currentUser.nama_skpd : selectedUnit;
-                const savedData = memoryTtdCache[cleanKey] || {};
+                const savedData = JSON.parse(localStorage.getItem(`rkbmd_ttd_${cleanKey}`) || "{}");
                 
                 const upper = cleanKey.toUpperCase();
                 let defaultJabatan = 'Kepala Dinas / Badan';
@@ -2320,9 +2311,10 @@
             const kadisNama = document.getElementById('printKadisNama').value;
             const kadisNip = document.getElementById('printKadisNip').value;
 
-            // Simpan ke Memori Sesi (Tanpa LocalStorage)
             const storageKey = targetVal === "GABUNGAN_INDUK" ? currentUser.nama_skpd : targetVal;
-            memoryTtdCache[storageKey] = { kadisJabatan, kadisNama, kadisNip };
+            localStorage.setItem(`rkbmd_ttd_${storageKey}`, JSON.stringify({
+                kadisJabatan, kadisNama, kadisNip
+            }));
 
             let rows = [];
             let displayTitleUnit = targetVal;
@@ -2357,7 +2349,7 @@
                 // 1. FORMAT RESMI RKBMD PENGADAAN (15 KOLOM MURNI)
                 // =================================================================
                 docContainer.innerHTML = `
-                    <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.15; width: 100%;">
+                    <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.15;">
                         <div style="text-align: right; font-size: 8.5pt; font-style: italic; margin-bottom: 2px;">
                             Halaman ........ (1)
                         </div>
@@ -2379,78 +2371,78 @@
 
                         <table style="width: 100%; border-collapse: collapse; border: none; font-size: 8.5pt; font-weight: bold; margin-bottom: 4px;">
                             <tr>
-                                <td style="width: 160px; border: none !important; padding: 1px 0;">PEMERINTAH PROVINSI</td>
-                                <td style="width: 10px; border: none !important; padding: 1px 0;">:</td>
-                                <td style="border: none !important; padding: 1px 0;">SULAWESI TENGGARA</td>
+                                <td style="width: 160px; border: none; padding: 1px 0;">PEMERINTAH PROVINSI</td>
+                                <td style="width: 10px; border: none; padding: 1px 0;">:</td>
+                                <td style="border: none; padding: 1px 0;">SULAWESI TENGGARA</td>
                             </tr>
                             <tr>
-                                <td style="border: none !important; padding: 1px 0;">KABUPATEN/KOTA</td>
-                                <td style="border: none !important; padding: 1px 0;">:</td>
-                                <td style="border: none !important; padding: 1px 0;">KONAWE</td>
+                                <td style="border: none; padding: 1px 0;">KABUPATEN/KOTA</td>
+                                <td style="border: none; padding: 1px 0;">:</td>
+                                <td style="border: none; padding: 1px 0;">KONAWE</td>
                             </tr>
                         </table>
 
-                        <table style="width: 100%; border-collapse: collapse; font-size: 7.5pt; table-layout: fixed;" border="1">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 7.5pt;" border="1">
                             <thead>
                                 <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
-                                    <th rowspan="2" style="border: 1px solid black !important; padding: 2.5px; width: 22px;">No.</th>
-                                    <th rowspan="2" style="border: 1px solid black !important; padding: 2.5px; width: 140px;">Program/Kegiatan/Output</th>
-                                    <th colspan="4" style="border: 1px solid black !important; padding: 2.5px;">Usulan BMD</th>
-                                    <th colspan="2" style="border: 1px solid black !important; padding: 2.5px;">Kebutuhan Maksimum</th>
-                                    <th colspan="4" style="border: 1px solid black !important; padding: 2.5px;">Data Daftar Barang Yang Dapat Dioptimalisasikan</th>
-                                    <th colspan="2" style="border: 1px solid black !important; padding: 2.5px;">Kebutuhan Riil BMD</th>
-                                    <th rowspan="2" style="border: 1px solid black !important; padding: 2.5px; width: 85px;">Ket.</th>
+                                    <th rowspan="2" style="border: 1px solid black; padding: 2.5px; width: 22px;">No.</th>
+                                    <th rowspan="2" style="border: 1px solid black; padding: 2.5px; width: 140px;">Program/Kegiatan/Output</th>
+                                    <th colspan="4" style="border: 1px solid black; padding: 2.5px;">Usulan BMD</th>
+                                    <th colspan="2" style="border: 1px solid black; padding: 2.5px;">Kebutuhan Maksimum</th>
+                                    <th colspan="4" style="border: 1px solid black; padding: 2.5px;">Data Daftar Barang Yang Dapat Dioptimalisasikan</th>
+                                    <th colspan="2" style="border: 1px solid black; padding: 2.5px;">Kebutuhan Riil BMD</th>
+                                    <th rowspan="2" style="border: 1px solid black; padding: 2.5px; width: 80px;">Ket.</th>
                                 </tr>
                                 <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 75px;">Kode Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px;">Nama Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 35px;">Jumlah</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Satuan</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 38px;">Jumlah</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Satuan</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 75px;">Kode Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px;">Nama Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 35px;">Jumlah</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Satuan</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 45px;">Jumlah<br>13=7-11</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Satuan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 75px;">Kode Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px;">Nama Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 35px;">Jumlah</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Satuan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 38px;">Jumlah</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Satuan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 75px;">Kode Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px;">Nama Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 35px;">Jumlah</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Satuan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 45px;">Jumlah<br>13=7-11</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Satuan</th>
                                 </tr>
                                 <tr style="background-color: #f8fafc; text-align: center; font-size: 7pt; font-weight: bold;">
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">1</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">2</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">3</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">4</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">5</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">6</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">7</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">8</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">9</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">10</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">11</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">12</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">13</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">14</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">15</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">1</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">2</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">3</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">4</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">5</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">6</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">7</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">8</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">9</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">10</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">11</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">12</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">13</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">14</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">15</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${rows.map((r, idx) => `
                                     <tr>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${idx + 1}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px;">${r.programKegiatanOutput || '-'}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; font-family: monospace; text-align: center;">${r.kodeBarang || '-'}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; font-weight: bold;">${r.namaBarang}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.satuan}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.kebutuhanMaksimum || 0}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.satuan}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; font-family: monospace; text-align: center;">${r.optimalisasi > 0 ? (r.kodeBarang || '-') : '-'}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px;">${r.optimalisasi > 0 ? r.namaBarang : '-'}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.optimalisasi || 0}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.optimalisasi > 0 ? r.satuan : '-'}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center; font-weight: bold;">${r.kebutuhanRiil || 0}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.satuan}</td>
-                                        <td style="border: 1px solid black !important; padding: 2.5px;">${r.keterangan || '-'}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${idx + 1}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px;">${r.programKegiatanOutput || '-'}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; font-family: monospace; text-align: center;">${r.kodeBarang || '-'}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; font-weight: bold;">${r.namaBarang}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.satuan}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.kebutuhanMaksimum || 0}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.satuan}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; font-family: monospace; text-align: center;">${r.optimalisasi > 0 ? (r.kodeBarang || '-') : '-'}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px;">${r.optimalisasi > 0 ? r.namaBarang : '-'}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.optimalisasi || 0}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.optimalisasi > 0 ? r.satuan : '-'}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center; font-weight: bold;">${r.kebutuhanRiil || 0}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.satuan}</td>
+                                        <td style="border: 1px solid black; padding: 2.5px;">${r.keterangan || '-'}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -2473,7 +2465,7 @@
                 // 2. FORMAT RESMI RKPBMD PEMELIHARAAN (KONDISI B, RR, RB TERISI ANGKA & 0)
                 // =================================================================
                 docContainer.innerHTML = `
-                    <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.15; width: 100%;">
+                    <div style="font-family: 'Times New Roman', Times, serif; line-height: 1.15;">
                         <div style="text-align: right; font-size: 8.5pt; font-style: italic; margin-bottom: 2px;">
                             Halaman ..........(1)
                         </div>
@@ -2495,54 +2487,54 @@
 
                         <table style="width: 100%; border-collapse: collapse; border: none; font-size: 8.5pt; font-weight: bold; margin-bottom: 4px;">
                             <tr>
-                                <td style="width: 160px; border: none !important; padding: 1px 0;">PEMERINTAH PROVINSI</td>
-                                <td style="width: 10px; border: none !important; padding: 1px 0;">:</td>
-                                <td style="border: none !important; padding: 1px 0;">SULAWESI TENGGARA</td>
+                                <td style="width: 160px; border: none; padding: 1px 0;">PEMERINTAH PROVINSI</td>
+                                <td style="width: 10px; border: none; padding: 1px 0;">:</td>
+                                <td style="border: none; padding: 1px 0;">SULAWESI TENGGARA</td>
                             </tr>
                             <tr>
-                                <td style="border: none !important; padding: 1px 0;">KABUPATEN/KOTA</td>
-                                <td style="border: none !important; padding: 1px 0;">:</td>
-                                <td style="border: none !important; padding: 1px 0;">KONAWE</td>
+                                <td style="border: none; padding: 1px 0;">KABUPATEN/KOTA</td>
+                                <td style="border: none; padding: 1px 0;">:</td>
+                                <td style="border: none; padding: 1px 0;">KONAWE</td>
                             </tr>
                         </table>
 
-                        <table style="width: 100%; border-collapse: collapse; font-size: 7.5pt; table-layout: fixed;" border="1">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 7.5pt;" border="1">
                             <thead>
                                 <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
-                                    <th rowspan="2" style="border: 1px solid black !important; padding: 2.5px; width: 22px;">No.</th>
-                                    <th rowspan="2" style="border: 1px solid black !important; padding: 2.5px; width: 140px;">Program/Kegiatan/Output</th>
-                                    <th colspan="8" style="border: 1px solid black !important; padding: 2.5px;">Barang Yang Dipelihara</th>
-                                    <th colspan="3" style="border: 1px solid black !important; padding: 2.5px;">Usulan Kebutuhan Pemeliharaan</th>
-                                    <th rowspan="2" style="border: 1px solid black !important; padding: 2.5px; width: 75px;">Ket.</th>
+                                    <th rowspan="2" style="border: 1px solid black; padding: 2.5px; width: 22px;">No.</th>
+                                    <th rowspan="2" style="border: 1px solid black; padding: 2.5px; width: 140px;">Program/Kegiatan/Output</th>
+                                    <th colspan="8" style="border: 1px solid black; padding: 2.5px;">Barang Yang Dipelihara</th>
+                                    <th colspan="3" style="border: 1px solid black; padding: 2.5px;">Usulan Kebutuhan Pemeliharaan</th>
+                                    <th rowspan="2" style="border: 1px solid black; padding: 2.5px; width: 75px;">Ket.</th>
                                 </tr>
                                 <tr style="background-color: #f1f5f9; text-align: center; font-weight: bold;">
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 80px;">Kode Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px;">Nama Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 35px;">Jumlah</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Satuan</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 75px;">Status Barang</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 28px;">B</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 28px;">RR</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 28px;">RB</th>
-                                    <th style="border: 1px solid black !important; padding: 2px;">Nama Pemeliharaan</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Jumlah</th>
-                                    <th style="border: 1px solid black !important; padding: 2px; width: 40px;">Satuan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 80px;">Kode Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px;">Nama Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 35px;">Jumlah</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Satuan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 75px;">Status Barang</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 28px;">B</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 28px;">RR</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 28px;">RB</th>
+                                    <th style="border: 1px solid black; padding: 2px;">Nama Pemeliharaan</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Jumlah</th>
+                                    <th style="border: 1px solid black; padding: 2px; width: 40px;">Satuan</th>
                                 </tr>
                                 <tr style="background-color: #f8fafc; text-align: center; font-size: 7pt; font-weight: bold;">
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">1</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">2</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">3</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">4</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">5</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">6</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">7</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">8</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">9</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">10</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">11</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">12</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">13</td>
-                                    <td style="border: 1px solid black !important; padding: 1.5px;">14</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">1</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">2</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">3</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">4</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">5</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">6</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">7</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">8</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">9</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">10</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">11</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">12</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">13</td>
+                                    <td style="border: 1px solid black; padding: 1.5px;">14</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -2550,26 +2542,27 @@
                                     const itemQty = r.jumlahKib || r.jumlahUsulan || 1;
                                     const cond = (r.kondisiBarang || "").trim().toLowerCase();
                                     
+                                    // Sesuai aturan: jika Baik terisi angka jumlah, selainnya 0
                                     const qtyB = (cond === "baik" || cond === "b") ? itemQty : 0;
                                     const qtyRR = (cond === "rusak ringan" || cond === "rr") ? itemQty : 0;
                                     const qtyRB = (cond === "rusak berat" || cond === "rb") ? itemQty : 0;
 
                                     return `
                                         <tr>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${idx + 1}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px;">${r.programKegiatanOutput || '-'}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; font-family: monospace; text-align: center;">${r.kodeBarang || '-'}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; font-weight: bold;">${r.namaBarang}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${itemQty}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.satuan}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.statusBarang || 'Dipergunakan Sendiri'}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center; font-weight: bold;">${qtyB}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center; font-weight: bold;">${qtyRR}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center; font-weight: bold;">${qtyRB}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px;">${r.namaPemeliharaan || '-'}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px; text-align: center;">${r.satuan}</td>
-                                            <td style="border: 1px solid black !important; padding: 2.5px;">${r.keterangan || '-'}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${idx + 1}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px;">${r.programKegiatanOutput || '-'}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; font-family: monospace; text-align: center;">${r.kodeBarang || '-'}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; font-weight: bold;">${r.namaBarang}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${itemQty}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.satuan}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.statusBarang || 'Dipergunakan Sendiri'}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center; font-weight: bold;">${qtyB}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center; font-weight: bold;">${qtyRR}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center; font-weight: bold;">${qtyRB}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px;">${r.namaPemeliharaan || '-'}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center; font-weight: bold;">${r.jumlahUsulan}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px; text-align: center;">${r.satuan}</td>
+                                            <td style="border: 1px solid black; padding: 2.5px;">${r.keterangan || '-'}</td>
                                         </tr>
                                     `;
                                 }).join('')}
