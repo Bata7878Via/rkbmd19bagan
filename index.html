@@ -2245,7 +2245,7 @@
         }
 
         // =================================================================
-        // 17. CETAK RESMI FORMAT PERMENDAGRI NO. 61 TAHUN 2023 (SEMPURNA SESUAI HASIL EVALUASI)
+        // 17. CETAK RESMI FORMAT PERMENDAGRI NO. 61 TAHUN 2023 (DIPERBAIKI)
         // =================================================================
         function openPrintConfigModal() {
             const modal = document.getElementById('printConfigModal');
@@ -2264,7 +2264,19 @@
 
             let skpdOptions = "";
             if (isAdmin) {
-                masterSkpdList.forEach(s => { skpdOptions += `<option value="${s.nama}">${s.nama}</option>`; });
+                // 1. OPSI KHUSUS ADMIN: CETAK SEMUA SKPD SE-KABUPATEN KONAWE
+                skpdOptions += `<option value="SEMUA_KABUPATEN">-- CETAK SEMUA SKPD (KABUPATEN KONAWE) --</option>`;
+
+                // 2. DAFTAR SKPD UNTUK ADMIN (OTOMATIS MENDETEKSI KECAMATAN / INDUK + KELURAHAN)
+                masterSkpdList.forEach(s => {
+                    const punyaAnak = masterSkpdList.some(child => child.skpdInduk && child.skpdInduk.toLowerCase() === s.nama.toLowerCase());
+                    if (punyaAnak) {
+                        skpdOptions += `<option value="${s.nama}__GABUNGAN">[GABUNGAN] ${s.nama} (+ Kelurahan/Unit Binaan)</option>`;
+                        skpdOptions += `<option value="${s.nama}">${s.nama} (Hanya Kantor Induk)</option>`;
+                    } else {
+                        skpdOptions += `<option value="${s.nama}">${s.nama}</option>`;
+                    }
+                });
             } else if (isInduk) {
                 skpdOptions += `<option value="${currentUser.nama_skpd}">${currentUser.nama_skpd} (Induk Sendiri)</option>`;
                 childUnitsList.forEach(child => {
@@ -2277,12 +2289,15 @@
             targetSelect.innerHTML = skpdOptions;
 
             function loadSavedSignatures(selectedUnit) {
-                const cleanKey = selectedUnit === "GABUNGAN_INDUK" ? currentUser.nama_skpd : selectedUnit;
+                const cleanKey = (selectedUnit === "GABUNGAN_INDUK" || selectedUnit.endsWith("__GABUNGAN")) 
+                    ? (selectedUnit === "GABUNGAN_INDUK" ? currentUser.nama_skpd : selectedUnit.replace("__GABUNGAN", "")) 
+                    : selectedUnit;
                 const savedData = JSON.parse(localStorage.getItem(`rkbmd_ttd_${cleanKey}`) || "{}");
                 
                 const upper = cleanKey.toUpperCase();
                 let defaultJabatan = 'Kepala Dinas / Badan';
-                if (upper.includes('KECAMATAN')) defaultJabatan = 'Camat';
+                if (selectedUnit === "SEMUA_KABUPATEN") defaultJabatan = 'Kepala BPKAD Kab. Konawe';
+                else if (upper.includes('KECAMATAN')) defaultJabatan = 'Camat';
                 else if (upper.includes('KELURAHAN')) defaultJabatan = 'Lurah';
                 else if (upper.includes('PUSKESMAS')) defaultJabatan = 'Kepala Puskesmas';
                 else if (upper.includes('BAGIAN')) defaultJabatan = 'Kepala Bagian';
@@ -2311,7 +2326,7 @@
             const kadisNama = document.getElementById('printKadisNama').value;
             const kadisNip = document.getElementById('printKadisNip').value;
 
-            const storageKey = targetVal === "GABUNGAN_INDUK" ? currentUser.nama_skpd : targetVal;
+            const storageKey = targetVal === "GABUNGAN_INDUK" ? currentUser.nama_skpd : (targetVal.endsWith("__GABUNGAN") ? targetVal.replace("__GABUNGAN", "") : targetVal);
             localStorage.setItem(`rkbmd_ttd_${storageKey}`, JSON.stringify({
                 kadisJabatan, kadisNama, kadisNip
             }));
@@ -2319,7 +2334,12 @@
             let rows = [];
             let displayTitleUnit = targetVal;
 
-            if (targetVal === "GABUNGAN_INDUK") {
+            if (targetVal === "SEMUA_KABUPATEN") {
+                // 1. OPSI ADMIN: CETAK SEMUA SKPD SE-KABUPATEN KONAWE
+                displayTitleUnit = `PEMERINTAH KABUPATEN KONAWE (GABUNGAN SELURUH SKPD)`;
+                rows = dataset.filter(i => i.jenis === currentTab);
+            } else if (targetVal === "GABUNGAN_INDUK") {
+                // 2. KECAMATAN LOGIN SENDIRI (GABUNGAN INDUK & KELURAHAN)
                 displayTitleUnit = `${currentUser.nama_skpd} (REKAP GABUNGAN INDUK & UNIT BINAAN)`;
                 rows = dataset.filter(i => 
                     i.jenis === currentTab && (
@@ -2327,7 +2347,22 @@
                         childUnitsList.some(c => c.toLowerCase() === i.skpd.toLowerCase())
                     )
                 );
+            } else if (targetVal.endsWith("__GABUNGAN")) {
+                // 3. ADMIN MEMILIH KECAMATAN GABUNGAN (+ KELURAHAN)
+                const indukName = targetVal.replace("__GABUNGAN", "");
+                displayTitleUnit = `${indukName} (REKAP GABUNGAN INDUK & UNIT BINAAN)`;
+                const anakUnits = masterSkpdList
+                    .filter(s => s.skpdInduk && s.skpdInduk.toLowerCase() === indukName.toLowerCase())
+                    .map(s => s.nama.toLowerCase());
+
+                rows = dataset.filter(i => 
+                    i.jenis === currentTab && (
+                        i.skpd.toLowerCase() === indukName.toLowerCase() ||
+                        anakUnits.includes(i.skpd.toLowerCase())
+                    )
+                );
             } else {
+                // 4. MEMILIH SATU UNIT TERTENTU
                 rows = dataset.filter(i => i.jenis === currentTab && i.skpd.toLowerCase() === targetVal.toLowerCase());
             }
 
